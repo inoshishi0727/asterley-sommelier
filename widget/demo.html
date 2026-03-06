@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asterley Bros — Shop</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Georgia, 'Times New Roman', serif; background: #0d0d0d; color: #f0ece4; }
+
+    .banner { background: #c9a55a; color: #1a1a1a; text-align: center; padding: 10px; font: 600 12px/1 -apple-system, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    header { background: #1a1a1a; border-bottom: 1px solid #333; padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { font-size: 18px; color: #c9a55a; letter-spacing: 3px; text-transform: uppercase; }
+    nav { display: flex; gap: 20px; }
+    nav a { color: #a0998c; text-decoration: none; font: 12px/1 -apple-system, sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    nav a:hover { color: #c9a55a; }
+
+    .hero { text-align: center; padding: 60px 24px; border-bottom: 1px solid #222; }
+    .hero h2 { font-size: 28px; color: #c9a55a; letter-spacing: 3px; margin-bottom: 8px; }
+    .hero p { font-size: 15px; color: #a0998c; max-width: 480px; margin: 0 auto; line-height: 1.6; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; max-width: 1100px; margin: 40px auto; padding: 0 24px; }
+    .tile { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 8px; overflow: hidden; transition: border-color .2s; }
+    .tile:hover { border-color: #c9a55a; }
+    .tile img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #111; }
+    .tile .info { padding: 14px; text-align: center; }
+    .tile h3 { font-size: 15px; color: #f0ece4; margin-bottom: 2px; }
+    .tile .sub { font: 11px/1.4 -apple-system, sans-serif; color: #888; margin-bottom: 6px; }
+    .tile .price { font-size: 16px; color: #c9a55a; }
+  </style>
+</head>
+<body>
+
+<div class="banner">Free UK Shipping Over £60</div>
+
+<header>
+  <h1>Asterley Bros</h1>
+  <nav>
+    <a href="#">Shop</a>
+    <a href="#">Our Story</a>
+    <a href="#">Cocktails</a>
+    <a href="#">Negroni Society</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Bold British Botanical Spirits</h2>
+  <p>Handmade vermouths, amari &amp; aperitifs. South London.</p>
+</section>
+
+<section class="grid">
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159" alt="Estate">
+    <div class="info">
+      <h3>ESTATE.</h3>
+      <div class="sub">English Sweet Vermouth · 16% · 500ml</div>
+      <div class="price">£26.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132" alt="Schofield's">
+    <div class="info">
+      <h3>SCHOFIELD'S.</h3>
+      <div class="sub">English Dry Vermouth · 16% · 500ml</div>
+      <div class="price">£26.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169" alt="Dispense">
+    <div class="info">
+      <h3>DISPENSE.</h3>
+      <div class="sub">Modern British Amaro · 26% · 500ml</div>
+      <div class="price">£31.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944" alt="Asterley Original">
+    <div class="info">
+      <h3>ASTERLEY ORIGINAL.</h3>
+      <div class="sub">British Aperitivo · 12% · 500ml</div>
+      <div class="price">£20.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944" alt="Britannica">
+    <div class="info">
+      <h3>BRITANNICA.</h3>
+      <div class="sub">London Fernet · 40% · 500ml</div>
+      <div class="price">£38.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/files/CunardRedBackground.png?v=1716570477" alt="Cunard">
+    <div class="info">
+      <h3>CUNARD.</h3>
+      <div class="sub">Limited Edition Dry Vermouth · 16% · 500ml</div>
+      <div class="price">£30.95</div>
+    </div>
+  </div>
+  <div class="tile">
+    <img src="https://asterleybros.com/cdn/shop/files/Photo19-02-2026_100118_3.png?v=1771492147" alt="Rhubarb Negroni">
+    <div class="info">
+      <h3>RHUBARB NEGRONI.</h3>
+      <div class="sub">Ready To Drink · 23% · 1000ml</div>
+      <div class="price">£29.95</div>
+    </div>
+  </div>
+</section>
+
+<script type="module" src="sommelier-widget.js"></script>
+<asterley-sommelier api-url=""></asterley-sommelier>
+
+</body>
+</html>

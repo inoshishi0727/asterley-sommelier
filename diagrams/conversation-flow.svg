@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <marker id="cf-arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#c9a55a"/>
+    </marker>
+    <filter id="cf-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="1" dy="1" stdDeviation="2" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#1a1a1a" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="34" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="bold">Conversation Flow — User Journey</text>
+
+  <!-- ===== STEP NODES (two rows of 4) ===== -->
+
+  <!-- Row 1 -->
+  <!-- Step 1 -->
+  <rect x="25" y="65" width="185" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="44" cy="82" r="10" fill="#c9a55a"/>
+  <text x="44" y="86" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">1</text>
+  <text x="60" y="86" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Visit Product Page</text>
+  <text x="40" y="104" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Customer browses Shopify</text>
+  <text x="40" y="117" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">store and opens a product.</text>
+
+  <!-- Step 2 -->
+  <rect x="240" y="65" width="185" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="259" cy="82" r="10" fill="#c9a55a"/>
+  <text x="259" y="86" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">2</text>
+  <text x="275" y="86" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Chat Bubble Appears</text>
+  <text x="255" y="104" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Widget loads, sommelier</text>
+  <text x="255" y="117" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">sends welcome greeting.</text>
+
+  <!-- Step 3 -->
+  <rect x="455" y="65" width="185" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="474" cy="82" r="10" fill="#c9a55a"/>
+  <text x="474" y="86" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">3</text>
+  <text x="490" y="86" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Customer Asks Question</text>
+  <text x="470" y="104" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">"What gin pairs well with</text>
+  <text x="470" y="117" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9"> tonic for a summer drink?"</text>
+
+  <!-- Step 4 -->
+  <rect x="670" y="65" width="205" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="689" cy="82" r="10" fill="#c9a55a"/>
+  <text x="689" y="86" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">4</text>
+  <text x="705" y="86" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Gemini Calls Tool</text>
+  <text x="685" y="104" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">function_call: product_lookup</text>
+  <text x="685" y="117" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">{ category: "gin", tag: "citrus" }</text>
+
+  <!-- Arrows Row 1 -->
+  <line x1="210" y1="101" x2="237" y2="101" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+  <line x1="425" y1="101" x2="452" y2="101" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+  <line x1="640" y1="101" x2="667" y2="101" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+
+  <!-- Connector Row 1 → Row 2 -->
+  <path d="M 773 137 L 773 175 Q 773 185 763 185 L 160 185 Q 150 185 150 195 L 150 208" stroke="#c9a55a" stroke-width="1.5" fill="none" marker-end="url(#cf-arrow)"/>
+
+  <!-- Row 2 -->
+  <!-- Step 5 -->
+  <rect x="25" y="210" width="205" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="44" cy="227" r="10" fill="#c9a55a"/>
+  <text x="44" y="231" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">5</text>
+  <text x="60" y="231" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Product Cards Returned</text>
+  <text x="40" y="249" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Widget renders product cards</text>
+  <text x="40" y="262" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">with image, price, Add to Cart.</text>
+
+  <!-- Step 6 -->
+  <rect x="260" y="210" width="185" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="279" cy="227" r="10" fill="#c9a55a"/>
+  <text x="279" y="231" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">6</text>
+  <text x="295" y="231" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Clicks Add to Cart</text>
+  <text x="275" y="249" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Customer selects a product</text>
+  <text x="275" y="262" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">and taps the CTA button.</text>
+
+  <!-- Step 7 -->
+  <rect x="475" y="210" width="195" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="494" cy="227" r="10" fill="#c9a55a"/>
+  <text x="494" y="231" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">7</text>
+  <text x="510" y="231" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Shopify Cart Updated</text>
+  <text x="490" y="249" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Widget calls Shopify Ajax</text>
+  <text x="490" y="262" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Cart API: /cart/add.js</text>
+
+  <!-- Step 8 -->
+  <rect x="700" y="210" width="180" height="72" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#cf-shadow)"/>
+  <circle cx="719" cy="227" r="10" fill="#c9a55a"/>
+  <text x="719" y="231" text-anchor="middle" fill="#1a1a1a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">8</text>
+  <text x="735" y="231" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Sommelier Upsells</text>
+  <text x="715" y="249" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">"Splendid choice! May I</text>
+  <text x="715" y="262" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9"> suggest a cocktail recipe?"</text>
+
+  <!-- Arrows Row 2 -->
+  <line x1="230" y1="246" x2="257" y2="246" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+  <line x1="445" y1="246" x2="472" y2="246" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+  <line x1="670" y1="246" x2="697" y2="246" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#cf-arrow)"/>
+
+  <!-- ===== Swim-lane labels (bottom) ===== -->
+  <text x="450" y="320" text-anchor="middle" fill="#555" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-style="italic">Participant Roles</text>
+
+  <!-- Customer lane -->
+  <rect x="60" y="340" width="130" height="36" rx="8" fill="#1e1e1e" stroke="#c9a55a" stroke-width="1"/>
+  <text x="125" y="363" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Customer</text>
+  <text x="125" y="392" text-anchor="middle" fill="#666" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Steps 1, 3, 6</text>
+
+  <!-- Widget lane -->
+  <rect x="240" y="340" width="130" height="36" rx="8" fill="#1e1e1e" stroke="#c9a55a" stroke-width="1"/>
+  <text x="305" y="363" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Chat Widget</text>
+  <text x="305" y="392" text-anchor="middle" fill="#666" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Steps 2, 5, 7</text>
+
+  <!-- Backend lane -->
+  <rect x="420" y="340" width="130" height="36" rx="8" fill="#1e1e1e" stroke="#c9a55a" stroke-width="1"/>
+  <text x="485" y="363" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Backend API</text>
+  <text x="485" y="392" text-anchor="middle" fill="#666" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Steps 4 (tool exec)</text>
+
+  <!-- Gemini lane -->
+  <rect x="600" y="340" width="160" height="36" rx="8" fill="#1e1e1e" stroke="#c9a55a" stroke-width="1"/>
+  <text x="680" y="363" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" font-weight="bold">Gemini 2.5 Flash</text>
+  <text x="680" y="392" text-anchor="middle" fill="#666" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Steps 4, 8 (AI reasoning)</text>
+
+  <!-- Decorative dividers -->
+  <line x1="30" y1="300" x2="870" y2="300" stroke="#333" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+  <!-- Key insight callout -->
+  <rect x="130" y="430" width="640" height="48" rx="10" fill="#252525" stroke="#444" stroke-width="1"/>
+  <text x="450" y="453" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11">The entire loop (steps 3-8) repeats as the customer continues the conversation.</text>
+  <text x="450" y="469" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Each turn is context-aware via session history stored in SQLite.</text>
+</svg>

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="900" height="500">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#c9a55a"/>
+    </marker>
+    <marker id="arrow-rev" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <polygon points="10 0, 0 3.5, 10 7" fill="#c9a55a"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="500" fill="#1a1a1a" rx="8"/>
+
+  <!-- Title -->
+  <text x="450" y="36" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="bold">System Architecture — Asterley Bros Online Sommelier</text>
+
+  <!-- ===== TOP ROW: Main Components ===== -->
+
+  <!-- Shopify Store -->
+  <rect x="30" y="70" width="160" height="100" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="110" y="105" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Shopify Store</text>
+  <text x="110" y="124" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Product Pages</text>
+  <text x="110" y="139" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Ajax Cart API</text>
+  <text x="110" y="154" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Storefront Theme</text>
+
+  <!-- Chat Widget -->
+  <rect x="240" y="70" width="160" height="100" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="320" y="100" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Chat Widget</text>
+  <text x="320" y="118" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Web Component</text>
+  <text x="320" y="133" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Shadow DOM</text>
+  <text x="320" y="148" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Product Cards / Actions</text>
+
+  <!-- Backend API -->
+  <rect x="450" y="70" width="180" height="100" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="540" y="100" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Backend API</text>
+  <text x="540" y="118" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Express + Node.js</text>
+  <text x="540" y="133" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Session Management</text>
+  <text x="540" y="148" text-anchor="middle" fill="#a0a0a0" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Tool Execution Layer</text>
+
+  <!-- Gemini -->
+  <rect x="680" y="60" width="195" height="120" rx="10" fill="#252525" stroke="#c9a55a" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="777" y="88" text-anchor="middle" fill="#c9a55a" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" font-weight="bold">Gemini 2.5 Flash</text>
+  <line x1="700" y1="97" x2="855" y2="97" stroke="#333" stroke-width="1"/>
+  <text x="777" y="114" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">System Prompt</text>
+  <text x="777" y="130" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">(Sommelier Persona)</text>
+  <text x="777" y="148" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Function Calling (Tools)</text>
+  <text x="777" y="164" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Structured Output (JSON)</text>
+
+  <!-- ===== BOTTOM ROW: Data Stores ===== -->
+
+  <!-- Product Catalog -->
+  <rect x="280" y="330" width="150" height="80" rx="10" fill="#1e1e1e" stroke="#555" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="355" y="360" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Product Catalog</text>
+  <text x="355" y="378" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">products.json</text>
+  <text x="355" y="393" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">~30 SKUs</text>
+
+  <!-- Recipes -->
+  <rect x="460" y="330" width="150" height="80" rx="10" fill="#1e1e1e" stroke="#555" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="535" y="360" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">Recipes</text>
+  <text x="535" y="378" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">recipes.json</text>
+  <text x="535" y="393" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Cocktail Suggestions</text>
+
+  <!-- SQLite Sessions -->
+  <rect x="640" y="330" width="150" height="80" rx="10" fill="#1e1e1e" stroke="#555" stroke-width="1.2" filter="url(#shadow)"/>
+  <text x="715" y="360" text-anchor="middle" fill="#f0ece4" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="bold">SQLite Sessions</text>
+  <text x="715" y="378" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">sessions.db</text>
+  <text x="715" y="393" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Conversation History</text>
+
+  <!-- ===== ARROWS: Top Row ===== -->
+
+  <!-- Shopify → Widget -->
+  <line x1="190" y1="120" x2="237" y2="120" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="214" y="113" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">embed</text>
+
+  <!-- Widget ↔ Backend -->
+  <line x1="400" y1="110" x2="447" y2="110" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="424" y="103" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">POST /chat</text>
+  <line x1="447" y1="130" x2="400" y2="130" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="424" y="145" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">JSON response</text>
+
+  <!-- Backend ↔ Gemini -->
+  <line x1="630" y1="110" x2="677" y2="110" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="654" y="103" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">prompt</text>
+  <line x1="677" y1="130" x2="630" y2="130" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="654" y="145" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">completion</text>
+
+  <!-- ===== ARROWS: Backend → Data Stores ===== -->
+
+  <!-- Backend → Product Catalog -->
+  <line x1="500" y1="170" x2="380" y2="327" stroke="#c9a55a" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="420" y="248" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8" transform="rotate(-37 420 248)">product_lookup</text>
+
+  <!-- Backend → Recipes -->
+  <line x1="540" y1="170" x2="540" y2="327" stroke="#c9a55a" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="555" y="252" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8">recipe_search</text>
+
+  <!-- Backend → Sessions -->
+  <line x1="580" y1="170" x2="695" y2="327" stroke="#c9a55a" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="660" y="248" text-anchor="middle" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="8" transform="rotate(37 660 248)">session r/w</text>
+
+  <!-- ===== Legend ===== -->
+  <rect x="30" y="430" width="230" height="55" rx="8" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+  <text x="45" y="450" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="10">Legend</text>
+  <line x1="45" y1="462" x2="75" y2="462" stroke="#c9a55a" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="82" y="466" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Synchronous request</text>
+  <line x1="45" y1="476" x2="75" y2="476" stroke="#c9a55a" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+  <text x="82" y="480" fill="#888" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="9">Tool / data access</text>
+</svg>
