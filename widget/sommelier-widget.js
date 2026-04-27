@@ -264,9 +264,9 @@ class AsterleySommelier extends HTMLElement {
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
+            <button class="ab-tab ab-tab-active" data-tab="chat">Ask Jarvis</button>
             <button class="ab-tab" data-tab="menu">Recipes</button>
             <button class="ab-tab" data-tab="bar">Make a Drink</button>
-            <button class="ab-tab ab-tab-active" data-tab="chat">Ask Jarvis</button>
           </nav>
         </div>
 
