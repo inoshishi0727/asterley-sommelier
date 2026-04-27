@@ -6,6 +6,8 @@ import { chatRouter } from "./routes/chat";
 import { adminRouter } from "./routes/admin";
 import { menuRouter } from "./routes/menu";
 import { initDatabase } from "./services/session";
+import { startRecipeScraper } from "./services/recipeScraper";
+import { startShopifySync } from "./services/shopifyClient";
 
 validateConfig();
 
@@ -28,8 +30,10 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// Initialize database and start server
+// Initialize database and start live data sync
 initDatabase();
+startShopifySync();
+startRecipeScraper();
 
 app.listen(config.port, "0.0.0.0", () => {
   console.log(`Asterley Sommelier API running on http://localhost:${config.port}`);

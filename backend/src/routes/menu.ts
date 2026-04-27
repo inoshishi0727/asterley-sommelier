@@ -1,8 +1,5 @@
 import { Router } from "express";
-import type { Recipe } from "../types";
-import recipesData from "../data/recipes.json";
-
-const recipes: Recipe[] = recipesData as Recipe[];
+import { getAllRecipes } from "../services/product";
 
 export const menuRouter = Router();
 
@@ -74,7 +71,7 @@ menuRouter.get("/", (_req, res) => {
 
   const sectionMap = Object.fromEntries(sections.map((s) => [s.id, s]));
 
-  for (const recipe of recipes) {
+  for (const recipe of getAllRecipes()) {
     const sectionId = classifyRecipe(recipe);
     const section = sectionMap[sectionId];
     if (section && section.items.length < 6) {

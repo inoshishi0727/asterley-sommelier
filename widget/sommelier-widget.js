@@ -174,7 +174,7 @@ class AsterleySommelier extends HTMLElement {
     this._isOpen           = false;
     this._sessionId        = localStorage.getItem('ab-session-id') || null;
     this._isLoading        = false;
-    this._tab              = 'menu';
+    this._tab              = 'chat';
     this._barStage         = 'intro';
     this._barGlass         = null;
     this._barMood          = null;
@@ -196,7 +196,7 @@ class AsterleySommelier extends HTMLElement {
     this._initChips();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: "Evening. Jarvis, here — behind the bar but a little quieter than usual. Shall I open the menu, or are you after something specific?",
+      message: "Evening. Jarvis here — use Recipes to browse our cocktails, Make a Drink to find your perfect serve, or just ask me anything.",
       productCards: [], recipeCards: [],
       suggestedActions: [],
     });
@@ -264,20 +264,21 @@ class AsterleySommelier extends HTMLElement {
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
-            <button class="ab-tab ab-tab-active" data-tab="menu">Menu</button>
-            <button class="ab-tab" data-tab="bar">Bar</button>
-            <button class="ab-tab" data-tab="chat">Chat</button>
+            <button class="ab-tab" data-tab="menu">Recipes</button>
+            <button class="ab-tab" data-tab="bar">Make a Drink</button>
+            <button class="ab-tab ab-tab-active" data-tab="chat">Ask Jarvis</button>
           </nav>
         </div>
 
         <!-- ── View: Menu (V4) ── -->
-        <div class="ab-view" id="view-menu">
+        <div class="ab-view ab-view-hidden" id="view-menu">
           <div class="ab-menu-hero">
             <div class="ab-menu-edition">No. XII · Spring MMXXVI</div>
             <div class="ab-menu-heading">The Asterley<br><em>Aperitivo Hour.</em></div>
             <div class="ab-menu-rule-line"></div>
             <div class="ab-menu-sub">— curated by Jarvis, for the drinker who knows what they like but is open to being surprised.</div>
           </div>
+          <div class="ab-view-intro">Browse cocktails made with our bottles — tap any to ask Jarvis for the full recipe.</div>
           <div id="accordion"></div>
           <div class="ab-whisper">
             <span class="ab-rx">℞</span>
@@ -295,7 +296,7 @@ class AsterleySommelier extends HTMLElement {
         </div>
 
         <!-- ── View: Chat (V1) ── -->
-        <div class="ab-view ab-view-hidden" id="view-chat">
+        <div class="ab-view" id="view-chat">
           <div class="ab-messages" id="messages"></div>
           <div class="ab-chips" id="chips"></div>
         </div>
@@ -499,6 +500,7 @@ class AsterleySommelier extends HTMLElement {
     switch (this._barStage) {
       case 'intro':
         content.innerHTML = `
+          <div class="ab-view-intro">Pick a glass and tell me your mood — I'll find your serve.</div>
           <div class="ab-voice-dock">
             <div class="ab-voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
             <div class="ab-voice-text">or just tell me what you fancy…</div>

@@ -7,8 +7,10 @@ export const config = {
   geminiApiKey: process.env.GEMINI_API_KEY || "",
   port: parseInt(process.env.PORT || "3000", 10),
   nodeEnv: process.env.NODE_ENV || "development",
-  sessionTimeoutMs: 30 * 60 * 1000, // 30 minutes
+  sessionTimeoutMs: 30 * 60 * 1000,
   dbPath: path.resolve(__dirname, "../data/sommelier.db"),
+  shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN || "",
+  shopifyStoreDomain: process.env.SHOPIFY_STORE_DOMAIN || "",
 } as const;
 
 export function validateConfig(): void {
