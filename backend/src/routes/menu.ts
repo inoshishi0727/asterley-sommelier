@@ -1,4 +1,5 @@
 import { Router } from "express";
+import type { Recipe } from "../types";
 import { getAllRecipes } from "../services/product";
 
 export const menuRouter = Router();
