@@ -62,27 +62,30 @@ const MOODS = [
 ];
 
 const COCKTAILS = [
-  { id: 'neg',    name: 'The Asterley Negroni',
-    spec: [['Estate Sweet Vermouth','30ml'],['Dispense Amaro','30ml'],['London Dry Gin','30ml']],
-    garnish: 'Orange twist', method: 'Stir, 30s', glass: 'Tumbler / large cube', mood: 'contemplative' },
-  { id: 'mart',   name: "Schofield's Martini",
-    spec: [['Gin','50ml'],["Schofield's Dry",'25ml'],['Water','10ml'],['Orange bitters','2 dashes']],
-    garnish: 'Lemon twist', method: 'Freeze 45m, frozen coupe', glass: 'Frozen coupe', mood: 'crisp' },
-  { id: 'high',   name: 'Estate Highball',
-    spec: [['Estate','50ml'],['Citrus tonic','75ml']],
-    garnish: 'Orange slice', method: 'Build over ice', glass: 'Highball', mood: 'easy' },
-  { id: 'spritz', name: 'Original Spritz',
-    spec: [['Original Aperitivo','50ml'],['Prosecco','75ml'],['Soda','25ml']],
-    garnish: 'Orange wheel', method: 'Build in glass', glass: 'Large wine glass', mood: 'celebratory' },
-  { id: 'fern',   name: 'Fernet & Tonic',
-    spec: [['Britannica Fernet','35ml'],['Indian tonic','100ml']],
-    garnish: 'Mint sprig', method: 'Build over ice', glass: 'Collins', mood: 'bracing' },
+  { id: 'white-neg',  name: 'Estate White Negroni',
+    spec: [['Estate Sweet Vermouth','30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
+    garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass', mood: 'elegant' },
+  { id: 'boul',       name: 'Dispense Boulevardier',
+    spec: [['Dispense Amaro','30ml'],['Bourbon whiskey','30ml'],['Sweet vermouth','20ml']],
+    garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass', mood: 'contemplative' },
+  { id: 'fern-gin',   name: 'Britannica Fernet & Ginger',
+    spec: [['Britannica London Fernet','40ml'],['Ginger ale','120ml']],
+    garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass', mood: 'easy' },
+  { id: 'neg-scuro',  name: 'Dispense Negroni Scuro',
+    spec: [['Dispense Amaro','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
+    garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass', mood: 'bitter' },
+  { id: 'spritz',     name: 'Asterley Grapefruit Spritz',
+    spec: [['Asterley Original Aperitivo','45ml'],['Pink grapefruit juice','30ml'],['Prosecco','75ml']],
+    garnish: 'Grapefruit half-wheel', method: 'Shake then top with prosecco', glass: 'Large wine glass', mood: 'celebratory' },
+  { id: 'toronto',    name: 'Britannica Toronto',
+    spec: [['Rye whiskey','50ml'],['Britannica London Fernet','15ml'],['Simple syrup','10ml'],['Bitters','2 dashes']],
+    garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass', mood: 'warming' },
 ];
 
 function cocktailFor(glassId, moodId) {
-  const byMood  = { bright:'mart', dark:'neg', easy:'high', strong:'neg', fizzy:'spritz', spice:'fern' };
-  const byGlass = { martini:'mart', rocks:'neg', highball:'high', negroni:'neg', flute:'spritz', snifter:'fern' };
-  const id = byMood[moodId] || byGlass[glassId] || 'neg';
+  const byMood  = { bright:'white-neg', dark:'boul', easy:'fern-gin', strong:'neg-scuro', fizzy:'spritz', spice:'toronto' };
+  const byGlass = { martini:'white-neg', rocks:'neg-scuro', highball:'fern-gin', negroni:'boul', flute:'spritz', snifter:'toronto' };
+  const id = byMood[moodId] || byGlass[glassId] || 'neg-scuro';
   return COCKTAILS.find(c => c.id === id);
 }
 
@@ -175,8 +178,9 @@ class AsterleySommelier extends HTMLElement {
     this._barStage         = 'intro';
     this._barGlass         = null;
     this._barMood          = null;
-    this._menuOpenId       = 'stirred';
+    this._menuOpenId       = 'aperitivo';
     this._menuChosenId     = null;
+    this._menuData         = null;
     this._proactiveDone    = false;
   }
 
@@ -188,6 +192,7 @@ class AsterleySommelier extends HTMLElement {
     this._bindEvents();
     this._renderAccordion();
     this._renderBarContent();
+    this._fetchMenu();
     this._initChips();
     // Welcome message lives in the chat view
     this._addBotMessage({
@@ -201,6 +206,18 @@ class AsterleySommelier extends HTMLElement {
         this.shadowRoot.getElementById('proactive')?.classList.add('ab-proactive-show');
       }
     }, 2000);
+  }
+
+  // ── Menu fetch ──────────────────────────────────────────────────────────
+
+  async _fetchMenu() {
+    if (!this.apiUrl) return;
+    try {
+      const res = await fetch(`${this.apiUrl}/api/menu`);
+      if (!res.ok) return;
+      this._menuData = await res.json();
+      this._renderAccordion();
+    } catch (_) {}
   }
 
   // ── Render shell ────────────────────────────────────────────────────────
@@ -374,7 +391,9 @@ class AsterleySommelier extends HTMLElement {
     if (!container) return;
     container.innerHTML = '';
 
-    MENU_SECTIONS.forEach((s, idx) => {
+    const sections = this._menuData?.sections ?? MENU_SECTIONS;
+
+    sections.forEach((s, idx) => {
       const isOpen   = this._menuOpenId === s.id;
       const section  = document.createElement('div');
       section.className = 'ab-section';
@@ -383,23 +402,25 @@ class AsterleySommelier extends HTMLElement {
       let itemsHTML = '';
       if (isOpen) {
         itemsHTML = s.items.map((it, j) => {
-          const chosen = this._menuChosenId === `${s.id}-${j}`;
+          const chosen  = this._menuChosenId === `${s.id}-${j}`;
+          const recipeId = it.id || '';
+          const name     = it.name || it.k || '';
+          const desc     = it.desc || it.v || '';
           return `
             <button class="ab-item" data-section="${s.id}" data-idx="${j}">
               <div class="ab-item-row">
-                <div class="ab-item-name">${this._esc(it.name)}${it.star ? ' <span class="ab-star">★</span>' : ''}</div>
+                <div class="ab-item-name">${this._esc(name)}</div>
                 <div class="ab-item-dots"></div>
-                <div class="ab-item-price">${this._esc(it.price)}</div>
               </div>
-              <div class="ab-item-desc">${this._esc(it.desc)}</div>
+              <div class="ab-item-desc">${this._esc(desc)}</div>
               ${chosen ? `
                 <div class="ab-jarvis-aside a-rise">
                   <div class="ab-aside-label">Jarvis suggests →</div>
-                  <div class="ab-aside-text">&ldquo;Try it with our <b>Estate</b> — the 31 botanicals give depth you&rsquo;d miss otherwise.&rdquo;</div>
+                  <div class="ab-aside-text">&ldquo;Made with our own botanicals — ask me for the full spec or to find the right bottle for your bar.&rdquo;</div>
                   <div class="ab-aside-actions">
-                    <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(it.name)}">Recipe card</button>
+                    <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(name)}">Recipe card</button>
                     <button class="ab-aside-btn" data-action="shop">Shop bottles</button>
-                    <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(it.name)}">Ask Jarvis</button>
+                    <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
                   </div>
                 </div>` : ''}
             </button>`;

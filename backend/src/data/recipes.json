@@ -1,258 +1,484 @@
 [
   {
-    "id": "classic-negroni",
-    "name": "Classic Asterley Negroni",
-    "description": "The quintessential aperitivo cocktail made with our Estate sweet vermouth and Asterley Original for a uniquely British take.",
-    "productIds": ["estate", "asterley-original"],
+    "id": "britannica-negroni-amaro",
+    "name": "Britannica Negroni Amaro",
+    "description": "A dark, stirred Negroni riff showcasing Britannica London Fernet's menthol bitterness alongside gin and sweet vermouth. Bold and complex.",
+    "productIds": ["britannica"],
     "ingredients": [
-      { "item": "ESTATE. Sweet Vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "London Dry Gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "ASTERLEY ORIGINAL. Aperitivo", "amount": "30", "unit": "ml", "isAsterleyProduct": true }
+      { "item": "Britannica London Fernet", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "London dry gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Sweet vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": false }
     ],
     "method": [
-      "Add all ingredients to a rocks glass filled with ice.",
-      "Stir gently for 15-20 seconds to chill and dilute.",
-      "Garnish with an orange peel, expressing the oils over the drink."
+      "Combine Britannica, gin and sweet vermouth in a mixing glass with plenty of ice. Stir for 30 seconds.",
+      "Strain over a single large ice cube into a chilled rocks glass.",
+      "Express a wide grapefruit twist over the drink, then rest it on the rim."
+    ],
+    "glassware": "Rocks glass",
+    "garnish": "Grapefruit twist",
+    "occasion": ["digestif", "after-dinner", "bitter", "negroni-week", "stirred"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "dispense-negroni-scuro",
+    "name": "Dispense Negroni Scuro",
+    "description": "Our amaro takes the Campari slot in this herbal, stirred Negroni — lighter on sweetness, heavier on botanicals.",
+    "productIds": ["dispense"],
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "London dry gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Sweet vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add the Dispense, gin and sweet vermouth to a mixing glass filled with ice. Stir steadily for about 30 seconds.",
+      "Strain into a chilled rocks glass over a single large ice cube.",
+      "Express an orange twist over the surface to release the oils, then drop it in."
+    ],
+    "glassware": "Rocks glass",
+    "garnish": "Orange twist",
+    "occasion": ["aperitivo", "bitter", "herbal", "negroni-week", "stirred"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "estate-negroni-sbagliato",
+    "name": "Estate Negroni Sbagliato",
+    "description": "The 'mistaken' Negroni: Estate sweet vermouth and Campari topped with prosecco instead of gin. Lighter, bubblier, still beautiful.",
+    "productIds": ["estate"],
+    "ingredients": [
+      { "item": "Estate English Sweet Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Campari", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Dry prosecco", "amount": "60", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a rocks glass with ice cubes. Pour in the Estate sweet vermouth and Campari.",
+      "Slowly pour chilled prosecco over the back of a bar spoon so the bubbles stay lively.",
+      "Give one gentle stir to marry the layers, then drop in an orange half-wheel."
+    ],
+    "glassware": "Rocks glass",
+    "garnish": "Orange half-wheel",
+    "occasion": ["aperitivo", "sparkling", "casual", "summer", "negroni-week"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "asterley-bitter-lemon",
+    "name": "Asterley Bitter Lemon",
+    "description": "Asterley Original with fresh lemon juice and bitter lemon tonic — a long, zesty aperitivo that works all afternoon.",
+    "productIds": ["asterley-original"],
+    "ingredients": [
+      { "item": "Asterley Original Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh lemon juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Bitter lemon tonic", "amount": "120", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a tall glass with ice. Pour in Asterley Original and fresh lemon juice.",
+      "Pour bitter lemon tonic slowly down the side of the glass to preserve the carbonation. Give one gentle stir.",
+      "Add a lemon wedge and a small rosemary sprig."
+    ],
+    "glassware": "Highball / tall glass",
+    "garnish": "Lemon wedge and rosemary sprig",
+    "occasion": ["aperitivo", "spring", "summer", "casual", "long drink"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cunard-chamomile-cooler",
+    "name": "Cunard Chamomile Cooler",
+    "description": "Our maritime Cunard vermouth with chamomile honey syrup and soda. Delicate, floral, and effortlessly low-ABV.",
+    "productIds": ["cunard"],
+    "ingredients": [
+      { "item": "Cunard English Dry Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Chamomile honey syrup", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Chilled soda water", "amount": "90", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "In a tall glass, stir together Cunard and chamomile honey syrup until the honey dissolves into the vermouth.",
+      "Fill the glass with ice cubes, then pour in chilled soda water. Stir once gently to integrate.",
+      "Express a lemon twist over the surface and drop it in. Add a chamomile flower if you have one."
+    ],
+    "glassware": "Tall glass / highball",
+    "garnish": "Lemon twist and chamomile flower",
+    "occasion": ["aperitivo", "low ABV", "afternoon", "floral", "summer", "casual"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "dispense-blood-orange-aperitivo",
+    "name": "Dispense Blood Orange Aperitivo",
+    "description": "Dispense shaken with blood orange juice, topped with prosecco. Deeply coloured, bittersweet, and built for Italian-style aperitivo hour.",
+    "productIds": ["dispense"],
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh blood orange juice", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Dry prosecco", "amount": "75", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add Dispense and blood orange juice to a shaker with ice. Shake firmly for 8 seconds.",
+      "Strain into a large wine glass over fresh ice, then top slowly with chilled prosecco.",
+      "Float a blood orange wheel on the surface and serve immediately."
+    ],
+    "glassware": "Large wine glass",
+    "garnish": "Blood orange wheel",
+    "occasion": ["aperitivo", "spring", "sparkling", "bittersweet", "casual"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "estate-old-fashioned",
+    "name": "Estate Old Fashioned",
+    "description": "An approachable, lower-ABV Old Fashioned using Estate sweet vermouth in place of spirit. Rich, bitters-forward, and deeply satisfying.",
+    "productIds": ["estate"],
+    "ingredients": [
+      { "item": "Estate English Sweet Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Angostura bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false },
+      { "item": "Orange bitters", "amount": "1", "unit": "dash", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add Estate and both bitters to a mixing glass with ice. Stir for 20 seconds until properly chilled.",
+      "Strain over a large ice sphere or cube in a rocks glass.",
+      "Express an orange peel over the surface, drop it in alongside a dark cherry."
+    ],
+    "glassware": "Rocks glass",
+    "garnish": "Orange peel and cherry",
+    "occasion": ["low ABV", "digestif", "slow sipper", "stirred", "dinner party"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "asterley-mule",
+    "name": "Asterley Mule",
+    "description": "Asterley Original with lime and fiery ginger beer — a British aperitivo take on the mule. Refreshing and easy.",
+    "productIds": ["asterley-original"],
+    "ingredients": [
+      { "item": "Asterley Original British Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh lime juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Fiery ginger beer", "amount": "120", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a copper mug or tall glass with ice. Pour in the Asterley Original and lime juice.",
+      "Top with ginger beer, pouring slowly so the fizz doesn't overflow. Stir once gently.",
+      "Add a lime wheel and a sprig of mint (clap mint between palms first)."
+    ],
+    "glassware": "Copper mug or highball",
+    "garnish": "Lime wheel and mint sprig",
+    "occasion": ["summer", "casual", "long drink", "spicy", "aperitivo"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cunard-passion-fruit-fizz",
+    "name": "Cunard Passion Fruit Fizz",
+    "description": "Cunard dry vermouth with passion fruit and lime juice, topped with sparkling water. Tropical and light.",
+    "productIds": ["cunard"],
+    "ingredients": [
+      { "item": "Cunard English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh passion fruit, halved", "amount": "1", "unit": "fruit", "isAsterleyProduct": false },
+      { "item": "Fresh lime juice", "amount": "10", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Sparkling water", "amount": "100", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Scoop the pulp from one passion fruit half directly into a tall glass. Save the other half for garnish.",
+      "Add ice, pour in the Cunard and lime juice, then top with sparkling water. Give it a brief stir.",
+      "Garnish with the reserved passion fruit half."
+    ],
+    "glassware": "Tall glass / highball",
+    "garnish": "Passion fruit half",
+    "occasion": ["summer", "tropical", "casual", "long drink", "low ABV"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "dispense-espresso-highball",
+    "name": "Dispense Espresso Highball",
+    "description": "Cold espresso meets Dispense amaro over ice, topped with tonic. A bitter, caffeinated afternoon pick-me-up.",
+    "productIds": ["dispense"],
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Cold espresso", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Tonic water", "amount": "90", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Pour Dispense and cold espresso into a tall glass filled with ice. Let them settle for a moment.",
+      "Top slowly with tonic water.",
+      "Float an orange wheel on top."
+    ],
+    "glassware": "Tall glass / highball",
+    "garnish": "Orange wheel",
+    "occasion": ["summer", "afternoon", "pick-me-up", "long drink", "bitter"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "schofields-cucumber-collins",
+    "name": "Schofield's Cucumber Collins",
+    "description": "Schofield's dry vermouth with lemon, elderflower soda, and cucumber. The ideal summer garden drink.",
+    "productIds": ["schofields"],
+    "ingredients": [
+      { "item": "Schofield's English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh lemon juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Elderflower soda", "amount": "100", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Cucumber slices (for muddling)", "amount": "2", "unit": "slices", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Lightly press two cucumber slices in the base of a tall glass to release their juice.",
+      "Add ice, pour in the Schofield's and lemon juice, then top with elderflower soda. Stir gently once.",
+      "Thread a long cucumber ribbon as garnish."
+    ],
+    "glassware": "Tall glass / Collins glass",
+    "garnish": "Cucumber ribbon",
+    "occasion": ["summer", "garden party", "floral", "long drink", "casual"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "asterley-paloma-highball",
+    "name": "Asterley Paloma Highball",
+    "description": "Asterley Original, lime juice, and sparkling grapefruit soda — a refreshing Paloma-style highball perfect for warm afternoons.",
+    "productIds": ["asterley-original"],
+    "ingredients": [
+      { "item": "Asterley Original British Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh lime juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Sparkling grapefruit soda", "amount": "100", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a tall highball glass with ice. Pour in the Asterley Original and lime juice.",
+      "Top with cold sparkling grapefruit soda and give it one gentle stir.",
+      "Squeeze a grapefruit wedge over the top, drop it in, and serve with a straw."
+    ],
+    "glassware": "Highball glass",
+    "garnish": "Grapefruit wedge",
+    "occasion": ["summer", "casual", "long drink", "aperitivo", "afternoon"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "britannica-negroni-sbagliato",
+    "name": "Britannica Negroni Sbagliato",
+    "description": "Britannica Fernet replaces gin in this sparkling Negroni riff — bitter, herbal, and effortless to make.",
+    "productIds": ["britannica"],
+    "ingredients": [
+      { "item": "Britannica London Fernet", "amount": "20", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Bitter aperitivo", "amount": "25", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Prosecco", "amount": "60", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Pour Britannica and bitter aperitivo into a large wine glass or tumbler filled with ice.",
+      "Top with cold prosecco and give it one gentle stir.",
+      "Drop in an orange slice and serve."
+    ],
+    "glassware": "Large wine glass or tumbler",
+    "garnish": "Orange slice",
+    "occasion": ["aperitivo", "sparkling", "negroni-week", "casual", "evening"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "dispense-boulevardier",
+    "name": "Dispense Boulevardier",
+    "description": "Dispense amaro stands in for Campari in this whisky Boulevardier. Stirred, spirit-forward, and excellent after dinner.",
+    "productIds": ["dispense"],
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Bourbon whiskey", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Sweet vermouth", "amount": "20", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add Dispense, bourbon, and sweet vermouth to a mixing glass filled with ice.",
+      "Stir steadily for 25-30 seconds.",
+      "Strain into a rocks glass over a large ice cube and express an orange peel."
     ],
     "glassware": "Rocks glass",
     "garnish": "Orange peel",
-    "occasion": ["aperitivo", "dinner party", "date night", "classic cocktails"],
+    "occasion": ["digestif", "after-dinner", "negroni-week", "stirred", "spirit-forward", "winter"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "estate-white-negroni",
+    "name": "Estate White Negroni",
+    "description": "Estate sweet vermouth with gin and Suze gentian. A softer, more floral Negroni variation — elegant and aromatic.",
+    "productIds": ["estate"],
+    "ingredients": [
+      { "item": "Estate English Sweet Vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "London dry gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Suze gentian liqueur", "amount": "20", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Combine Estate, gin, and Suze in a mixing glass with plenty of ice. Stir for 20 seconds.",
+      "Strain into a chilled coupe glass or over a single large ice cube in a rocks glass.",
+      "Express a lemon twist over the surface and drop it in."
+    ],
+    "glassware": "Coupe or rocks glass",
+    "garnish": "Lemon twist",
+    "occasion": ["aperitivo", "negroni-week", "stirred", "herbal", "dinner party"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "estate-strawberry-cobbler",
+    "name": "Estate Strawberry Cobbler",
+    "description": "Estate vermouth shaken with fresh strawberries and orange, strained over crushed ice. A lush summer cobbler.",
+    "productIds": ["estate"],
+    "ingredients": [
+      { "item": "Estate English Sweet Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh strawberries (hulled)", "amount": "2", "unit": "berries", "isAsterleyProduct": false },
+      { "item": "Fresh orange juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Lightly muddle the strawberries in the base of a shaker. Add Estate and orange juice with ice and shake hard for 10 seconds.",
+      "Fine strain into a rocks glass or tumbler packed with crushed ice.",
+      "Top with more crushed ice, then garnish with a strawberry half and a sprig of mint. Serve with a short straw."
+    ],
+    "glassware": "Rocks glass / tumbler with crushed ice",
+    "garnish": "Strawberry half and mint sprig",
+    "occasion": ["summer", "garden party", "shaken", "fruity", "afternoon"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "asterley-peach-punch",
+    "name": "Asterley Peach Punch",
+    "description": "Asterley Original shaken with peach puree and lemon, topped with sparkling water. Perfect for a crowd or a quiet afternoon.",
+    "productIds": ["asterley-original"],
+    "ingredients": [
+      { "item": "Asterley Original Aperitivo", "amount": "50", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "White peach puree or nectar", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Fresh lemon juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Chilled sparkling water", "amount": "60", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add Asterley Original, peach puree and lemon juice to a shaker with ice. Shake firmly for 8 seconds.",
+      "Strain into a tall glass filled with ice, then top with sparkling water.",
+      "Garnish with a peach slice or a sprig of basil."
+    ],
+    "glassware": "Tall glass / highball",
+    "garnish": "Peach slice or basil sprig",
+    "occasion": ["summer", "garden party", "punch", "fruity", "casual"],
     "difficulty": "easy"
   },
   {
-    "id": "asterley-spritz",
-    "name": "Asterley Spritz",
-    "description": "A refreshing, effervescent aperitif — our take on the Italian Spritz using Asterley Original.",
-    "productIds": ["asterley-original"],
+    "id": "schofields-garden-cup",
+    "name": "Schofield's Garden Cup",
+    "description": "Schofield's dry vermouth topped with cloudy lemonade and loaded with garden garnishes. Our British take on a Pimm's cup.",
+    "productIds": ["schofields"],
     "ingredients": [
-      { "item": "ASTERLEY ORIGINAL. Aperitivo", "amount": "50", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Sparkling wine (Prosecco or English sparkling)", "amount": "75", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Soda water", "amount": "25", "unit": "ml", "isAsterleyProduct": false }
+      { "item": "Schofield's English Dry Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Cloudy lemonade", "amount": "100", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Fresh lemon juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false }
     ],
     "method": [
-      "Fill a large wine glass with ice.",
-      "Pour in the Asterley Original, then the sparkling wine.",
-      "Top with a splash of soda water.",
-      "Stir gently and garnish with an orange slice."
+      "Fill a tall glass or small jug with ice. Pour in Schofield's and lemon juice, then top with cloudy lemonade.",
+      "Give a gentle stir to bring the vermouth and lemonade together without losing the fizz.",
+      "Add a long cucumber ribbon, a sprig of mint and a strawberry slice. Serve outdoors."
+    ],
+    "glassware": "Tall glass or pitcher",
+    "garnish": "Cucumber ribbon, mint, strawberry slice",
+    "occasion": ["summer", "garden party", "casual", "long drink", "low ABV"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "cunard-elderflower-spritz",
+    "name": "Cunard Elderflower Spritz",
+    "description": "Cunard vermouth with elderflower liqueur and sparkling wine — floral, delicate, and perfectly suited to spring.",
+    "productIds": ["cunard"],
+    "ingredients": [
+      { "item": "Cunard English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Elderflower liqueur", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Dry sparkling wine", "amount": "90", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a large wine glass with ice. Add Cunard and elderflower liqueur.",
+      "Top with chilled sparkling wine and give a single gentle stir.",
+      "Garnish with a long cucumber slice and an elderflower sprig."
     ],
     "glassware": "Large wine glass",
-    "garnish": "Orange slice",
-    "occasion": ["summer", "garden party", "brunch", "light aperitif"],
+    "garnish": "Cucumber slice and elderflower sprig",
+    "occasion": ["spring", "aperitivo", "sparkling", "floral", "garden party"],
     "difficulty": "easy"
   },
   {
-    "id": "dry-martini",
-    "name": "Perfect Dry Martini",
-    "description": "An elegant, classic Martini showcasing Schofield's dry vermouth with its aromatic white flower character.",
-    "productIds": ["schofields"],
-    "ingredients": [
-      { "item": "London Dry Gin", "amount": "60", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "SCHOFIELD'S. Dry Vermouth", "amount": "15", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Orange bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Add gin, Schofield's, and bitters to a mixing glass filled with ice.",
-      "Stir for 30 seconds until well chilled.",
-      "Strain into a chilled coupe or Martini glass.",
-      "Garnish with a lemon twist or olive."
-    ],
-    "glassware": "Coupe or Martini glass",
-    "garnish": "Lemon twist or olive",
-    "occasion": ["elegant evening", "date night", "classic cocktails"],
-    "difficulty": "medium"
-  },
-  {
-    "id": "wet-martini",
-    "name": "Wet Martini",
-    "description": "A more balanced, vermouth-forward Martini for those who enjoy a softer, more aromatic cocktail.",
-    "productIds": ["schofields"],
-    "ingredients": [
-      { "item": "London Dry Gin or Vodka", "amount": "50", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "SCHOFIELD'S. Dry Vermouth", "amount": "25", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Chilled water", "amount": "10", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Angostura bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Combine all ingredients in a mixing glass with ice.",
-      "Stir for 20-30 seconds.",
-      "Strain into a chilled Martini glass.",
-      "Garnish with a lemon twist."
-    ],
-    "glassware": "Martini glass",
-    "garnish": "Lemon twist",
-    "occasion": ["relaxed evening", "vermouth lovers", "classic cocktails"],
-    "difficulty": "easy"
-  },
-  {
-    "id": "manhattan",
-    "name": "Manhattan",
-    "description": "A rich, warming cocktail made with Estate sweet vermouth and rye whisky — perfect for autumn and winter evenings.",
-    "productIds": ["estate"],
-    "ingredients": [
-      { "item": "Rye whisky", "amount": "60", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "ESTATE. Sweet Vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Angostura bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Add all ingredients to a mixing glass filled with ice.",
-      "Stir for 30 seconds until well chilled.",
-      "Strain into a chilled coupe glass.",
-      "Garnish with a brandied cherry."
-    ],
-    "glassware": "Coupe glass",
-    "garnish": "Brandied cherry",
-    "occasion": ["winter warmer", "after dinner", "whisky lover", "classic cocktails"],
-    "difficulty": "medium"
-  },
-  {
-    "id": "paper-plane",
-    "name": "Paper Plane",
-    "description": "A modern classic with equal parts whisky, Asterley Original, amaro, and lemon. Perfectly balanced and endlessly drinkable.",
+    "id": "asterley-grapefruit-spritz",
+    "name": "Asterley Grapefruit Spritz",
+    "description": "Asterley Original shaken with pink grapefruit, topped with prosecco. Citrus-forward, bitter, and brilliantly easy.",
     "productIds": ["asterley-original"],
     "ingredients": [
-      { "item": "English or Bourbon whisky", "amount": "20", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "ASTERLEY ORIGINAL. Aperitivo", "amount": "20", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Amaro (or DISPENSE.)", "amount": "20", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Fresh lemon juice", "amount": "20", "unit": "ml", "isAsterleyProduct": false }
+      { "item": "Asterley Original Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh pink grapefruit juice", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Dry prosecco", "amount": "75", "unit": "ml", "isAsterleyProduct": false }
     ],
     "method": [
-      "Add all ingredients to a cocktail shaker with ice.",
-      "Shake vigorously for 10-15 seconds.",
-      "Double strain into a chilled coupe glass.",
-      "No garnish needed — let the flavours speak."
+      "Add Asterley Original and grapefruit juice to a shaker with ice. Shake briefly for 5-6 seconds.",
+      "Strain into a large wine glass filled with fresh ice, then top with chilled prosecco.",
+      "Garnish with a grapefruit half-wheel on the rim."
     ],
-    "glassware": "Coupe glass",
-    "garnish": "None",
-    "occasion": ["dinner party", "impressive cocktails", "modern classics"],
-    "difficulty": "medium"
-  },
-  {
-    "id": "wimbledon-cup",
-    "name": "Wimbledon Cup",
-    "description": "A quintessentially British summer serve using Dispense amaro — refreshing, herbal, and perfect for garden parties.",
-    "productIds": ["dispense"],
-    "ingredients": [
-      { "item": "DISPENSE. Amaro", "amount": "35", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "London Dry Gin", "amount": "25", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Ginger ale", "amount": "100", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Fresh strawberries", "amount": "2", "unit": "pcs", "isAsterleyProduct": false },
-      { "item": "Cucumber slices", "amount": "3", "unit": "pcs", "isAsterleyProduct": false },
-      { "item": "Fresh mint", "amount": "1", "unit": "sprig", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Add Dispense and gin to a tall glass filled with ice.",
-      "Top with ginger ale.",
-      "Garnish generously with strawberries, cucumber, and mint."
-    ],
-    "glassware": "Tall glass or Collins glass",
-    "garnish": "Strawberries, cucumber, fresh mint",
-    "occasion": ["summer", "garden party", "BBQ", "Wimbledon"],
+    "glassware": "Large wine glass",
+    "garnish": "Grapefruit half-wheel",
+    "occasion": ["aperitivo", "spring", "summer", "sparkling", "casual"],
     "difficulty": "easy"
   },
   {
-    "id": "toronto",
-    "name": "Toronto",
-    "description": "A bold, spirit-forward cocktail showcasing Britannica fernet with rye whisky. Dark, complex, and deeply satisfying.",
+    "id": "estate-rhubarb-spritz",
+    "name": "Estate Rhubarb Spritz",
+    "description": "Estate sweet vermouth with rhubarb syrup and prosecco. Tart, pink-hued, and full of spring energy.",
+    "productIds": ["estate"],
+    "ingredients": [
+      { "item": "Estate English Sweet Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Rhubarb syrup", "amount": "20", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Dry prosecco", "amount": "90", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Fill a large wine glass with ice. Pour in Estate and rhubarb syrup, then top with chilled prosecco.",
+      "Give one slow stir to bring the colour through without losing the fizz.",
+      "Thread a thin rhubarb ribbon onto the glass and add a lemon twist."
+    ],
+    "glassware": "Large wine glass",
+    "garnish": "Rhubarb ribbon and lemon twist",
+    "occasion": ["spring", "aperitivo", "sparkling", "fruity", "garden party"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "britannica-mint-spritz",
+    "name": "Britannica Mint Spritz",
+    "description": "Britannica London Fernet over ice with tonic, cucumber and mint. Menthol-forward, herbal, and surprisingly refreshing.",
     "productIds": ["britannica"],
     "ingredients": [
-      { "item": "Rye whisky", "amount": "60", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "BRITANNICA. London Fernet", "amount": "15", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Simple syrup", "amount": "5", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Angostura bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
+      { "item": "Britannica London Fernet", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Tonic water", "amount": "120", "unit": "ml", "isAsterleyProduct": false }
     ],
     "method": [
-      "Combine all ingredients in a mixing glass with ice.",
-      "Stir for 30 seconds until well chilled.",
-      "Strain into a chilled rocks glass or coupe.",
-      "Garnish with an orange peel."
+      "Fill a large wine glass with ice. Add Britannica and top with tonic.",
+      "Stir gently, then garnish with cucumber slice and fresh mint.",
+      "Serve as a refreshing, lower-ABV herbal spritz."
     ],
-    "glassware": "Rocks glass or coupe",
+    "glassware": "Large wine glass",
+    "garnish": "Cucumber slice and mint sprig",
+    "occasion": ["aperitivo", "low ABV", "summer", "herbal", "casual"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "britannica-toronto",
+    "name": "Britannica Toronto",
+    "description": "Rye whisky with Britannica Fernet, a touch of syrup and bitters — the classic Toronto cocktail, British-made.",
+    "productIds": ["britannica"],
+    "ingredients": [
+      { "item": "Rye whiskey", "amount": "50", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Britannica London Fernet", "amount": "15", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Simple syrup", "amount": "10", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Aromatic bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Add rye, Britannica, syrup and bitters to a mixing glass with ice. Stir until chilled and velvety.",
+      "Strain into a chilled coupe or rocks glass over a large cube.",
+      "Express an orange peel over the drink and discard or drop in."
+    ],
+    "glassware": "Coupe or rocks glass",
     "garnish": "Orange peel",
-    "occasion": ["after dinner", "whisky lover", "bold cocktails"],
+    "occasion": ["digestif", "after-dinner", "stirred", "spirit-forward", "dinner party"],
     "difficulty": "medium"
   },
   {
-    "id": "dispense-highball",
-    "name": "Dispense & Ginger Highball",
-    "description": "The simplest way to enjoy our amaro — long, refreshing, and effortlessly sophisticated.",
-    "productIds": ["dispense"],
+    "id": "britannica-fernet-ginger",
+    "name": "Britannica Fernet & Ginger",
+    "description": "The simplest way to enjoy Britannica — long over ice with fiery ginger ale and a squeeze of lime. Herbal and refreshing.",
+    "productIds": ["britannica"],
     "ingredients": [
-      { "item": "DISPENSE. Amaro", "amount": "50", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Ginger ale", "amount": "150", "unit": "ml", "isAsterleyProduct": false }
+      { "item": "Britannica London Fernet", "amount": "40", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Ginger ale", "amount": "120", "unit": "ml", "isAsterleyProduct": false }
     ],
     "method": [
-      "Fill a highball glass with ice.",
-      "Pour in the Dispense.",
-      "Top with ginger ale and stir gently.",
-      "Garnish with an orange slice."
+      "Fill a highball glass with ice. Add Britannica and top with ginger ale.",
+      "Stir gently to combine.",
+      "Squeeze a lime wedge over the top and drop it in. Add mint if desired."
     ],
     "glassware": "Highball glass",
-    "garnish": "Orange slice",
-    "occasion": ["casual", "easy serves", "weeknight", "summer"],
+    "garnish": "Lime wedge, mint sprig optional",
+    "occasion": ["casual", "long drink", "herbal", "summer", "easy serves"],
     "difficulty": "easy"
-  },
-  {
-    "id": "the-matriarch",
-    "name": "The Matriarch",
-    "description": "A complex, stirred cocktail combining Dispense with whisky and Maraschino — for the adventurous drinker.",
-    "productIds": ["dispense"],
-    "ingredients": [
-      { "item": "Scotch or English whisky", "amount": "40", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "DISPENSE. Amaro", "amount": "20", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Amer Picon (or another bitter liqueur)", "amount": "10", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Maraschino liqueur", "amount": "5", "unit": "ml", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Combine all ingredients in a mixing glass with ice.",
-      "Stir for 30 seconds until well chilled.",
-      "Strain into a chilled coupe glass.",
-      "Garnish with a lemon twist."
-    ],
-    "glassware": "Coupe glass",
-    "garnish": "Lemon twist",
-    "occasion": ["adventurous", "after dinner", "impressive cocktails"],
-    "difficulty": "advanced"
-  },
-  {
-    "id": "estate-tonic",
-    "name": "Estate & Tonic",
-    "description": "A beautifully simple long serve — Estate sweet vermouth with premium tonic and citrus. The perfect introduction to vermouth.",
-    "productIds": ["estate"],
-    "ingredients": [
-      { "item": "ESTATE. Sweet Vermouth", "amount": "50", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Premium light tonic", "amount": "100", "unit": "ml", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Fill a large wine glass or highball with ice.",
-      "Pour in the Estate vermouth.",
-      "Top with tonic water and stir gently.",
-      "Garnish with an orange slice."
-    ],
-    "glassware": "Wine glass or highball",
-    "garnish": "Orange slice",
-    "occasion": ["easy serves", "aperitivo", "casual", "introduction to vermouth"],
-    "difficulty": "easy"
-  },
-  {
-    "id": "martinez",
-    "name": "Martinez",
-    "description": "The predecessor to the Martini — rich, sweet, and aromatic. Estate vermouth shines in this forgotten classic.",
-    "productIds": ["estate"],
-    "ingredients": [
-      { "item": "London Dry Gin", "amount": "45", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "ESTATE. Sweet Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
-      { "item": "Maraschino liqueur", "amount": "5", "unit": "ml", "isAsterleyProduct": false },
-      { "item": "Orange bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
-    ],
-    "method": [
-      "Add all ingredients to a mixing glass filled with ice.",
-      "Stir for 30 seconds until well chilled.",
-      "Strain into a chilled coupe glass.",
-      "Garnish with an orange twist."
-    ],
-    "glassware": "Coupe glass",
-    "garnish": "Orange twist",
-    "occasion": ["classic cocktails", "date night", "impressive cocktails"],
-    "difficulty": "medium"
   }
 ]
