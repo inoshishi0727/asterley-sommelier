@@ -65,27 +65,39 @@ const COCKTAILS = [
   { id: 'white-neg',  name: 'Estate White Negroni',
     spec: [['Estate Sweet Vermouth','30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
     garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass', mood: 'elegant',
-    products: [{ name: 'ESTATE.', url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' }] },
+    products: [{ name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
+      img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
+      url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' }] },
   { id: 'boul',       name: 'Dispense Boulevardier',
     spec: [['Dispense Amaro','30ml'],['Bourbon whiskey','30ml'],['Sweet vermouth','20ml']],
     garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass', mood: 'contemplative',
-    products: [{ name: 'DISPENSE.', url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
+    products: [{ name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
+      img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+      url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
   { id: 'fern-gin',   name: 'Britannica Fernet & Ginger',
     spec: [['Britannica London Fernet','40ml'],['Ginger ale','120ml']],
     garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass', mood: 'easy',
-    products: [{ name: 'BRITANNICA.', url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
+    products: [{ name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
+      img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
+      url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
   { id: 'neg-scuro',  name: 'Dispense Negroni Scuro',
     spec: [['Dispense Amaro','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
     garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass', mood: 'bitter',
-    products: [{ name: 'DISPENSE.', url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
+    products: [{ name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
+      img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+      url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
   { id: 'spritz',     name: 'Asterley Grapefruit Spritz',
     spec: [['Asterley Original Aperitivo','45ml'],['Pink grapefruit juice','30ml'],['Prosecco','75ml']],
     garnish: 'Grapefruit half-wheel', method: 'Shake then top with prosecco', glass: 'Large wine glass', mood: 'celebratory',
-    products: [{ name: 'ASTERLEY ORIGINAL.', url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' }] },
+    products: [{ name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
+      img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
+      url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' }] },
   { id: 'toronto',    name: 'Britannica Toronto',
     spec: [['Rye whiskey','50ml'],['Britannica London Fernet','15ml'],['Simple syrup','10ml'],['Bitters','2 dashes']],
     garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass', mood: 'warming',
-    products: [{ name: 'BRITANNICA.', url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
+    products: [{ name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
+      img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
+      url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
 ];
 
 function cocktailFor(glassId, moodId) {
@@ -589,9 +601,16 @@ class AsterleySommelier extends HTMLElement {
               ${cocktail.products?.length ? `
               <div class="ab-bcard-shop">
                 <div class="ab-bcard-shop-label">Get the bottle</div>
-                <div class="ab-bcard-shop-items">
-                  ${cocktail.products.map(p => `<a class="ab-bcard-shop-btn" href="${p.url}" target="_blank">${this._esc(p.name)}</a>`).join('')}
-                </div>
+                ${cocktail.products.map(p => `
+                <a class="ab-product-card" href="${p.url}" target="_blank">
+                  <img class="ab-product-img" src="${p.img}" alt="${this._esc(p.name)}" loading="lazy"/>
+                  <div class="ab-product-info">
+                    <div class="ab-product-name">${this._esc(p.name)}</div>
+                    <div class="ab-product-sub">${this._esc(p.sub)}</div>
+                    <div class="ab-product-price">${this._esc(p.price)}</div>
+                  </div>
+                  <div class="ab-product-cta">Shop →</div>
+                </a>`).join('')}
               </div>` : ''}
               <div class="ab-bcard-actions">
                 <button class="ab-bcard-btn" id="bar-chat">Ask Jarvis →</button>
