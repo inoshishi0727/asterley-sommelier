@@ -64,22 +64,28 @@ const MOODS = [
 const COCKTAILS = [
   { id: 'white-neg',  name: 'Estate White Negroni',
     spec: [['Estate Sweet Vermouth','30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
-    garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass', mood: 'elegant' },
+    garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass', mood: 'elegant',
+    products: [{ name: 'ESTATE.', url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' }] },
   { id: 'boul',       name: 'Dispense Boulevardier',
     spec: [['Dispense Amaro','30ml'],['Bourbon whiskey','30ml'],['Sweet vermouth','20ml']],
-    garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass', mood: 'contemplative' },
+    garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass', mood: 'contemplative',
+    products: [{ name: 'DISPENSE.', url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
   { id: 'fern-gin',   name: 'Britannica Fernet & Ginger',
     spec: [['Britannica London Fernet','40ml'],['Ginger ale','120ml']],
-    garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass', mood: 'easy' },
+    garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass', mood: 'easy',
+    products: [{ name: 'BRITANNICA.', url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
   { id: 'neg-scuro',  name: 'Dispense Negroni Scuro',
     spec: [['Dispense Amaro','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
-    garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass', mood: 'bitter' },
+    garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass', mood: 'bitter',
+    products: [{ name: 'DISPENSE.', url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
   { id: 'spritz',     name: 'Asterley Grapefruit Spritz',
     spec: [['Asterley Original Aperitivo','45ml'],['Pink grapefruit juice','30ml'],['Prosecco','75ml']],
-    garnish: 'Grapefruit half-wheel', method: 'Shake then top with prosecco', glass: 'Large wine glass', mood: 'celebratory' },
+    garnish: 'Grapefruit half-wheel', method: 'Shake then top with prosecco', glass: 'Large wine glass', mood: 'celebratory',
+    products: [{ name: 'ASTERLEY ORIGINAL.', url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' }] },
   { id: 'toronto',    name: 'Britannica Toronto',
     spec: [['Rye whiskey','50ml'],['Britannica London Fernet','15ml'],['Simple syrup','10ml'],['Bitters','2 dashes']],
-    garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass', mood: 'warming' },
+    garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass', mood: 'warming',
+    products: [{ name: 'BRITANNICA.', url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
 ];
 
 function cocktailFor(glassId, moodId) {
@@ -580,6 +586,13 @@ class AsterleySommelier extends HTMLElement {
                   <span class="ab-spec-name">${this._esc(n)}</span>
                 </div>`).join('')}
               <div class="ab-bcard-method">${this._esc(cocktail.method)}. ${this._esc(cocktail.glass)}, garnish with ${this._esc(cocktail.garnish.toLowerCase())}.</div>
+              ${cocktail.products?.length ? `
+              <div class="ab-bcard-shop">
+                <div class="ab-bcard-shop-label">Get the bottle</div>
+                <div class="ab-bcard-shop-items">
+                  ${cocktail.products.map(p => `<a class="ab-bcard-shop-btn" href="${p.url}" target="_blank">${this._esc(p.name)}</a>`).join('')}
+                </div>
+              </div>` : ''}
               <div class="ab-bcard-actions">
                 <button class="ab-bcard-btn" id="bar-chat">Ask Jarvis →</button>
                 <button class="ab-bcard-btn ab-bcard-again" id="bar-again">↩ Again</button>
