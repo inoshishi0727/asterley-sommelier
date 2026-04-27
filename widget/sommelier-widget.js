@@ -420,7 +420,7 @@ class AsterleySommelier extends HTMLElement {
                   <div class="ab-aside-text">&ldquo;Made with our own botanicals — ask me for the full spec or to find the right bottle for your bar.&rdquo;</div>
                   <div class="ab-aside-actions">
                     <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(name)}">Recipe card</button>
-                    <button class="ab-aside-btn" data-action="shop">Shop bottles</button>
+                    <button class="ab-aside-btn" data-action="shop" data-shop-url="${it.shopUrl || ''}">Shop bottles</button>
                     <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
                   </div>
                 </div>` : ''}
@@ -475,7 +475,8 @@ class AsterleySommelier extends HTMLElement {
           this._switchTab('chat');
           this._sendMessage(`Tell me about ${name}`);
         } else if (action === 'shop') {
-          window.open('https://asterleybros.com/collections/all', '_blank');
+          const url = btn.dataset.shopUrl || 'https://asterleybros.com/collections/all';
+          window.open(url, '_blank');
         }
       };
     });

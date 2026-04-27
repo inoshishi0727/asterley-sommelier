@@ -1,6 +1,6 @@
 import { Router } from "express";
 import type { Recipe } from "../types";
-import { getAllRecipes } from "../services/product";
+import { getAllRecipes, getProductById } from "../services/product";
 
 export const menuRouter = Router();
 
@@ -9,6 +9,7 @@ interface MenuItem {
   name: string;
   desc: string;
   occasion: string[];
+  shopUrl?: string;
 }
 
 interface MenuSection {
@@ -76,11 +77,13 @@ menuRouter.get("/", (_req, res) => {
     const sectionId = classifyRecipe(recipe);
     const section = sectionMap[sectionId];
     if (section && section.items.length < 6) {
+      const firstProduct = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
       section.items.push({
         id: recipe.id,
         name: recipe.name,
         desc: recipe.description,
         occasion: recipe.occasion,
+        shopUrl: firstProduct?.productUrl,
       });
     }
   }
