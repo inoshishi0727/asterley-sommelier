@@ -4,12 +4,20 @@ import { getAllRecipes, getProductById } from "../services/product";
 
 export const menuRouter = Router();
 
+interface MenuProduct {
+  name: string;
+  sub: string;
+  price: string;
+  img: string;
+  url: string;
+}
+
 interface MenuItem {
   id: string;
   name: string;
   desc: string;
   occasion: string[];
-  shopUrl?: string;
+  product?: MenuProduct;
 }
 
 interface MenuSection {
@@ -77,13 +85,19 @@ menuRouter.get("/", (_req, res) => {
     const sectionId = classifyRecipe(recipe);
     const section = sectionMap[sectionId];
     if (section && section.items.length < 6) {
-      const firstProduct = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
+      const p = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
       section.items.push({
         id: recipe.id,
         name: recipe.name,
         desc: recipe.description,
         occasion: recipe.occasion,
-        shopUrl: firstProduct?.productUrl,
+        product: p ? {
+          name: p.name,
+          sub: p.shortName ?? p.name,
+          price: `£${p.price.toFixed(2)}`,
+          img: p.imageUrl ?? "",
+          url: p.productUrl ?? "",
+        } : undefined,
       });
     }
   }

@@ -436,9 +436,19 @@ class AsterleySommelier extends HTMLElement {
                 <div class="ab-jarvis-aside a-rise">
                   <div class="ab-aside-label">Jarvis suggests →</div>
                   <div class="ab-aside-text">&ldquo;Made with our own botanicals — ask me for the full spec or to find the right bottle for your bar.&rdquo;</div>
+                  ${it.product ? `
+                  <div class="ab-bcard-shop-label" style="margin-top:10px">Get the bottle</div>
+                  <a class="ab-product-card" href="${it.product.url}" target="_blank">
+                    <img class="ab-product-img" src="${it.product.img}" alt="${this._esc(it.product.name)}" loading="lazy"/>
+                    <div class="ab-product-info">
+                      <div class="ab-product-name">${this._esc(it.product.name)}</div>
+                      <div class="ab-product-sub">${this._esc(it.product.sub)}</div>
+                      <div class="ab-product-price">${this._esc(it.product.price)}</div>
+                    </div>
+                    <div class="ab-product-cta">Shop →</div>
+                  </a>` : ''}
                   <div class="ab-aside-actions">
                     <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(name)}">Recipe card</button>
-                    <button class="ab-aside-btn" data-action="shop" data-shop-url="${it.shopUrl || ''}">Shop bottles</button>
                     <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
                   </div>
                 </div>` : ''}
@@ -474,7 +484,7 @@ class AsterleySommelier extends HTMLElement {
     // Item selection
     container.querySelectorAll('.ab-item').forEach(btn => {
       btn.onclick = (e) => {
-        if (e.target.closest('.ab-aside-btn')) return;
+        if (e.target.closest('.ab-aside-btn') || e.target.closest('.ab-product-card')) return;
         const key = `${btn.dataset.section}-${btn.dataset.idx}`;
         this._menuChosenId = this._menuChosenId === key ? null : key;
         this._renderAccordion();
@@ -492,9 +502,6 @@ class AsterleySommelier extends HTMLElement {
         } else if (action === 'chat') {
           this._switchTab('chat');
           this._sendMessage(`Tell me about ${name}`);
-        } else if (action === 'shop') {
-          const url = btn.dataset.shopUrl || 'https://asterleybros.com/collections/all';
-          window.open(url, '_blank');
         }
       };
     });
