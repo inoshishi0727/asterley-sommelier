@@ -218,17 +218,27 @@ async function fetchRecipeFromPage(slug: string): Promise<Recipe | null> {
 }
 
 async function fetchAllSlugs(): Promise<string[]> {
-  const res = await fetch(BLOG_URL);
-  if (!res.ok) throw new Error(`Listing page returned ${res.status}`);
-  const html = await res.text();
-
   const slugs = new Set<string>();
   const linkRe = /href="\/blogs\/cocktail-recipes\/([^"?#]+)"/g;
-  let m: RegExpExecArray | null;
-  while ((m = linkRe.exec(html)) !== null) {
-    const slug = m[1];
-    if (slug && slug !== "cocktail-recipes") slugs.add(slug);
+  const nextRe = /<link[^>]+rel="next"[^>]+href="([^"]+)"/;
+
+  let url: string | null = BLOG_URL;
+  while (url) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Listing page returned ${res.status}`);
+    const html = await res.text();
+
+    let m: RegExpExecArray | null;
+    linkRe.lastIndex = 0;
+    while ((m = linkRe.exec(html)) !== null) {
+      const slug = m[1];
+      if (slug && slug !== "cocktail-recipes") slugs.add(slug);
+    }
+
+    const nextMatch = nextRe.exec(html);
+    url = nextMatch ? `https://asterleybros.com${nextMatch[1]}` : null;
   }
+
   return [...slugs];
 }
 

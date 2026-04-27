@@ -88,5 +88,5 @@ menuRouter.get("/", (_req, res) => {
     }
   }
 
-  res.json({ sections });
+  res.json({ sections: sections.filter((s) => s.items.length > 0) });
 });
