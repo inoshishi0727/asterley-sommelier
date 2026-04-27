@@ -599,11 +599,11 @@ class AsterleySommelier extends HTMLElement {
               </div>
             </div>
           </div>`;
-        content.getElementById('bar-chat').onclick = () => {
+        content.querySelector('#bar-chat').onclick = () => {
           this._switchTab('chat');
           this._sendMessage(`Tell me more about the ${cocktail.name}`);
         };
-        content.getElementById('bar-again').onclick = () => {
+        content.querySelector('#bar-again').onclick = () => {
           this._barStage = 'intro';
           this._barGlass = null;
           this._barMood  = null;
