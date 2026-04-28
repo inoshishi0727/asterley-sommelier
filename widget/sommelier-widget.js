@@ -224,25 +224,39 @@ class AsterleySommelier extends HTMLElement {
   // ── Note rotation ───────────────────────────────────────────────────────
 
   _startNoteRotation() {
-    const NOTE_MESSAGES = [
-      "I've a Negroni spec with your name on it when you're ready.",
-      "What shall we make tonight?",
-      "Ask me about our botanicals — there are rather a lot of them.",
-      "Looking for a gift? I can help narrow it down.",
-      "Tell me your glass and mood. I'll find the serve.",
-      "Something bitter, something bright — I know the difference.",
+    const MSGS = [
+      "Ask Jarvis.",
+      "Find your serve.",
+      "Our botanicals.",
+      "Gift ideas?",
+      "A Negroni?",
+      "Make a drink.",
     ];
-    const el = this.shadowRoot.getElementById('note-text');
-    if (!el) return;
-    setInterval(() => {
-      if (this._isOpen) return;
-      el.classList.add('ab-note-fade');
+    const textEl = () => this.shadowRoot.getElementById('note-text');
+    const liqEl  = () => this.shadowRoot.querySelector('.ab-liq');
+    const clipEl = () => this.shadowRoot.querySelector('.ab-rise-clip');
+
+    const refill = () => {
+      const liq = liqEl(), clip = clipEl(), txt = textEl();
+      if (!liq || !clip || !txt) return;
+      txt.classList.add('ab-note-fade');
+      [liq, clip].forEach(el => {
+        el.style.animation = 'none';
+        el.getBoundingClientRect();
+        el.style.transform = 'scaleY(0.1)';
+      });
       setTimeout(() => {
-        this._noteIdx = (this._noteIdx + 1) % NOTE_MESSAGES.length;
-        el.textContent = NOTE_MESSAGES[this._noteIdx];
-        el.classList.remove('ab-note-fade');
-      }, 300);
-    }, 5000);
+        this._noteIdx = (this._noteIdx + 1) % MSGS.length;
+        txt.textContent = MSGS[this._noteIdx];
+        txt.classList.remove('ab-note-fade');
+        [liq, clip].forEach(el => {
+          el.style.transform = '';
+          el.style.animation = 'ab-fill 1.8s cubic-bezier(0.4,0,0.2,1) forwards';
+        });
+      }, 350);
+    };
+
+    setInterval(() => { if (!this._isOpen) refill(); }, 6000);
   }
 
   // ── Menu fetch ──────────────────────────────────────────────────────────
@@ -260,16 +274,29 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=3', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=4', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
-      <!-- Post-it note launcher -->
-      <button class="ab-note-launcher" id="bubble" aria-label="Open Jarvis">
-        <div class="ab-note-eyebrow">a note from the bar</div>
-        <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
-        <div class="ab-note-sig">— J.</div>
-        <div class="ab-note-close-hint" id="note-close-hint">close ×</div>
+      <!-- Glass launcher -->
+      <button class="ab-glass-btn" id="bubble" aria-label="Open Jarvis">
+        <svg class="ab-glass-svg" viewBox="0 0 70 120" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="ab-gc">
+              <path d="M10 7 L60 7 L54 113 L16 113 Z"/>
+            </clipPath>
+            <clipPath id="ab-tc">
+              <rect class="ab-rise-clip" x="0" y="0" width="70" height="120"/>
+            </clipPath>
+          </defs>
+          <rect class="ab-liq" x="0" y="0" width="70" height="120" clip-path="url(#ab-gc)"/>
+          <path d="M17 20 L20 96" stroke="rgba(255,255,255,0.18)" stroke-width="3.5"
+                stroke-linecap="round" clip-path="url(#ab-gc)"/>
+          <path class="ab-glass-body"
+                d="M6 0 L64 0 L64 7 L60 7 L54 113 L16 113 L10 7 L6 7 Z"/>
+          <text class="ab-glass-msg" id="note-text"
+                x="35" y="93" text-anchor="middle" clip-path="url(#ab-tc)">Ask Jarvis.</text>
+        </svg>
       </button>
 
       <!-- Panel -->

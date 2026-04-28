@@ -51,58 +51,51 @@
 
 /* ── Bubble ─────────────────────────────────────────────────────────────── */
 
-/* ── Post-it note launcher ──────────────────────────────────────────────── */
+/* ── Glass launcher ─────────────────────────────────────────────────────── */
 
-.ab-note-launcher {
+.ab-glass-btn {
   position: fixed;
   bottom: 24px; right: 24px;
-  width: 176px;
-  padding: 11px 14px 13px;
-  background: var(--parchment);
-  border: none;
-  border-left: 3px solid var(--claret);
-  box-shadow: 2px 4px 18px rgba(0,0,0,0.22);
-  cursor: pointer;
-  text-align: left;
-  transform: rotate(-1.5deg);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  z-index: 99999;
+  background: none; border: none; padding: 0;
+  cursor: pointer; z-index: 99999;
+  filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.22));
+  transition: filter 0.2s, transform 0.2s, opacity 0.2s;
 }
-.ab-note-launcher:hover {
-  transform: rotate(-0.5deg) translateY(-2px);
-  box-shadow: 3px 6px 24px rgba(0,0,0,0.28);
+.ab-glass-btn:hover {
+  filter: drop-shadow(2px 6px 16px rgba(0,0,0,0.32));
+  transform: translateY(-3px);
 }
-.ab-note-launcher.ab-open {
-  transform: rotate(-1.5deg) scale(0.94);
-  opacity: 0.6;
+.ab-glass-btn.ab-open { opacity: 0.45; transform: scale(0.88); }
+
+.ab-glass-svg { display: block; width: 70px; height: 120px; }
+
+.ab-glass-body {
+  fill: rgba(244,235,215,0.12);
+  stroke: var(--ink);
+  stroke-width: 1.2;
 }
-.ab-note-eyebrow {
-  font-family: var(--mono);
-  font-size: 7.5px; color: var(--claret);
-  letter-spacing: 0.5px; text-transform: uppercase;
+
+.ab-liq,
+.ab-rise-clip {
+  transform-origin: 35px 120px;
+  transform: scaleY(0);
+  animation: ab-fill 2.6s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
 }
-.ab-note-text {
+.ab-liq { fill: var(--claret); opacity: 0.72; }
+
+@keyframes ab-fill {
+  0%   { transform: scaleY(0); }
+  100% { transform: scaleY(0.8); }
+}
+
+.ab-glass-msg {
   font-family: var(--serif);
-  font-size: 13px; color: var(--ink);
-  line-height: 1.35; font-style: italic;
-  margin-top: 4px;
-  transition: opacity 0.3s;
+  font-style: italic;
+  font-size: 10px;
+  fill: var(--cream);
+  transition: opacity 0.25s;
 }
-.ab-note-text.ab-note-fade { opacity: 0; }
-.ab-note-sig {
-  font-family: var(--serif);
-  font-style: italic; font-size: 12px;
-  color: var(--claret); margin-top: 6px;
-  text-align: right;
-}
-.ab-note-close-hint {
-  display: none;
-  font-family: var(--mono); font-size: 7px;
-  color: var(--ink-soft); text-align: center;
-  margin-top: 6px; letter-spacing: 0.3px;
-  opacity: 0.5;
-}
-.ab-note-launcher.ab-open .ab-note-close-hint { display: block; }
+.ab-glass-msg.ab-note-fade { opacity: 0; }
 
 /* ── Panel ──────────────────────────────────────────────────────────────── */
 
@@ -782,5 +775,5 @@
     height: 100dvh; max-height: 100dvh;
     border-radius: 0; border: none;
   }
-  .ab-note-launcher { bottom: 16px; right: 16px; width: 160px; }
+  .ab-glass-btn { bottom: 16px; right: 16px; }
 }
