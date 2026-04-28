@@ -232,31 +232,33 @@ class AsterleySommelier extends HTMLElement {
       "A Negroni?",
       "Make a drink.",
     ];
-    const textEl = () => this.shadowRoot.getElementById('note-text');
-    const liqEl  = () => this.shadowRoot.querySelector('.ab-liq');
+    const textEl  = () => this.shadowRoot.getElementById('note-text');
+    const liqEl   = () => this.shadowRoot.querySelector('.ab-liq');
+    const shineEl = () => this.shadowRoot.querySelector('.ab-shine');
 
     const refill = () => {
-      const liq = liqEl(), txt = textEl();
+      const liq = liqEl(), shine = shineEl(), txt = textEl();
       if (!liq || !txt) return;
 
-      // fade text, drain liquid
       txt.classList.add('ab-note-fade');
-      liq.style.animation = 'none';
-      liq.getBoundingClientRect();
-      liq.style.transform = 'scaleY(0.08)';
+      [liq, shine].filter(Boolean).forEach(el => {
+        el.style.animation = 'none';
+        el.getBoundingClientRect();
+        el.style.transform = 'scaleY(0.06)';
+      });
 
       setTimeout(() => {
         this._noteIdx = (this._noteIdx + 1) % MSGS.length;
         txt.textContent = MSGS[this._noteIdx];
         txt.classList.remove('ab-note-fade');
-        // reset text clip
         txt.style.animation = 'none';
         txt.getBoundingClientRect();
         txt.style.clipPath = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)';
-        // refill
-        liq.style.transform = '';
-        liq.style.animation = 'ab-fill 1.8s cubic-bezier(0.4,0,0.2,1) forwards';
-        txt.style.animation = 'ab-text-up 1.8s cubic-bezier(0.4,0,0.2,1) forwards';
+        [liq, shine].filter(Boolean).forEach(el => {
+          el.style.transform = '';
+          el.style.animation = 'ab-fill 1.8s cubic-bezier(0.3,0,0.2,1) forwards';
+        });
+        txt.style.animation = 'ab-text-up 1.8s cubic-bezier(0.3,0,0.2,1) forwards';
       }, 380);
     };
 
@@ -278,19 +280,18 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=5', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=6', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
       <!-- Glass launcher -->
       <button class="ab-glass-btn" id="bubble" aria-label="Open Jarvis">
         <svg class="ab-glass-svg" viewBox="0 0 90 148" xmlns="http://www.w3.org/2000/svg">
-          <!-- Liquid: clipped to glass interior via CSS polygon (Shadow DOM safe) -->
-          <rect class="ab-liq" x="0" y="0" width="90" height="148"/>
-          <!-- Shine -->
-          <path d="M22 22 L25 118" stroke="rgba(255,255,255,0.16)" stroke-width="4"
-                stroke-linecap="round" class="ab-glass-shine"/>
-          <!-- Glass outline -->
+          <!-- Liquid: same trapezoid as glass interior, scaleY from bottom — no clip needed -->
+          <path class="ab-liq" d="M12 8 L78 8 L70 140 L20 140 Z"/>
+          <!-- Shine (scales with liquid) -->
+          <path class="ab-shine" d="M22 24 L25 118"/>
+          <!-- Glass outline on top -->
           <path class="ab-glass-body"
                 d="M8 0 L82 0 L82 8 L78 8 L70 140 L20 140 L12 8 L8 8 Z"/>
           <!-- Text revealed by rising liquid -->

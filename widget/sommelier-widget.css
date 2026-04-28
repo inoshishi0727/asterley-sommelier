@@ -58,29 +58,35 @@
   bottom: 24px; right: 24px;
   background: none; border: none; padding: 0;
   cursor: pointer; z-index: 99999;
-  filter: drop-shadow(2px 4px 12px rgba(0,0,0,0.24));
+  filter: drop-shadow(3px 5px 14px rgba(0,0,0,0.30));
   transition: filter 0.2s, transform 0.2s, opacity 0.2s;
 }
 .ab-glass-btn:hover {
-  filter: drop-shadow(2px 7px 18px rgba(0,0,0,0.34));
-  transform: translateY(-3px);
+  filter: drop-shadow(3px 8px 20px rgba(0,0,0,0.4));
+  transform: translateY(-4px);
 }
-.ab-glass-btn.ab-open { opacity: 0.45; transform: scale(0.88); }
+.ab-glass-btn.ab-open { opacity: 0; pointer-events: none; }
 
-.ab-glass-svg { display: block; width: 90px; height: 148px; }
+.ab-glass-svg { display: block; width: 100px; height: 165px; }
 
-/* Glass interior polygon: matches path M12 8 L78 8 L70 140 L20 140 */
-/* In % of 90×148: 12/90=13.3%, 8/148=5.4%, 78/90=86.7%, 70/90=77.8%, 140/148=94.6%, 20/90=22.2% */
+/* Liquid: same trapezoid as glass interior, scaleY(0→0.82) from bottom */
 .ab-liq {
-  fill: var(--claret);
-  opacity: 0.75;
-  clip-path: polygon(13.3% 5.4%, 86.7% 5.4%, 77.8% 94.6%, 22.2% 94.6%);
+  fill: #B85C2A;
+  opacity: 0.88;
   transform-origin: 50% 100%;
   transform: scaleY(0);
-  animation: ab-fill 2.6s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+  animation: ab-fill 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
 }
-.ab-glass-shine {
-  clip-path: polygon(13.3% 5.4%, 86.7% 5.4%, 77.8% 94.6%, 22.2% 94.6%);
+
+/* Shine follows liquid fill */
+.ab-shine {
+  stroke: rgba(255,255,255,0.22);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  fill: none;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  animation: ab-fill 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
 }
 
 @keyframes ab-fill {
@@ -89,19 +95,19 @@
 }
 
 .ab-glass-body {
-  fill: rgba(244,235,215,0.10);
-  stroke: var(--ink);
-  stroke-width: 1.4;
+  fill: rgba(244,235,215,0.08);
+  stroke: #1E1A14;
+  stroke-width: 1.6;
 }
 
-/* Text revealed bottom-to-top as liquid rises */
+/* Text: cream italic, revealed bottom-to-top in sync with fill */
 .ab-glass-msg {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 11.5px;
-  fill: var(--cream);
+  font-size: 11px;
+  fill: #F4EBD7;
   clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  animation: ab-text-up 2.6s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+  animation: ab-text-up 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
   transition: opacity 0.25s;
 }
 .ab-glass-msg.ab-note-fade { opacity: 0; }
@@ -790,5 +796,5 @@
     border-radius: 0; border: none;
   }
   .ab-glass-btn { bottom: 16px; right: 16px; }
-  .ab-glass-svg { width: 76px; height: 125px; }
+  .ab-glass-svg { width: 82px; height: 135px; }
 }
