@@ -199,7 +199,7 @@ class AsterleySommelier extends HTMLElement {
     this._menuOpenId       = 'aperitivo';
     this._menuChosenId     = null;
     this._menuData         = null;
-    this._proactiveDone    = false;
+    this._noteIdx          = 0;
   }
 
   static get observedAttributes() { return ['api-url']; }
@@ -218,12 +218,31 @@ class AsterleySommelier extends HTMLElement {
       productCards: [], recipeCards: [],
       suggestedActions: [],
     });
-    // Proactive parchment note after 2s when widget is closed
-    setTimeout(() => {
-      if (!this._proactiveDone && !this._isOpen) {
-        this.shadowRoot.getElementById('proactive')?.classList.add('ab-proactive-show');
-      }
-    }, 2000);
+    this._startNoteRotation();
+  }
+
+  // ── Note rotation ───────────────────────────────────────────────────────
+
+  _startNoteRotation() {
+    const NOTE_MESSAGES = [
+      "I've a Negroni spec with your name on it when you're ready.",
+      "What shall we make tonight?",
+      "Ask me about our botanicals — there are rather a lot of them.",
+      "Looking for a gift? I can help narrow it down.",
+      "Tell me your glass and mood. I'll find the serve.",
+      "Something bitter, something bright — I know the difference.",
+    ];
+    const el = this.shadowRoot.getElementById('note-text');
+    if (!el) return;
+    setInterval(() => {
+      if (this._isOpen) return;
+      el.classList.add('ab-note-fade');
+      setTimeout(() => {
+        this._noteIdx = (this._noteIdx + 1) % NOTE_MESSAGES.length;
+        el.textContent = NOTE_MESSAGES[this._noteIdx];
+        el.classList.remove('ab-note-fade');
+      }, 300);
+    }, 5000);
   }
 
   // ── Menu fetch ──────────────────────────────────────────────────────────
@@ -245,23 +264,13 @@ class AsterleySommelier extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
-      <!-- Bubble -->
-      <button class="ab-bubble" id="bubble" aria-label="Open Jarvis">
-        <svg class="ab-icon-chat" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 3C6.5 3 2 6.58 2 11a7.9 7.9 0 003.75 6.61L5 21l4.25-1.95C10.33 19.66 11.17 19.75 12 19.75c5.5 0 10-3.58 10-8.75S17.5 3 12 3z"/>
-        </svg>
-        <svg class="ab-icon-close" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        </svg>
+      <!-- Post-it note launcher -->
+      <button class="ab-note-launcher" id="bubble" aria-label="Open Jarvis">
+        <div class="ab-note-eyebrow">a note from the bar</div>
+        <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
+        <div class="ab-note-sig">— J.</div>
+        <div class="ab-note-close-hint" id="note-close-hint">close ×</div>
       </button>
-
-      <!-- Proactive parchment card -->
-      <div class="ab-proactive" id="proactive" role="complementary" aria-label="Note from Jarvis">
-        <button class="ab-proactive-close" id="proactive-close" aria-label="Dismiss">${closeSVG(CLARET)}</button>
-        <div class="ab-proactive-eyebrow">a note from the bar</div>
-        <div class="ab-proactive-text">I've a Negroni spec with your name on it when you're ready.</div>
-        <div class="ab-proactive-sig">— J.</div>
-      </div>
 
       <!-- Panel -->
       <div class="ab-panel" id="panel" role="dialog" aria-label="Jarvis — Asterley Sommelier">
@@ -338,18 +347,6 @@ class AsterleySommelier extends HTMLElement {
     sr.getElementById('bubble').onclick = () => this._toggle();
     sr.getElementById('panel-close').onclick = () => this._toggle();
 
-    sr.getElementById('proactive-close').onclick = () => {
-      this._proactiveDone = true;
-      sr.getElementById('proactive').classList.remove('ab-proactive-show');
-    };
-    // Open widget when clicking proactive card body
-    sr.getElementById('proactive').addEventListener('click', (e) => {
-      if (e.target.closest('.ab-proactive-close')) return;
-      this._proactiveDone = true;
-      sr.getElementById('proactive').classList.remove('ab-proactive-show');
-      if (!this._isOpen) this._toggle();
-    });
-
     sr.querySelectorAll('.ab-tab').forEach(btn => {
       btn.onclick = () => this._switchTab(btn.dataset.tab);
     });
@@ -382,9 +379,8 @@ class AsterleySommelier extends HTMLElement {
     this._isOpen = !this._isOpen;
     this.shadowRoot.getElementById('bubble').classList.toggle('ab-open', this._isOpen);
     this.shadowRoot.getElementById('panel').classList.toggle('ab-visible', this._isOpen);
-    if (this._isOpen) {
-      this.shadowRoot.getElementById('proactive')?.classList.remove('ab-proactive-show');
-      if (this._tab === 'chat') setTimeout(() => this.shadowRoot.getElementById('input')?.focus(), 300);
+    if (this._isOpen && this._tab === 'chat') {
+      setTimeout(() => this.shadowRoot.getElementById('input')?.focus(), 300);
     }
   }
 
