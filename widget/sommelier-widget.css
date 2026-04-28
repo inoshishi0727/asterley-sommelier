@@ -51,70 +51,47 @@
 
 /* ── Bubble ─────────────────────────────────────────────────────────────── */
 
-/* ── Glass launcher ─────────────────────────────────────────────────────── */
+/* ── Post-it note launcher ──────────────────────────────────────────────── */
 
-.ab-glass-btn {
+.ab-note-launcher {
   position: fixed;
   bottom: 24px; right: 24px;
-  background: none; border: none; padding: 0;
-  cursor: pointer; z-index: 99999;
-  filter: drop-shadow(3px 5px 14px rgba(0,0,0,0.30));
-  transition: filter 0.2s, transform 0.2s, opacity 0.2s;
+  width: 180px;
+  padding: 11px 14px 13px;
+  background: var(--parchment);
+  border: none;
+  border-left: 3px solid var(--claret);
+  box-shadow: 2px 4px 18px rgba(0,0,0,0.22);
+  cursor: pointer;
+  text-align: left;
+  transform: rotate(-1.5deg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
+  z-index: 99999;
 }
-.ab-glass-btn:hover {
-  filter: drop-shadow(3px 8px 20px rgba(0,0,0,0.4));
-  transform: translateY(-4px);
+.ab-note-launcher:hover {
+  transform: rotate(-0.5deg) translateY(-2px);
+  box-shadow: 3px 6px 24px rgba(0,0,0,0.28);
 }
-.ab-glass-btn.ab-open { opacity: 0; pointer-events: none; }
+.ab-note-launcher.ab-open { opacity: 0; pointer-events: none; }
 
-.ab-glass-svg { display: block; width: 100px; height: 165px; }
-
-/* Liquid: same trapezoid as glass interior, scaleY(0→0.82) from bottom */
-.ab-liq {
-  fill: #B85C2A;
-  opacity: 0.88;
-  transform-origin: 50% 100%;
-  transform: scaleY(0);
-  animation: ab-fill 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
+.ab-note-eyebrow {
+  font-family: var(--mono);
+  font-size: 7.5px; color: var(--claret);
+  letter-spacing: 0.5px; text-transform: uppercase;
 }
-
-/* Shine follows liquid fill */
-.ab-shine {
-  stroke: rgba(255,255,255,0.22);
-  stroke-width: 4.5;
-  stroke-linecap: round;
-  fill: none;
-  transform-origin: 50% 100%;
-  transform: scaleY(0);
-  animation: ab-fill 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
-}
-
-@keyframes ab-fill {
-  0%   { transform: scaleY(0); }
-  100% { transform: scaleY(0.82); }
-}
-
-.ab-glass-body {
-  fill: rgba(244,235,215,0.08);
-  stroke: #1E1A14;
-  stroke-width: 1.6;
-}
-
-/* Text: cream italic, revealed bottom-to-top in sync with fill */
-.ab-glass-msg {
+.ab-note-text {
   font-family: var(--serif);
-  font-style: italic;
-  font-size: 11px;
-  fill: #F4EBD7;
-  clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
-  animation: ab-text-up 2.6s cubic-bezier(0.3,0,0.2,1) 0.4s forwards;
-  transition: opacity 0.25s;
+  font-size: 13px; color: var(--ink);
+  line-height: 1.35; font-style: italic;
+  margin-top: 4px;
+  transition: opacity 0.3s;
 }
-.ab-glass-msg.ab-note-fade { opacity: 0; }
-
-@keyframes ab-text-up {
-  0%   { clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%); }
-  100% { clip-path: polygon(0% 0%,   100% 0%,   100% 100%, 0% 100%); }
+.ab-note-text.ab-note-fade { opacity: 0; }
+.ab-note-sig {
+  font-family: var(--serif);
+  font-style: italic; font-size: 12px;
+  color: var(--claret); margin-top: 6px;
+  text-align: right;
 }
 
 /* ── Panel ──────────────────────────────────────────────────────────────── */
@@ -795,6 +772,5 @@
     height: 100dvh; max-height: 100dvh;
     border-radius: 0; border: none;
   }
-  .ab-glass-btn { bottom: 16px; right: 16px; }
-  .ab-glass-svg { width: 82px; height: 135px; }
+  .ab-note-launcher { bottom: 16px; right: 16px; width: 160px; }
 }

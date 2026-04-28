@@ -232,37 +232,25 @@ class AsterleySommelier extends HTMLElement {
       "A Negroni?",
       "Make a drink.",
     ];
-    const textEl  = () => this.shadowRoot.getElementById('note-text');
-    const liqEl   = () => this.shadowRoot.querySelector('.ab-liq');
-    const shineEl = () => this.shadowRoot.querySelector('.ab-shine');
-
-    const refill = () => {
-      const liq = liqEl(), shine = shineEl(), txt = textEl();
-      if (!liq || !txt) return;
-
-      txt.classList.add('ab-note-fade');
-      [liq, shine].filter(Boolean).forEach(el => {
-        el.style.animation = 'none';
-        el.getBoundingClientRect();
-        el.style.transform = 'scaleY(0.06)';
-      });
-
+    const LONGER_MSGS = [
+      "I've a Negroni spec with your name on it when you're ready.",
+      "What shall we make tonight?",
+      "Ask me about our botanicals — there are rather a lot of them.",
+      "Looking for a gift? I can help narrow it down.",
+      "Tell me your glass and mood. I'll find the serve.",
+      "Something bitter, something bright — I know the difference.",
+    ];
+    const el = this.shadowRoot.getElementById('note-text');
+    if (!el) return;
+    setInterval(() => {
+      if (this._isOpen) return;
+      el.classList.add('ab-note-fade');
       setTimeout(() => {
-        this._noteIdx = (this._noteIdx + 1) % MSGS.length;
-        txt.textContent = MSGS[this._noteIdx];
-        txt.classList.remove('ab-note-fade');
-        txt.style.animation = 'none';
-        txt.getBoundingClientRect();
-        txt.style.clipPath = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)';
-        [liq, shine].filter(Boolean).forEach(el => {
-          el.style.transform = '';
-          el.style.animation = 'ab-fill 1.8s cubic-bezier(0.3,0,0.2,1) forwards';
-        });
-        txt.style.animation = 'ab-text-up 1.8s cubic-bezier(0.3,0,0.2,1) forwards';
-      }, 380);
-    };
-
-    setInterval(() => { if (!this._isOpen) refill(); }, 6000);
+        this._noteIdx = (this._noteIdx + 1) % LONGER_MSGS.length;
+        el.textContent = LONGER_MSGS[this._noteIdx];
+        el.classList.remove('ab-note-fade');
+      }, 300);
+    }, 5000);
   }
 
   // ── Menu fetch ──────────────────────────────────────────────────────────
@@ -280,24 +268,15 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=6', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=7', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
-      <!-- Glass launcher -->
-      <button class="ab-glass-btn" id="bubble" aria-label="Open Jarvis">
-        <svg class="ab-glass-svg" viewBox="0 0 90 148" xmlns="http://www.w3.org/2000/svg">
-          <!-- Liquid: same trapezoid as glass interior, scaleY from bottom — no clip needed -->
-          <path class="ab-liq" d="M12 8 L78 8 L70 140 L20 140 Z"/>
-          <!-- Shine (scales with liquid) -->
-          <path class="ab-shine" d="M22 24 L25 118"/>
-          <!-- Glass outline on top -->
-          <path class="ab-glass-body"
-                d="M8 0 L82 0 L82 8 L78 8 L70 140 L20 140 L12 8 L8 8 Z"/>
-          <!-- Text revealed by rising liquid -->
-          <text class="ab-glass-msg" id="note-text"
-                x="45" y="114" text-anchor="middle">Ask Jarvis.</text>
-        </svg>
+      <!-- Post-it note launcher -->
+      <button class="ab-note-launcher" id="bubble" aria-label="Open Jarvis">
+        <div class="ab-note-eyebrow">a note from the bar</div>
+        <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
+        <div class="ab-note-sig">— J.</div>
       </button>
 
       <!-- Panel -->
