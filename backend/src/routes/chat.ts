@@ -59,6 +59,7 @@ chatRouter.post("/", async (req: Request, res: Response) => {
 
     // Graceful fallback
     res.status(500).json({
+      _debug: errMsg,
       sessionId: req.body?.sessionId || "",
       message:
         "I'm having a moment — apologies! Please try again, or drop us a line at hello@asterleybros.com and we'll help you directly.",
