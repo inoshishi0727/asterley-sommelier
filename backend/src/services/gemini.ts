@@ -82,10 +82,13 @@ function executeTool(name: string, args: Record<string, any>): ToolResult {
 // ── Build History ──
 
 function buildHistory(messages: Message[]): Content[] {
-  return messages.map((m) => ({
-    role: m.role === "user" ? "user" : "model",
-    parts: [{ text: m.content }],
-  })) as Content[];
+  return messages.map((m) => {
+    let text = m.content;
+    if (m.role === "assistant") {
+      try { const p = JSON.parse(m.content); if (p.message) text = p.message; } catch {}
+    }
+    return { role: m.role === "user" ? "user" : "model", parts: [{ text }] } as Content;
+  });
 }
 
 // ── Card Builders ──
@@ -157,7 +160,10 @@ function buildRecipeCards(toolResults: ToolResult[]): RecipeCard[] {
   return cards.slice(0, 2);
 }
 
-function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductCard[]): SuggestedAction[] {
+function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductCard[], messageText: string): SuggestedAction[] {
+  // No tools called = pure conversation. Generate chips from Jarvis's message content.
+  if (toolResults.length === 0) return buildConversationalChips(messageText.toLowerCase());
+
   const actions: SuggestedAction[] = [];
 
   // If products were returned, offer "Add to Cart" for the first one
@@ -188,6 +194,31 @@ function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductC
   }
 
   return actions.slice(0, 3);
+}
+
+function buildConversationalChips(lower: string): SuggestedAction[] {
+  if ((lower.includes("sweet") || lower.includes("dry") || lower.includes("bitter")) && lower.includes("?"))
+    return [
+      { label: "Something sweet",  type: "question", value: "I like something rich and sweet" },
+      { label: "Dry & crisp",      type: "question", value: "I prefer something dry and crisp" },
+      { label: "Bitter & complex", type: "question", value: "I enjoy bitter, complex flavours" },
+    ];
+  if (lower.includes("occasion") || lower.includes("dinner") || lower.includes("meal"))
+    return [
+      { label: "Aperitivo hour", type: "question", value: "For aperitivo hour before dinner" },
+      { label: "After dinner",   type: "question", value: "Something for after dinner" },
+      { label: "Dinner pairing", type: "question", value: "I'm planning a dinner — what would pair well?" },
+    ];
+  if (lower.includes("cocktail") || lower.includes("serve") || lower.includes("glass"))
+    return [
+      { label: "Something stirred", type: "question", value: "I like stirred, spirit-forward cocktails" },
+      { label: "Something long",    type: "question", value: "I want something long and refreshing" },
+      { label: "A spritz",          type: "question", value: "Give me a spritz or aperitivo serve" },
+    ];
+  return [
+    { label: "Show me what you make", type: "question", value: "What products do you offer?" },
+    { label: "Help me choose",        type: "question", value: "I'm not sure what to pick — can you help me choose?" },
+  ];
 }
 
 // ── Main Chat Function ──
@@ -303,9 +334,7 @@ export async function chat(
   // Backend assembles structured response from tool results
   const productCards = buildProductCards(allToolResults);
   const recipeCards = buildRecipeCards(allToolResults);
-  const suggestedActions = allToolResults.length > 0
-    ? buildSuggestedActions(allToolResults, productCards)
-    : getDefaultSuggestions();
+  const suggestedActions = buildSuggestedActions(allToolResults, productCards, messageText);
 
   return {
     sessionId: "", // Set by the route
@@ -316,10 +345,3 @@ export async function chat(
   };
 }
 
-function getDefaultSuggestions(): SuggestedAction[] {
-  return [
-    { label: "What's your best seller?", type: "question", value: "What's your most popular product?" },
-    { label: "Cocktail recipes", type: "question", value: "What cocktails can I make with your products?" },
-    { label: "Help me choose", type: "question", value: "I'm not sure what to pick — can you help me choose?" },
-  ];
-}

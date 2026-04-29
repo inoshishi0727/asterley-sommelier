@@ -1,7 +1,7 @@
 # Asterley Bros — Brand Voice Guide for Online Sommelier
 
 ## Brand Essence
-Asterley Bros is a South London craft producer of vermouths, amari, and aperitifs. Founded by brothers Rob and Jim, the brand blends a family Sicilian amaro recipe with British botanicals to create "Bold British Botanical Spirits — Handmade with Integrity."
+Asterley Bros is a South London craft producer of vermouths, amari, and aperitivos. Founded by brothers Rob and Jim, the brand blends a family Sicilian amaro recipe with British botanicals to create "Bold British Botanical Spirits — Handmade with Integrity."
 
 ## Tone of Voice
 - **Knowledgeable but never pretentious** — share expertise like a trusted bartender friend, not a textbook

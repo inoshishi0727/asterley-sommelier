@@ -763,6 +763,28 @@
 .ab-send-btn:hover { background: var(--ink); }
 .ab-send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+/* ── Back button ─────────────────────────────────────────────────────────── */
+
+.ab-back-btn { font-family:var(--mono); font-size:9px; color:var(--claret); background:transparent; border:0; cursor:pointer; letter-spacing:0.3px; text-transform:uppercase; padding:8px 16px 4px; opacity:0.8; }
+.ab-back-btn:hover { opacity:1; }
+
+/* ── Collapsible product cards ───────────────────────────────────────────── */
+
+.ab-collapsed { display:none; }
+.ab-expand-toggle { font-family:var(--mono); font-size:9px; color:var(--claret); background:transparent; border:0.5px solid var(--claret); padding:4px 8px; cursor:pointer; letter-spacing:0.3px; text-transform:uppercase; margin-top:6px; }
+.ab-expand-toggle:hover { background:var(--claret); color:var(--cream); }
+
+/* ── Product name links in Jarvis text ───────────────────────────────────── */
+
+.ab-text-link { color:var(--claret); text-decoration:underline; text-decoration-style:dotted; }
+.ab-text-link:hover { text-decoration-style:solid; }
+
+/* ── Recipe card image ───────────────────────────────────────────────────── */
+
+.ab-recipe-top { display:flex; gap:12px; justify-content:space-between; align-items:flex-start; }
+.ab-recipe-top-text { flex:1; }
+.ab-recipe-img { width:56px; height:56px; object-fit:cover; flex-shrink:0; border:0.5px solid var(--claret-dim); }
+
 /* ── Mobile ──────────────────────────────────────────────────────────────── */
 
 @media (max-width: 480px) {

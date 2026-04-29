@@ -9,7 +9,7 @@
     "abv": 16,
     "volume": "500ml",
     "description": "English Sweet Vermouth made by infusing 31 botanicals with English pinot noir in the Italian rosso style. Notes of orange, cacao, rosemary and wormwood. Full-bodied and lower in sugar than many sweet vermouths, with delicate tannins from the pinot noir.",
-    "tastingNotes": "Bright and complex aperitif with notes of orange, cacao, rosemary and wormwood. Delicate tannins from pinot noir. Full-bodied yet balanced.",
+    "tastingNotes": "Bright and complex aperitivo with notes of orange, cacao, rosemary and wormwood. Delicate tannins from pinot noir. Full-bodied yet balanced.",
     "botanicals": [
       "Fennel", "Wormwood", "English Hops", "Thyme", "Orange", "Grapefruit",
       "Lime", "Sultanas", "Ginger", "Lemongrass", "Coriander", "Cardamom",
@@ -83,7 +83,7 @@
       "Myrrh", "Angelica"
     ],
     "servingSuggestions": [
-      "Sip with tonic for a complex aperitif",
+      "Sip with tonic for a complex aperitivo serve",
       "Add a splash to your gin and tonic for depth",
       "Enjoy neat with a single ice cube as a digestif",
       "Highball with ginger ale and an orange slice",
@@ -102,13 +102,13 @@
     "id": "asterley-original",
     "name": "ASTERLEY ORIGINAL.",
     "shortName": "Asterley Original",
-    "category": "aperitif",
+    "category": "aperitivo",
     "price": 20.95,
     "salePrice": 20.95,
     "currency": "GBP",
     "abv": 12,
     "volume": "500ml",
-    "description": "British Aperitivo. A homage to the aperitivo style, crafted to be enjoyed as an evening aperitif. Made using raw botanicals and natural extracts blended with British grain spirit. Balanced and elegant, avoiding excessive sweetness or bitterness.",
+    "description": "British Aperitivo. A homage to the aperitivo style, crafted to be enjoyed as an evening aperitivo. Made using raw botanicals and natural extracts blended with British grain spirit. Balanced and elegant, avoiding excessive sweetness or bitterness.",
     "tastingNotes": "Balanced and elegant with vibrant bitter orange and gentian bitterness, softened by raspberry and star anise sweetness. A refreshing, complex aperitivo.",
     "botanicals": [
       "Bitter Orange", "Gentian", "Rosemary", "Raspberry", "Star Anise",

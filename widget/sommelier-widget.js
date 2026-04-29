@@ -11,34 +11,74 @@ const MENU_SECTIONS = [
     id: 'aperitivo', title: 'Aperitivo', sub: 'to begin the evening',
     note: "Start light — bitter's the key that unlocks the appetite.",
     items: [
-      { name: 'Original Spritz',     desc: 'Our Aperitivo, prosecco, soda.',     price: '£11' },
-      { name: 'Estate & Tonic',      desc: 'Sweet vermouth, citrus tonic.',       price: '£9'  },
-      { name: 'Dispense Americano',  desc: 'Dispense, Estate, soda.',             price: '£10' },
+      { name: 'Original Spritz', desc: 'Our Aperitivo, prosecco, soda.', price: '£11',
+        jarvisSuggests: "Built around our Original Aperitivo — lighter than Campari, rhubarb and citrus forward. The easiest drink on the menu.",
+        product: { name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
+          img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
+          url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' } },
+      { name: 'Estate & Tonic', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
+        jarvisSuggests: "Estate sweet vermouth over citrus tonic — 31 botanicals do the heavy lifting. Just add ice.",
+        product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
+          img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
+          url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
+      { name: 'Dispense Americano', desc: 'Dispense, Estate, soda.', price: '£10',
+        jarvisSuggests: "Dispense in place of Campari. More depth, more bitterness — more worth your time.",
+        product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
+          img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+          url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
     ],
   },
   {
     id: 'stirred', title: 'Stirred', sub: 'quiet, considered',
     note: 'For the contemplative. Stirred thirty seconds, never shaken.',
     items: [
-      { name: 'The Asterley Negroni',  desc: 'Estate, Dispense, gin.',        price: '£12', star: true },
-      { name: "Schofield's Martini",   desc: "Gin, Schofield's, frozen.",     price: '£13' },
-      { name: 'White Negroni Society', desc: "Schofield's, Suze, gin.",       price: '£12' },
+      { name: 'The Asterley Negroni', desc: 'Estate, Dispense, gin.', price: '£12', star: true,
+        jarvisSuggests: "Equal parts Estate, Dispense, gin. Our house Negroni. Buy both bottles and you'll never run out.",
+        product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
+          img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+          url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
+      { name: "Schofield's Martini", desc: "Gin, Schofield's, frozen.", price: '£13',
+        jarvisSuggests: "Schofield's is built for this. Freeze the coupe 45 minutes before you pour. Don't rush it.",
+        product: { name: "SCHOFIELD'S.", sub: 'English Dry Vermouth', price: '£26.95',
+          img: 'https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132',
+          url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' } },
+      { name: 'White Negroni Society', desc: "Schofield's, Suze, gin.", price: '£12',
+        jarvisSuggests: "Schofield's dry instead of sweet vermouth, Suze for the gentian. Lighter, more spring-forward than a classic Negroni.",
+        product: { name: "SCHOFIELD'S.", sub: 'English Dry Vermouth', price: '£26.95',
+          img: 'https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132',
+          url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' } },
     ],
   },
   {
     id: 'long', title: 'Long Serves', sub: 'for a warm afternoon',
     note: 'Drinks that last a conversation.',
     items: [
-      { name: 'Estate Highball', desc: 'Sweet vermouth, citrus tonic.',     price: '£9'  },
-      { name: 'Fernet & Tonic',  desc: 'Britannica Fernet, Indian tonic.', price: '£10' },
+      { name: 'Estate Highball', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
+        jarvisSuggests: "50ml Estate, 75ml citrus tonic over ice. The simplest drink on the list — and often the best one.",
+        product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
+          img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
+          url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
+      { name: 'Fernet & Tonic', desc: 'Britannica Fernet, Indian tonic.', price: '£10',
+        jarvisSuggests: "Britannica is bracing — menthol, bitter, aromatic. Indian tonic cuts through it just enough. A late-afternoon drink.",
+        product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
+          img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
+          url: 'https://asterleybros.com/products/britannica-london-fernet' } },
     ],
   },
   {
-    id: 'digestif', title: 'Digestif', sub: 'to close the evening',
+    id: 'digestivo', title: 'Digestivo', sub: 'to close the evening',
     note: 'A bitter, reflective end. Neat, or one rock.',
     items: [
-      { name: 'Dispense, neat',    desc: '35ml, room temperature.', price: '£8' },
-      { name: 'Britannica, rocks', desc: '35ml, one cube.',         price: '£8' },
+      { name: 'Dispense, neat', desc: '35ml, room temperature.', price: '£8',
+        jarvisSuggests: "35ml at room temperature. No ice. Let the gentian and hops speak — they've earned it.",
+        product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
+          img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+          url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
+      { name: 'Britannica, rocks', desc: '35ml, one cube.', price: '£8',
+        jarvisSuggests: "One large ice cube. That's all. The cold opens up the menthol and softens the edge — just enough.",
+        product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
+          img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
+          url: 'https://asterleybros.com/products/britannica-london-fernet' } },
     ],
   },
 ];
@@ -49,7 +89,7 @@ const GLASSES = [
   { id: 'highball', name: 'Highball',      note: 'long, effervescent',       shape: 'highball'},
   { id: 'negroni',  name: 'Negroni',       note: 'bitter, balanced',         shape: 'negroni' },
   { id: 'flute',    name: 'Fizz',          note: 'sparkling, celebratory',   shape: 'flute'   },
-  { id: 'snifter',  name: 'Digestif',      note: 'warming, contemplative',   shape: 'snifter' },
+  { id: 'snifter',  name: 'Digestivo',     note: 'warming, contemplative',   shape: 'snifter' },
 ];
 
 const MOODS = [
@@ -101,9 +141,15 @@ const COCKTAILS = [
 ];
 
 function cocktailFor(glassId, moodId) {
-  const byMood  = { bright:'white-neg', dark:'boul', easy:'fern-gin', strong:'neg-scuro', fizzy:'spritz', spice:'toronto' };
-  const byGlass = { martini:'white-neg', rocks:'neg-scuro', highball:'fern-gin', negroni:'boul', flute:'spritz', snifter:'toronto' };
-  const id = byMood[moodId] || byGlass[glassId] || 'neg-scuro';
+  const matrix = {
+    martini:  { bright:'white-neg', dark:'boul',     easy:'white-neg', strong:'neg-scuro', fizzy:'white-neg', spice:'boul'      },
+    rocks:    { bright:'white-neg', dark:'boul',     easy:'boul',      strong:'neg-scuro', fizzy:'neg-scuro', spice:'boul'      },
+    highball: { bright:'spritz',   dark:'fern-gin',  easy:'fern-gin',  strong:'fern-gin',  fizzy:'spritz',    spice:'fern-gin'  },
+    negroni:  { bright:'white-neg', dark:'boul',     easy:'neg-scuro', strong:'neg-scuro', fizzy:'white-neg', spice:'neg-scuro' },
+    flute:    { bright:'spritz',   dark:'spritz',    easy:'spritz',    strong:'spritz',    fizzy:'spritz',    spice:'spritz'    },
+    snifter:  { bright:'toronto',  dark:'toronto',   easy:'toronto',   strong:'toronto',   fizzy:'toronto',   spice:'toronto'   },
+  };
+  const id = (matrix[glassId] || {})[moodId] || 'neg-scuro';
   return COCKTAILS.find(c => c.id === id);
 }
 
@@ -211,7 +257,6 @@ class AsterleySommelier extends HTMLElement {
     this._renderAccordion();
     this._renderBarContent();
     this._fetchMenu();
-    this._initChips();
     // Welcome message lives in the chat view
     this._addBotMessage({
       message: "Evening. Jarvis here — use Recipes to browse our cocktails, Make a Drink to find your perfect serve, or just ask me anything.",
@@ -224,14 +269,6 @@ class AsterleySommelier extends HTMLElement {
   // ── Note rotation ───────────────────────────────────────────────────────
 
   _startNoteRotation() {
-    const MSGS = [
-      "Ask Jarvis.",
-      "Find your serve.",
-      "Our botanicals.",
-      "Gift ideas?",
-      "A Negroni?",
-      "Make a drink.",
-    ];
     const LONGER_MSGS = [
       "I've a Negroni spec with your name on it when you're ready.",
       "What shall we make tonight?",
@@ -268,7 +305,7 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=8', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=9', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
@@ -425,20 +462,21 @@ class AsterleySommelier extends HTMLElement {
       if (isOpen) {
         itemsHTML = s.items.map((it, j) => {
           const chosen  = this._menuChosenId === `${s.id}-${j}`;
-          const recipeId = it.id || '';
-          const name     = it.name || it.k || '';
-          const desc     = it.desc || it.v || '';
+          const name    = it.name || it.k || '';
+          const desc    = it.desc || it.v || '';
+          const suggest = it.jarvisSuggests || 'Ask me for the full recipe or to find the right bottle.';
           return `
             <button class="ab-item" data-section="${s.id}" data-idx="${j}">
               <div class="ab-item-row">
-                <div class="ab-item-name">${this._esc(name)}</div>
+                <div class="ab-item-name">${this._esc(name)}${it.star ? ' <span class="ab-star">★</span>' : ''}</div>
                 <div class="ab-item-dots"></div>
+                <div class="ab-item-price">${this._esc(it.price || it.t || '')}</div>
               </div>
               <div class="ab-item-desc">${this._esc(desc)}</div>
               ${chosen ? `
                 <div class="ab-jarvis-aside a-rise">
                   <div class="ab-aside-label">Jarvis suggests →</div>
-                  <div class="ab-aside-text">&ldquo;Made with our own botanicals — ask me for the full spec or to find the right bottle for your bar.&rdquo;</div>
+                  <div class="ab-aside-text">&ldquo;${this._esc(suggest)}&rdquo;</div>
                   ${it.product ? `
                   <div class="ab-bcard-shop-label" style="margin-top:10px">Get the bottle</div>
                   <a class="ab-product-card" href="${it.product.url}" target="_blank">
@@ -555,6 +593,7 @@ class AsterleySommelier extends HTMLElement {
 
       case 'inquire':
         content.innerHTML = `
+          <button class="ab-back-btn" id="bar-back">← Back</button>
           <div class="ab-mood-list">
             ${MOODS.map((m,i) => `
               <button class="ab-mood-btn a-rise" data-id="${m.id}" style="animation-delay:${i*40}ms">
@@ -565,6 +604,11 @@ class AsterleySommelier extends HTMLElement {
                 <div class="ab-mood-arrow">→</div>
               </button>`).join('')}
           </div>`;
+        content.querySelector('#bar-back').onclick = () => {
+          this._barStage = 'intro';
+          this._barGlass = null;
+          this._renderBarContent();
+        };
         content.querySelectorAll('.ab-mood-btn').forEach(btn => {
           btn.onclick = () => {
             this._barMood  = MOODS.find(m => m.id === btn.dataset.id);
@@ -645,20 +689,7 @@ class AsterleySommelier extends HTMLElement {
   // ── V1 Chat ─────────────────────────────────────────────────────────────
 
   _initChips() {
-    const chips = this.shadowRoot.getElementById('chips');
-    if (!chips) return;
-    [
-      { label: '§ What do you make?', type: 'question', value: 'What products do you offer?' },
-      { label: '§ Recipe, please',    type: 'question', value: 'Surprise me with a cocktail recipe' },
-      { label: '§ Help me choose',    type: 'bar' },
-      { label: '§ Pair with dinner',  type: 'question', value: 'What pairs well with dinner?' },
-    ].forEach(a => {
-      const btn = document.createElement('button');
-      btn.className = 'ab-chip';
-      btn.textContent = a.label;
-      btn.onclick = () => this._handleAction(a);
-      chips.appendChild(btn);
-    });
+    // Static chips removed — dynamic suggestedActions chips drive this area
   }
 
   _addUserMessage(text) {
@@ -686,11 +717,31 @@ class AsterleySommelier extends HTMLElement {
       this._typewrite(div.querySelector('.ab-msg-text-j'), data.message);
     }
 
+    const asksQuestion = data.message?.trimEnd().endsWith('?');
+
     if (data.productCards?.length) {
-      const wrap = document.createElement('div');
-      wrap.className = 'ab-product-cards';
-      data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
-      container.appendChild(wrap);
+      if (asksQuestion) {
+        const count = data.productCards.length;
+        const toggle = document.createElement('button');
+        toggle.className = 'ab-expand-toggle';
+        toggle.textContent = `Browse suggestions (${count}) →`;
+        const wrap = document.createElement('div');
+        wrap.className = 'ab-product-cards ab-collapsed';
+        data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
+        toggle.onclick = () => {
+          wrap.classList.toggle('ab-collapsed');
+          toggle.textContent = wrap.classList.contains('ab-collapsed')
+            ? `Browse suggestions (${count}) →`
+            : 'Hide suggestions ↑';
+        };
+        container.appendChild(toggle);
+        container.appendChild(wrap);
+      } else {
+        const wrap = document.createElement('div');
+        wrap.className = 'ab-product-cards';
+        data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
+        container.appendChild(wrap);
+      }
     }
 
     if (data.recipeCards?.length) {
@@ -723,8 +774,49 @@ class AsterleySommelier extends HTMLElement {
     const t = setInterval(() => {
       el.textContent = text.slice(0, ++i);
       this._scrollToBottom();
-      if (i >= text.length) { clearInterval(t); el.classList.remove('ab-caret'); }
+      if (i >= text.length) {
+        clearInterval(t);
+        el.classList.remove('ab-caret');
+        this._linkifyMessage(el);
+      }
     }, speed);
+  }
+
+  _linkifyMessage(el) {
+    const LINKS = [
+      { re: /\bOriginal Aperitivo\b/g, url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
+      { re: /\bAsterley Original\b/g,  url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
+      { re: /\bSchofield’?s\b/g,  url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' },
+      { re: /\bSchofields?\b/g,        url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' },
+      { re: /\bCunard\b/g,             url: 'https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth' },
+      { re: /\bBritannica\b/g,         url: 'https://asterleybros.com/products/britannica-london-fernet' },
+      { re: /\bDispense\b/g,           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' },
+      { re: /\bEstate\b/g,             url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' },
+    ];
+    const text = el.textContent;
+    const spans = [];
+    LINKS.forEach(({ re, url }) => {
+      const rex = new RegExp(re.source, re.flags);
+      let m;
+      while ((m = rex.exec(text)) !== null) {
+        spans.push({ start: m.index, end: m.index + m[0].length, url, matched: m[0] });
+      }
+    });
+    if (spans.length === 0) return;
+    spans.sort((a, b) => a.start - b.start);
+    const deduped = [];
+    let lastEnd = 0;
+    for (const s of spans) {
+      if (s.start >= lastEnd) { deduped.push(s); lastEnd = s.end; }
+    }
+    let html = '', pos = 0;
+    for (const s of deduped) {
+      if (s.start > pos) html += this._esc(text.slice(pos, s.start));
+      html += `<a href="${s.url}" target="_blank" class="ab-text-link">${this._esc(s.matched)}</a>`;
+      pos = s.end;
+    }
+    if (pos < text.length) html += this._esc(text.slice(pos));
+    el.innerHTML = html;
   }
 
   _createProductCard(card) {
@@ -760,10 +852,23 @@ class AsterleySommelier extends HTMLElement {
       </div>`).join('');
     const steps = (card.method || []).map((s,i) =>
       `<div class="ab-step">${i+1}. ${this._esc(s)}</div>`).join('');
+    // Match recipe to a known cocktail to get a product image
+    const cardNameLower = (card.name || '').toLowerCase();
+    const matchedCocktail = COCKTAILS.find(c => {
+      const cNameLower = c.name.toLowerCase();
+      return cNameLower === cardNameLower ||
+        cardNameLower.includes(cNameLower.split(' ').slice(0, 2).join(' '));
+    });
+    const imgUrl = card.imageUrl || matchedCocktail?.products?.[0]?.img;
     div.innerHTML = `
-      <div class="ab-recipe-eyebrow">Prescription №${num} · serves one</div>
-      <div class="ab-recipe-name">${this._esc(card.name)}</div>
-      ${card.description ? `<div class="ab-recipe-desc">${this._esc(card.description)}</div>` : ''}
+      <div class="ab-recipe-top">
+        <div class="ab-recipe-top-text">
+          <div class="ab-recipe-eyebrow">Prescription №${num} · serves one</div>
+          <div class="ab-recipe-name">${this._esc(card.name)}</div>
+          ${card.description ? `<div class="ab-recipe-desc">${this._esc(card.description)}</div>` : ''}
+        </div>
+        ${imgUrl ? `<img class="ab-recipe-img" src="${this._esc(imgUrl)}" alt="" loading="lazy">` : ''}
+      </div>
       <div class="ab-recipe-rule"></div>
       ${ings}
       ${steps ? `<div class="ab-recipe-rule" style="margin:10px 0 8px"></div>${steps}` : ''}
@@ -856,7 +961,6 @@ class AsterleySommelier extends HTMLElement {
       const res = await fetch('/cart.js');
       if (!res.ok) return null;
       const cart = await res.json();
-      // Match backend PageContext shape: cartItems[] + cartTotal
       return {
         cartItems: cart.items.map(i => ({
           variantId: String(i.variant_id),
