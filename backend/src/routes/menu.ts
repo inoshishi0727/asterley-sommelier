@@ -17,6 +17,7 @@ interface MenuItem {
   name: string;
   desc: string;
   occasion: string[];
+  jarvisSuggests?: string;
   product?: MenuProduct;
 }
 
@@ -41,7 +42,7 @@ function classifyRecipe(r: Recipe): string {
     tags.some((t) => ["stirred", "dinner party", "negroni-week"].includes(t)) &&
     !isDigestif;
 
-  if (isDigestif) return "digestif";
+  if (isDigestif) return "digestivo";
   if (isStirred) return "stirred";
   if (isLong) return "long";
   return "aperitivo";
@@ -71,8 +72,8 @@ menuRouter.get("/", (_req, res) => {
       items: [],
     },
     {
-      id: "digestif",
-      title: "Digestif",
+      id: "digestivo",
+      title: "Digestivo",
       sub: "to close the evening",
       note: "A bitter, reflective end. Neat, on ice, or long.",
       items: [],
@@ -86,11 +87,15 @@ menuRouter.get("/", (_req, res) => {
     const section = sectionMap[sectionId];
     if (section && section.items.length < 6) {
       const p = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
+      const jarvisSuggests = p
+        ? `${p.shortName} brings ${p.tastingNotes.charAt(0).toLowerCase() + p.tastingNotes.slice(1)}`
+        : undefined;
       section.items.push({
         id: recipe.id,
         name: recipe.name,
         desc: recipe.description,
         occasion: recipe.occasion,
+        jarvisSuggests,
         product: p ? {
           name: p.name,
           sub: p.shortName ?? p.name,

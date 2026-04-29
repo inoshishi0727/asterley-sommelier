@@ -52,7 +52,10 @@ chatRouter.post("/", async (req: Request, res: Response) => {
 
     res.json(response);
   } catch (error) {
-    console.error("Chat error:", error);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    const errStack = error instanceof Error ? error.stack : undefined;
+    console.error("Chat error:", errMsg);
+    if (errStack) console.error(errStack);
 
     // Graceful fallback
     res.status(500).json({
