@@ -724,23 +724,31 @@ class AsterleySommelier extends HTMLElement {
       div.innerHTML = `<div class="ab-msg-meta ab-meta-j">← JARVIS · ${now}</div>
         <div class="ab-msg-text ab-msg-text-j"></div>`;
       container.appendChild(div);
-      this._typewrite(div.querySelector('.ab-msg-text-j'), data.message);
+      this._typewrite(div.querySelector('.ab-msg-text-j'), data.message, 16, () => {
+        this._appendCards(data, container);
+      });
+    } else {
+      this._appendCards(data, container);
     }
 
+    this._scrollToBottom();
+  }
+
+  _appendCards(data, container) {
     if (data.productCards?.length) {
       const wrap = document.createElement('div');
       wrap.className = 'ab-product-cards';
       data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
       container.appendChild(wrap);
+      this._scrollToBottom();
     }
-
     if (data.recipeCards?.length) {
       const wrap = document.createElement('div');
       wrap.className = 'ab-recipe-cards';
       data.recipeCards.forEach(c => wrap.appendChild(this._createRecipeCard(c)));
       container.appendChild(wrap);
+      this._scrollToBottom();
     }
-
     if (data.suggestedActions?.length) {
       const wrap = document.createElement('div');
       wrap.className = 'ab-suggestions';
@@ -752,12 +760,11 @@ class AsterleySommelier extends HTMLElement {
         wrap.appendChild(btn);
       });
       container.appendChild(wrap);
+      this._scrollToBottom();
     }
-
-    this._scrollToBottom();
   }
 
-  _typewrite(el, text, speed = 16) {
+  _typewrite(el, text, speed = 16, onDone = null) {
     el.textContent = '';
     el.classList.add('ab-caret');
     let i = 0;
@@ -768,6 +775,7 @@ class AsterleySommelier extends HTMLElement {
         clearInterval(t);
         el.classList.remove('ab-caret');
         this._linkifyMessage(el);
+        if (onDone) onDone();
       }
     }, speed);
   }
@@ -799,16 +807,18 @@ class AsterleySommelier extends HTMLElement {
     let m;
     const hereRe = /\bhere\b[:\s]+(https?:\/\/[^\s,;]+)/gi;
     while ((m = hereRe.exec(text)) !== null) {
-      spans.push({ start: m.index, end: m.index + m[0].length, url: m[1], matched: 'here' });
+      const rawUrl = m[1].replace(/[.,;:!?]+$/, '');
+      spans.push({ start: m.index, end: m.index + m[0].length, url: rawUrl, matched: 'here' });
     }
 
     // Bare URLs not already inside a "here: URL" span — domain-only label
     const urlRe = /https?:\/\/[^\s,;]+/g;
     while ((m = urlRe.exec(text)) !== null) {
       if (spans.some(s => s.start <= m.index && m.index < s.end)) continue;
+      const rawUrl = m[0].replace(/[.,;:!?]+$/, '');
       try {
-        const u = new URL(m[0]);
-        spans.push({ start: m.index, end: m.index + m[0].length, url: m[0], matched: u.hostname.replace('www.', '') });
+        const u = new URL(rawUrl);
+        spans.push({ start: m.index, end: m.index + m[0].length, url: rawUrl, matched: u.hostname.replace('www.', '') });
       } catch (_) {}
     }
 

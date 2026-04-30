@@ -142,8 +142,14 @@ export async function refreshProductCache(): Promise<void> {
       return;
     }
 
-    cache = { products, fetchedAt: Date.now() };
-    console.log(`[shopifyClient] Cache refreshed — ${products.length} products`);
+    // Preserve static-only products (subscriptions, experiences, vouchers, bundles)
+    // that Shopify doesn't carry — they'd otherwise be lost when cache is replaced.
+    const shopifyIds = new Set(products.map(p => p.id));
+    const staticOnly = (productCatalog as Product[]).filter(p => !shopifyIds.has(p.id));
+    const merged = [...products, ...staticOnly];
+
+    cache = { products: merged, fetchedAt: Date.now() };
+    console.log(`[shopifyClient] Cache refreshed — ${products.length} Shopify + ${staticOnly.length} static-only products`);
   } catch (err) {
     console.warn("[shopifyClient] Refresh failed:", (err as Error).message);
   }
