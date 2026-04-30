@@ -34,6 +34,7 @@ export interface Recipe {
   occasion: string[];
   difficulty: "easy" | "medium" | "advanced";
   imageUrl?: string;
+  jarvisSuggests?: string;
 }
 
 export interface Ingredient {

@@ -32,6 +32,7 @@ ${brandVoice}
 - ALWAYS use tools to look up product data before recommending. Never guess or rely on memory.
 - If a tool returns no results, say so honestly.
 - End your message with a natural follow-up question or suggestion to keep the conversation flowing.
+- When directing a customer to a specific page (masterclass, gift vouchers, subscription etc.), include the full URL from the Key URLs list in your response text.
 
 ## Conversation Context
 The customer is browsing the Asterley Bros online shop. Help them find the perfect product, suggest cocktails, answer questions about ingredients/allergens/shipping, and guide them toward a purchase. Be conversational and helpful, not pushy.`;
@@ -249,6 +250,13 @@ export async function chat(
     }
   }
 
+  // ── Allergen guard ──
+  const ALLERGY_KEYWORDS = ['allerg', 'nut', 'hazelnut', 'gluten', 'sulphit', 'lactose', 'dairy', 'safe for'];
+  const isAllergyQuery = ALLERGY_KEYWORDS.some(k => userMessage.toLowerCase().includes(k));
+  const allergenInstruction = isAllergyQuery
+    ? `\n\n## ALLERGEN SAFETY — active for this query\nNEVER say any product is "safe" or "free from" any allergen. Share only what the tool returns. State the product label is the only authoritative source. Direct the customer to hello@asterleybros.com before purchasing if the allergy is serious. Do NOT write "it is safe" or "it doesn't contain X."`
+    : '';
+
   // Build conversation history
   const conversationHistory = buildHistory(history);
 
@@ -266,7 +274,7 @@ export async function chat(
     model: "gemini-2.5-flash",
     contents,
     config: {
-      systemInstruction: SYSTEM_INSTRUCTION,
+      systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction,
       tools,
       temperature: 0.7,
       maxOutputTokens: 1024,
@@ -314,7 +322,7 @@ export async function chat(
       model: "gemini-2.5-flash",
       contents,
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction,
         tools,
         temperature: 0.7,
         maxOutputTokens: 1024,
@@ -324,6 +332,23 @@ export async function chat(
     rounds++;
   }
 
+  // ── Hallucination guard ──
+  // If product_lookup ran and found nothing, inject a denial preamble and re-query
+  const productLookupRanEmpty = allToolResults.some(
+    r => r.name === 'product_lookup' && !r.parsed.found
+  );
+  if (productLookupRanEmpty) {
+    contents.push({
+      role: 'user',
+      parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Begin your response immediately with a clear denial, e.g. \"We don't have anything by that name in our range.\" Do not react positively to the premise before correcting it.]" }],
+    } as Content);
+    response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents,
+      config: { systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction, tools, temperature: 0.7, maxOutputTokens: 1024 },
+    });
+  }
+
   // Extract Gemini's text-only response
   const messageText =
     response.candidates?.[0]?.content?.parts
@@ -331,14 +356,18 @@ export async function chat(
       .map((part: any) => part.text)
       .join("") || "I'd be happy to help — could you tell me a bit more about what you're looking for?";
 
+  // ── Allergen post-processing footer ──
+  const ALLERGEN_FOOTER = '\n\n_Allergen note: always check the product label before purchasing. For serious allergies, contact hello@asterleybros.com before ordering._';
+  const finalMessage = isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText;
+
   // Backend assembles structured response from tool results
   const productCards = buildProductCards(allToolResults);
   const recipeCards = buildRecipeCards(allToolResults);
-  const suggestedActions = buildSuggestedActions(allToolResults, productCards, messageText);
+  const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
 
   return {
     sessionId: "", // Set by the route
-    message: messageText,
+    message: finalMessage,
     productCards,
     recipeCards,
     suggestedActions,

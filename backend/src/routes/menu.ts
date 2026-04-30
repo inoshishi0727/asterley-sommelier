@@ -87,9 +87,10 @@ menuRouter.get("/", (_req, res) => {
     const section = sectionMap[sectionId];
     if (section && section.items.length < 6) {
       const p = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
-      const jarvisSuggests = p
-        ? `${p.shortName} brings ${p.tastingNotes.charAt(0).toLowerCase() + p.tastingNotes.slice(1)}`
+      const generated = p
+        ? `${p.shortName} — ${p.tastingNotes.split('.')[0].charAt(0).toLowerCase() + p.tastingNotes.split('.')[0].slice(1)}.`
         : undefined;
+      const jarvisSuggests = recipe.jarvisSuggests ?? generated;
       section.items.push({
         id: recipe.id,
         name: recipe.name,

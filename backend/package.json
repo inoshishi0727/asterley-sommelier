@@ -15,7 +15,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "tsx": "^4.19.0",
     "typescript": "^5.7.0",
     "uuid": "^11.1.0"
   },
@@ -24,6 +23,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.12.0",
-    "@types/uuid": "^10.0.0"
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.21.0"
   }
 }

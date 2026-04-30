@@ -4,6 +4,15 @@
  * Design: V1 Dispensatory + V2 Behind the Bar + V4 Menu Unfurls
  */
 
+// ─── Helpers ──────────────────────────────────────────────────────────────
+
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Morning';
+  if (h < 18) return 'Afternoon';
+  return 'Evening';
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────
 
 const MENU_SECTIONS = [
@@ -259,7 +268,7 @@ class AsterleySommelier extends HTMLElement {
     this._fetchMenu();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: "Evening. Jarvis here — use Recipes to browse our cocktails, Make a Drink to find your perfect serve, or just ask me anything.",
+      message: `${getGreeting()}. Jarvis here — use Recipes to browse our cocktails, Make a Drink to find your perfect serve, or just ask me anything.`,
       productCards: [], recipeCards: [],
       suggestedActions: [],
     });
@@ -331,7 +340,7 @@ class AsterleySommelier extends HTMLElement {
           </div>
           <div class="ab-subrule">
             <div class="ab-subrule-line"></div>
-            <span class="ab-subrule-text">№ MMXXVI · SE26 · OPEN</span>
+            <span class="ab-subrule-text">№ MMXXVI · SE23 · OPEN</span>
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
@@ -363,7 +372,7 @@ class AsterleySommelier extends HTMLElement {
         <div class="ab-view ab-view-hidden" id="view-bar">
           <div class="ab-jarvis-line" id="jarvis-line"></div>
           <div id="bar-content"></div>
-          <div class="ab-bar-footer">asterley bros · dalmain rd, SE23 · est. MMXV</div>
+          <div class="ab-bar-footer">asterley bros · dalmain rd, SE23 · est. MMXIV</div>
         </div>
 
         <!-- ── View: Chat (V1) ── -->
@@ -557,7 +566,7 @@ class AsterleySommelier extends HTMLElement {
 
     const cocktail = cocktailFor(this._barGlass?.id, this._barMood?.id);
     const lines = {
-      intro:   "Evening. Pull up a stool — I'm Jarvis. What shape of glass feels right tonight?",
+      intro:   `${getGreeting()}. Pull up a stool — I'm Jarvis. What shape of glass feels right tonight?`,
       inquire: `${this._barGlass?.name || 'That glass'}. An excellent instinct. Tell me your mood.`,
       pouring: `A ${cocktail?.name || 'serve'}, coming up. Watch the ice.`,
       card:    "There. Yours to keep — or I'll print it for the fridge.",

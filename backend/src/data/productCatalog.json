@@ -153,7 +153,7 @@
       "Pair with dark spirits for indulgent, opulent cocktails",
       "Toronto cocktail: 60ml rye whisky, 15ml Britannica, dash of simple syrup, Angostura bitters"
     ],
-    "allergens": ["Sulphites", "Gluten"],
+    "allergens": ["Sulphites", "Gluten", "TreeNuts"],
     "isVegan": true,
     "isGlutenFree": false,
     "shopifyVariantId": "britannica-500ml",
@@ -276,20 +276,22 @@
     "price": 14.50,
     "currency": "GBP",
     "abv": null,
-    "volume": "Monthly delivery",
-    "description": "A monthly Negroni subscription club. Each month receive a curated Negroni recipe created in collaboration with top bartenders worldwide, along with all the ingredients to make it at home.",
-    "tastingNotes": "Each month is different — explore Negroni variations from the world's best bartenders.",
+    "volume": "2 Negronis per month",
+    "description": "A monthly subscription club for Negroni lovers. Each month receive 2 seasonal Negronis crafted in collaboration with the world's best bars and bartenders, delivered to your door on the 10th. Your first delivery includes a Negroni Society Membership Card. Sign up for 6 or 12 months and we'll send a free Negroni Box to anyone in the UK as a gift. Cancel anytime — no notice period required. To manage your subscription or change your delivery address, contact hello@asterleybros.com.",
+    "tastingNotes": "Each month is different — two seasonal Negroni variations crafted by top bartenders worldwide.",
     "botanicals": [],
     "servingSuggestions": [
-      "Follow the included recipe card each month",
-      "Join the members-only community for tips and discussions"
+      "Monthly: £14.50/month",
+      "6 months: £82.62 (5% discount) — includes a free Negroni Box gift",
+      "12 months: £156.60 (10% discount) — includes a free Negroni Box gift",
+      "Can also be gifted — see the gift membership voucher"
     ],
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
     "shopifyVariantId": "negroni-society-monthly",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Photo19-02-2026_100118_3.png?v=1771492147",
-    "productUrl": "https://asterleybros.com/products/the-negroni-society",
+    "productUrl": "https://shop.asterleybros.com/products/the-negroni-society-new",
     "inStock": true
   },
   {
@@ -315,6 +317,31 @@
     "shopifyVariantId": "amaro-masterclass-single",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944",
     "productUrl": "https://asterleybros.com/products/introduction-to-amaro-a-masterclass",
+    "inStock": true
+  },
+  {
+    "id": "gift-voucher",
+    "name": "Asterley Bros Gift Card",
+    "shortName": "Gift Card",
+    "category": "voucher",
+    "price": 10.00,
+    "currency": "GBP",
+    "abv": null,
+    "volume": "£10 / £20 / £30 / £50 / £100",
+    "description": "Give the gift of good taste. Asterley Bros Gift Cards are delivered instantly by email and redeemable across our full online shop — spirits, bundles, masterclasses, or a Negroni Society membership. Available in denominations of £10, £20, £30, £50, and £100. You can also send directly to the recipient with a personal message.",
+    "tastingNotes": "",
+    "botanicals": [],
+    "servingSuggestions": [
+      "Denominations: £10, £20, £30, £50, £100",
+      "Delivered instantly by email — can be sent directly to the recipient",
+      "Redeemable on spirits, bundles, masterclasses, or Negroni Society membership"
+    ],
+    "allergens": [],
+    "isVegan": true,
+    "isGlutenFree": true,
+    "shopifyVariantId": "gift-card",
+    "imageUrl": "https://asterleybros.com/cdn/shop/files/wmremove-transformed.png?v=1765900963",
+    "productUrl": "https://asterleybros.com/products/asterley-bros-gift-cards",
     "inStock": true
   }
 ]
