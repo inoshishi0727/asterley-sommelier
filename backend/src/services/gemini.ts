@@ -225,6 +225,24 @@ function buildConversationalChips(lower: string): SuggestedAction[] {
   ];
 }
 
+// ── Gemini call with retry for transient capacity errors ──
+
+async function generateWithRetry(params: Parameters<typeof ai.models.generateContent>[0], maxRetries = 3): Promise<ReturnType<typeof ai.models.generateContent>> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await ai.models.generateContent(params);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      const isRetryable = msg.includes('503') || msg.includes('UNAVAILABLE') || msg.includes('high demand') || msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED');
+      if (!isRetryable) throw err;
+      lastErr = err;
+      await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
+    }
+  }
+  throw lastErr;
+}
+
 // ── Main Chat Function ──
 
 export async function chat(
@@ -288,7 +306,7 @@ export async function chat(
   const allToolResults: ToolResult[] = [];
 
   // Initial Gemini request
-  let response = await ai.models.generateContent({
+  let response = await generateWithRetry({
     model: "gemini-2.5-flash",
     contents,
     config: {
@@ -336,7 +354,7 @@ export async function chat(
     } as Content);
 
     // Ask Gemini to continue with tool results
-    response = await ai.models.generateContent({
+    response = await generateWithRetry({
       model: "gemini-2.5-flash",
       contents,
       config: {
@@ -360,7 +378,7 @@ export async function chat(
       role: 'user',
       parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Begin your response immediately with a clear denial, e.g. \"We don't have anything by that name in our range.\" Do not react positively to the premise before correcting it.]" }],
     } as Content);
-    response = await ai.models.generateContent({
+    response = await generateWithRetry({
       model: 'gemini-2.5-flash',
       contents,
       config: { systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction, tools, temperature: 0.7, maxOutputTokens: 1024 },
