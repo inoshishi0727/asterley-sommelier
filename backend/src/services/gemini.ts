@@ -95,12 +95,15 @@ function buildHistory(messages: Message[]): Content[] {
 // ── Card Builders ──
 // Extract product/recipe cards from accumulated tool results.
 
-function buildProductCards(toolResults: ToolResult[]): ProductCard[] {
+function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<string>): ProductCard[] {
   const cards: ProductCard[] = [];
 
   for (const result of toolResults) {
     if (result.name === "product_lookup" && result.parsed.found) {
       for (const p of result.parsed.products || []) {
+        if (flaggedAllergens?.size && (p.allergens as string[] | undefined)?.some(a => flaggedAllergens.has(a))) {
+          continue; // don't show cards for products containing the flagged allergen
+        }
         cards.push({
           productId: p.id,
           name: p.name,
@@ -253,8 +256,23 @@ export async function chat(
   // ── Allergen guard ──
   const ALLERGY_KEYWORDS = ['allerg', 'nut', 'hazelnut', 'gluten', 'sulphit', 'lactose', 'dairy', 'safe for'];
   const isAllergyQuery = ALLERGY_KEYWORDS.some(k => userMessage.toLowerCase().includes(k));
+
+  // Map query keywords → catalog allergen names for card filtering
+  const ALLERGEN_KEYWORD_MAP: Record<string, string[]> = {
+    'nut':      ['TreeNuts'],
+    'hazelnut': ['TreeNuts'],
+    'gluten':   ['Gluten'],
+    'sulphit':  ['Sulphites'],
+    'lactose':  ['Dairy'],
+    'dairy':    ['Dairy'],
+  };
+  const flaggedAllergens = new Set<string>();
+  Object.entries(ALLERGEN_KEYWORD_MAP).forEach(([k, allergens]) => {
+    if (userMessage.toLowerCase().includes(k)) allergens.forEach(a => flaggedAllergens.add(a));
+  });
+
   const allergenInstruction = isAllergyQuery
-    ? `\n\n## ALLERGEN SAFETY — active for this query\nNEVER say any product is "safe" or "free from" any allergen. Share only what the tool returns. State the product label is the only authoritative source. Direct the customer to hello@asterleybros.com before purchasing if the allergy is serious. Do NOT write "it is safe" or "it doesn't contain X."`
+    ? `\n\n## ALLERGEN SAFETY — active for this query\nNEVER say any product is "safe" or "free from" any allergen. Share only what the tool returns. State the product label is the only authoritative source. Direct the customer to hello@asterleybros.com before purchasing if the allergy is serious. Do NOT write "it is safe" or "it doesn't contain X."\nIMPORTANT: If the product the customer asked about contains the allergen they mentioned, acknowledge clearly that it contains that allergen and DO NOT recommend it, link to it, or suggest it as an option. Pivot immediately to alternatives that do not contain that allergen.`
     : '';
 
   // Build conversation history
@@ -361,7 +379,7 @@ export async function chat(
   const finalMessage = isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText;
 
   // Backend assembles structured response from tool results
-  const productCards = buildProductCards(allToolResults);
+  const productCards = buildProductCards(allToolResults, flaggedAllergens);
   const recipeCards = buildRecipeCards(allToolResults);
   const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
 
