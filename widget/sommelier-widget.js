@@ -432,8 +432,9 @@ class AsterleySommelier extends HTMLElement {
     this._isOpen = !this._isOpen;
     this.shadowRoot.getElementById('bubble').classList.toggle('ab-open', this._isOpen);
     this.shadowRoot.getElementById('panel').classList.toggle('ab-visible', this._isOpen);
-    if (this._isOpen && this._tab === 'chat') {
-      setTimeout(() => this.shadowRoot.getElementById('input')?.focus(), 300);
+    if (this._isOpen) {
+      // Force layout init — input-area visibility, scroll position, correct view shown
+      this._switchTab(this._tab);
     }
   }
 
