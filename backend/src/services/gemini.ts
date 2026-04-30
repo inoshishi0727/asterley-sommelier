@@ -30,9 +30,10 @@ ${brandVoice}
 - Keep responses concise: 2-4 sentences. The UI will display product and recipe cards alongside your text automatically — you do not need to reproduce full product details or recipe steps in your message.
 - When tools return product or recipe data, reference them naturally (e.g. "Our Estate vermouth would be perfect for that") but don't list out prices, ABV, or ingredients — the cards handle that.
 - ALWAYS use tools to look up product data before recommending. Never guess or rely on memory.
-- For any question about the Negroni Society (pricing, cancellation, benefits, membership, subscription), call product_lookup with productId "negroni-society" so the subscription card is shown.
+- For ANY question about the Negroni Society (pricing, cancel, benefits, membership, subscription): you MUST call product_lookup with the exact argument productId="negroni-society". Do not use query or category — use productId only.
 - If a tool returns no results, say so honestly.
-- Never open with filler phrases like "Oh, if you're looking...", "We certainly do!", "That's a great question!", "Absolutely!", "Of course!" — start directly with the answer.
+- Never open with: "We certainly do", "Absolutely", "Of course", "Great question", "Oh if you're looking", "Happy to help", "Certainly". Start with the fact.
+- Never describe products as "wonderful", "fantastic", "delightful", "lovely", "amazing" — let the product cards speak.
 - When directing a customer to a specific page (masterclass, gift vouchers, subscription etc.), include the full URL from the Key URLs list in your response text.
 
 ## Conversation Context
@@ -305,73 +306,48 @@ export async function chat(
 
   // Accumulate all tool results across rounds
   const allToolResults: ToolResult[] = [];
+  // Accumulate text seen in any model turn (model may produce text alongside tool calls)
+  let collectedText = '';
 
-  // Initial Gemini request
-  let response = await generateWithRetry({
-    model: "gemini-2.5-flash",
-    contents,
-    config: {
-      systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction,
-      tools,
-      temperature: 0.7,
-      maxOutputTokens: 1024,
-    },
-  });
+  const geminiConfig = { systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction, tools, temperature: 0.7, maxOutputTokens: 1024 };
 
-  // Tool call loop — execute up to 5 rounds of tool calls
-  let rounds = 0;
-  while (rounds < 5) {
-    const candidate = response.candidates?.[0];
-    if (!candidate?.content?.parts) break;
+  // ── Reusable tool executor loop ──
+  async function runToolLoop(maxRounds: number) {
+    let r = 0;
+    while (r < maxRounds) {
+      const candidate = response.candidates?.[0];
+      if (!candidate?.content?.parts) break;
 
-    const functionCalls = candidate.content.parts.filter(
-      (part: any) => part.functionCall
-    );
+      // Capture any text produced in this turn
+      const textInTurn = candidate.content.parts.filter((p: any) => p.text).map((p: any) => p.text).join('');
+      if (textInTurn) collectedText = textInTurn;
 
-    if (functionCalls.length === 0) break;
+      const functionCalls = candidate.content.parts.filter((part: any) => part.functionCall);
+      if (functionCalls.length === 0) break;
 
-    // Add model's response (with function calls) to contents
-    contents.push({
-      role: "model",
-      parts: candidate.content.parts,
-    } as Content);
+      contents.push({ role: "model", parts: candidate.content.parts } as Content);
 
-    // Execute each tool call, collect results for both Gemini and card assembly
-    const functionResponses = functionCalls.map((part: any) => {
-      const result = executeTool(part.functionCall.name, part.functionCall.args);
-      allToolResults.push(result);
-      return {
-        functionResponse: {
-          name: part.functionCall.name,
-          response: result.parsed,
-        },
-      };
-    });
+      const functionResponses = functionCalls.map((part: any) => {
+        const result = executeTool(part.functionCall.name, part.functionCall.args);
+        allToolResults.push(result);
+        return { functionResponse: { name: part.functionCall.name, response: result.parsed } };
+      });
 
-    // Add tool results to conversation
-    contents.push({
-      role: "user",
-      parts: functionResponses,
-    } as Content);
+      contents.push({ role: "user", parts: functionResponses } as Content);
 
-    // Ask Gemini to continue with tool results
-    response = await generateWithRetry({
-      model: "gemini-2.5-flash",
-      contents,
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction,
-        tools,
-        temperature: 0.7,
-        maxOutputTokens: 1024,
-      },
-    });
-
-    rounds++;
+      response = await generateWithRetry({ model: "gemini-2.5-flash", contents, config: geminiConfig });
+      r++;
+    }
   }
 
+  // Initial Gemini request
+  let response = await generateWithRetry({ model: "gemini-2.5-flash", contents, config: geminiConfig });
+
+  // Main tool call loop — up to 5 rounds
+  await runToolLoop(5);
+
   // ── Hallucination guard ──
-  // Only fire if ALL product_lookups returned empty — a secondary lookup for an
-  // alternative product returning empty should not trigger a denial.
+  // Only fire if ALL product_lookups returned empty.
   const productLookups = allToolResults.filter(r => r.name === 'product_lookup');
   const productLookupRanEmpty = productLookups.length > 0 &&
     productLookups.every(r => !r.parsed.found);
@@ -380,19 +356,20 @@ export async function chat(
       role: 'user',
       parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Begin your response immediately with a clear denial, e.g. \"We don't have anything by that name in our range.\" Do not react positively to the premise before correcting it.]" }],
     } as Content);
-    response = await generateWithRetry({
-      model: 'gemini-2.5-flash',
-      contents,
-      config: { systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction, tools, temperature: 0.7, maxOutputTokens: 1024 },
-    });
+    response = await generateWithRetry({ model: 'gemini-2.5-flash', contents, config: geminiConfig });
+    // Run mini tool loop so denial response can look up and card real alternatives
+    collectedText = '';
+    await runToolLoop(3);
   }
 
-  // Extract Gemini's text-only response
+  // Extract final text — prefer last collectedText from any turn, fall back to final response parts
   const messageText =
+    collectedText ||
     response.candidates?.[0]?.content?.parts
       ?.filter((part: any) => part.text)
       .map((part: any) => part.text)
-      .join("") || "I'd be happy to help — could you tell me a bit more about what you're looking for?";
+      .join("") ||
+    "I'd be happy to help — could you tell me a bit more about what you're looking for?";
 
   // ── Allergen post-processing footer ──
   const ALLERGEN_FOOTER = '\n\nAllergen note: always check the product label before purchasing. For serious allergies, contact hello@asterleybros.com before ordering.';

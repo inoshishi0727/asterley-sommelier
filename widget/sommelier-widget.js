@@ -795,14 +795,20 @@ class AsterleySommelier extends HTMLElement {
       }
     });
 
-    // Raw https:// URLs — make clickable, display as short label
-    const urlRe = /https?:\/\/[^\s,;]+/g;
+    // "here: URL" pattern — link the word "here", drop raw URL from display
     let m;
+    const hereRe = /\bhere\b[:\s]+(https?:\/\/[^\s,;]+)/gi;
+    while ((m = hereRe.exec(text)) !== null) {
+      spans.push({ start: m.index, end: m.index + m[0].length, url: m[1], matched: 'here' });
+    }
+
+    // Bare URLs not already inside a "here: URL" span — domain-only label
+    const urlRe = /https?:\/\/[^\s,;]+/g;
     while ((m = urlRe.exec(text)) !== null) {
+      if (spans.some(s => s.start <= m.index && m.index < s.end)) continue;
       try {
         const u = new URL(m[0]);
-        const label = u.hostname.replace('www.', '') + (u.pathname !== '/' ? u.pathname : '');
-        spans.push({ start: m.index, end: m.index + m[0].length, url: m[0], matched: label });
+        spans.push({ start: m.index, end: m.index + m[0].length, url: m[0], matched: u.hostname.replace('www.', '') });
       } catch (_) {}
     }
 
