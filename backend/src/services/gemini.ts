@@ -117,7 +117,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
       }
     }
 
-    if (result.name === "bundle_suggest" && result.parsed.found) {
+    if (result.name === "bundle_suggest" && result.parsed.found && !flaggedAllergens?.size) {
       for (const s of result.parsed.suggestions || []) {
         cards.push({
           productId: s.id,
@@ -290,7 +290,7 @@ export async function chat(
   });
 
   const allergenInstruction = isAllergyQuery
-    ? `\n\n## ALLERGEN SAFETY — active for this query\nNEVER say any product is "safe" or "free from" any allergen. Share only what the tool returns. State the product label is the only authoritative source. Direct the customer to hello@asterleybros.com before purchasing if the allergy is serious. Do NOT write "it is safe" or "it doesn't contain X."\nIMPORTANT: If the product the customer asked about contains the allergen they mentioned, acknowledge clearly that it contains that allergen and DO NOT recommend it, link to it, or suggest it as an option. Pivot immediately to alternatives that do not contain that allergen.`
+    ? `\n\n## ALLERGEN SAFETY — active for this query\nState allergen facts directly — no opener, no filler. 2 sentences max. If the product contains the allergen: confirm it, then say "If you need something without [allergen], [Product] is a great alternative — [one-line reason why it suits them]." brandVoice rule #4 already covers the label/email safety notice — do not repeat it.`
     : '';
 
   // Build conversation history
@@ -393,7 +393,7 @@ export async function chat(
       .join("") || "I'd be happy to help — could you tell me a bit more about what you're looking for?";
 
   // ── Allergen post-processing footer ──
-  const ALLERGEN_FOOTER = '\n\n_Allergen note: always check the product label before purchasing. For serious allergies, contact hello@asterleybros.com before ordering._';
+  const ALLERGEN_FOOTER = '\n\nAllergen note: always check the product label before purchasing. For serious allergies, contact hello@asterleybros.com before ordering.';
   const finalMessage = isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText;
 
   // Backend assembles structured response from tool results
