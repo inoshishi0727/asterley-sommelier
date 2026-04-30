@@ -369,10 +369,11 @@ export async function chat(
   }
 
   // ── Hallucination guard ──
-  // If product_lookup ran and found nothing, inject a denial preamble and re-query
-  const productLookupRanEmpty = allToolResults.some(
-    r => r.name === 'product_lookup' && !r.parsed.found
-  );
+  // Only fire if ALL product_lookups returned empty — a secondary lookup for an
+  // alternative product returning empty should not trigger a denial.
+  const productLookups = allToolResults.filter(r => r.name === 'product_lookup');
+  const productLookupRanEmpty = productLookups.length > 0 &&
+    productLookups.every(r => !r.parsed.found);
   if (productLookupRanEmpty) {
     contents.push({
       role: 'user',
