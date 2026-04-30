@@ -727,31 +727,11 @@ class AsterleySommelier extends HTMLElement {
       this._typewrite(div.querySelector('.ab-msg-text-j'), data.message);
     }
 
-    const asksQuestion = data.message?.trimEnd().endsWith('?');
-
     if (data.productCards?.length) {
-      if (asksQuestion) {
-        const count = data.productCards.length;
-        const toggle = document.createElement('button');
-        toggle.className = 'ab-expand-toggle';
-        toggle.textContent = `Browse suggestions (${count}) →`;
-        const wrap = document.createElement('div');
-        wrap.className = 'ab-product-cards ab-collapsed';
-        data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
-        toggle.onclick = () => {
-          wrap.classList.toggle('ab-collapsed');
-          toggle.textContent = wrap.classList.contains('ab-collapsed')
-            ? `Browse suggestions (${count}) →`
-            : 'Hide suggestions ↑';
-        };
-        container.appendChild(toggle);
-        container.appendChild(wrap);
-      } else {
-        const wrap = document.createElement('div');
-        wrap.className = 'ab-product-cards';
-        data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
-        container.appendChild(wrap);
-      }
+      const wrap = document.createElement('div');
+      wrap.className = 'ab-product-cards';
+      data.productCards.forEach(c => wrap.appendChild(this._createProductCard(c)));
+      container.appendChild(wrap);
     }
 
     if (data.recipeCards?.length) {
@@ -794,17 +774,19 @@ class AsterleySommelier extends HTMLElement {
 
   _linkifyMessage(el) {
     const LINKS = [
-      { re: /\bOriginal Aperitivo\b/g, url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
-      { re: /\bAsterley Original\b/g,  url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
-      { re: /\bSchofield’?s\b/g,  url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' },
-      { re: /\bSchofields?\b/g,        url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' },
-      { re: /\bCunard\b/g,             url: 'https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth' },
-      { re: /\bBritannica\b/g,         url: 'https://asterleybros.com/products/britannica-london-fernet' },
-      { re: /\bDispense\b/g,           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' },
-      { re: /\bEstate\b/g,             url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' },
+      { re: /\bOriginal Aperitivo\b/g, url: ‘https://asterleybros.com/products/asterley-original-british-aperitivo’ },
+      { re: /\bAsterley Original\b/g,  url: ‘https://asterleybros.com/products/asterley-original-british-aperitivo’ },
+      { re: /\bSchofield’?s\b/g,  url: ‘https://asterleybros.com/products/schofields-english-dry-vermouth’ },
+      { re: /\bSchofields?\b/g,        url: ‘https://asterleybros.com/products/schofields-english-dry-vermouth’ },
+      { re: /\bCunard\b/g,             url: ‘https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth’ },
+      { re: /\bBritannica\b/g,         url: ‘https://asterleybros.com/products/britannica-london-fernet’ },
+      { re: /\bDispense\b/g,           url: ‘https://asterleybros.com/products/dispense-modern-british-amaro’ },
+      { re: /\bEstate\b/g,             url: ‘https://asterleybros.com/products/estate-english-sweet-vermouth’ },
     ];
     const text = el.textContent;
     const spans = [];
+
+    // Named product links
     LINKS.forEach(({ re, url }) => {
       const rex = new RegExp(re.source, re.flags);
       let m;
@@ -812,6 +794,18 @@ class AsterleySommelier extends HTMLElement {
         spans.push({ start: m.index, end: m.index + m[0].length, url, matched: m[0] });
       }
     });
+
+    // Raw https:// URLs — make clickable, display as short label
+    const urlRe = /https?:\/\/[^\s,;]+/g;
+    let m;
+    while ((m = urlRe.exec(text)) !== null) {
+      try {
+        const u = new URL(m[0]);
+        const label = u.hostname.replace(‘www.’, ‘’) + (u.pathname !== ‘/’ ? u.pathname : ‘’);
+        spans.push({ start: m.index, end: m.index + m[0].length, url: m[0], matched: label });
+      } catch (_) {}
+    }
+
     if (spans.length === 0) return;
     spans.sort((a, b) => a.start - b.start);
     const deduped = [];
@@ -819,7 +813,7 @@ class AsterleySommelier extends HTMLElement {
     for (const s of spans) {
       if (s.start >= lastEnd) { deduped.push(s); lastEnd = s.end; }
     }
-    let html = '', pos = 0;
+    let html = ‘’, pos = 0;
     for (const s of deduped) {
       if (s.start > pos) html += this._esc(text.slice(pos, s.start));
       html += `<a href="${s.url}" target="_blank" class="ab-text-link">${this._esc(s.matched)}</a>`;
