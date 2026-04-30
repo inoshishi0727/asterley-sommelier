@@ -776,7 +776,7 @@ class AsterleySommelier extends HTMLElement {
     const LINKS = [
       { re: /\bOriginal Aperitivo\b/g, url: ‘https://asterleybros.com/products/asterley-original-british-aperitivo’ },
       { re: /\bAsterley Original\b/g,  url: ‘https://asterleybros.com/products/asterley-original-british-aperitivo’ },
-      { re: /\bSchofield’?s\b/g,  url: ‘https://asterleybros.com/products/schofields-english-dry-vermouth’ },
+      { re: /\bSchofield[’’]?s\b/g, url: ‘https://asterleybros.com/products/schofields-english-dry-vermouth’ },
       { re: /\bSchofields?\b/g,        url: ‘https://asterleybros.com/products/schofields-english-dry-vermouth’ },
       { re: /\bCunard\b/g,             url: ‘https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth’ },
       { re: /\bBritannica\b/g,         url: ‘https://asterleybros.com/products/britannica-london-fernet’ },
