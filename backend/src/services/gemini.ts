@@ -290,7 +290,7 @@ export async function chat(
   });
 
   const allergenInstruction = isAllergyQuery
-    ? `\n\n## ALLERGEN SAFETY — active for this query\nState allergen facts directly — no opener, no filler. 2 sentences max. If the product contains the allergen: confirm it, then say "If you need something without [allergen], [Product] is a great alternative — [one-line reason why it suits them]." brandVoice rule #4 already covers the label/email safety notice — do not repeat it.`
+    ? `\n\n## ALLERGEN SAFETY — active for this query\nState allergen facts directly — no opener, no filler. 2 sentences max. If the product contains the allergen: confirm it, then say "If you need something without [allergen], [Product] is a great alternative — [one-line reason]." Then call product_lookup for that alternative so its product card is shown. Do NOT include any label or email disclaimer in your response — it is appended automatically.`
     : '';
 
   // Build conversation history
