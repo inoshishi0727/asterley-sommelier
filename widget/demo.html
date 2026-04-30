@@ -108,7 +108,14 @@
 </section>
 
 <script type="module" src="sommelier-widget.js"></script>
-<asterley-sommelier api-url="http://localhost:3001"></asterley-sommelier>
+<asterley-sommelier id="sommelier"></asterley-sommelier>
+<script>
+  const host = window.location.hostname;
+  const apiUrl = host === 'localhost' || host === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://asterley-sommelier.onrender.com';
+  document.getElementById('sommelier').setAttribute('api-url', apiUrl);
+</script>
 
 </body>
 </html>
