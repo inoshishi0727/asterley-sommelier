@@ -733,10 +733,7 @@ class AsterleySommelier extends HTMLElement {
         dock.dataset.listening = 'false';
         barsEl?.classList.remove('ab-voice-listening');
         textEl.textContent = transcript;
-        setTimeout(() => {
-          this._switchTab('chat');
-          this._sendMessage(transcript);
-        }, 400);
+        setTimeout(() => this._voiceToBar(transcript), 500);
       };
 
       rec.onerror = (e) => {
@@ -755,6 +752,43 @@ class AsterleySommelier extends HTMLElement {
 
       rec.start();
     };
+  }
+
+  _voiceToBar(transcript) {
+    const t = transcript.toLowerCase();
+
+    const MOOD_KEYS = [
+      { id: 'strong', words: ['bitter', 'strong', 'intense', 'bold', 'negroni', 'complex'] },
+      { id: 'dark',   words: ['dark', 'brooding', 'rich', 'stirred', 'deep', 'smoky'] },
+      { id: 'spice',  words: ['warm', 'spice', 'spiced', 'cosy', 'winter', 'digestif', 'digestivo', 'after dinner'] },
+      { id: 'bright', words: ['bright', 'crisp', 'light', 'fresh', 'clean', 'dry', 'martini', 'elegant'] },
+      { id: 'fizzy',  words: ['fizzy', 'sparkling', 'spritz', 'prosecco', 'bubbles', 'social', 'celebrat'] },
+      { id: 'easy',   words: ['easy', 'long', 'refreshing', 'casual', 'simple', 'highball'] },
+    ];
+
+    const GLASS_KEYS = [
+      { id: 'negroni',  words: ['negroni', 'rocks glass', 'lowball'] },
+      { id: 'highball', words: ['highball', 'long', 'tall', 'collins'] },
+      { id: 'martini',  words: ['martini', 'coupe', 'stemmed'] },
+      { id: 'flute',    words: ['flute', 'fizz', 'champagne', 'sparkling', 'spritz'] },
+      { id: 'snifter',  words: ['snifter', 'digestivo', 'digestif', 'after dinner'] },
+      { id: 'rocks',    words: ['rocks', 'old fashioned', 'on ice', 'over ice'] },
+    ];
+
+    // Default glass per mood when no glass keyword found
+    const MOOD_GLASS = { strong:'negroni', dark:'rocks', spice:'snifter', bright:'martini', fizzy:'flute', easy:'highball' };
+
+    const mood = MOOD_KEYS.find(m => m.words.some(w => t.includes(w)));
+    const glass = GLASS_KEYS.find(g => g.words.some(w => t.includes(w)));
+
+    const moodId  = mood?.id  || MOODS[Math.floor(Math.random() * MOODS.length)].id;
+    const glassId = glass?.id || MOOD_GLASS[moodId] || GLASSES[0].id;
+
+    this._barGlass = GLASSES.find(g => g.id === glassId);
+    this._barMood  = MOODS.find(m => m.id === moodId);
+    this._barStage = 'pouring';
+    this._renderBarContent();
+    setTimeout(() => { this._barStage = 'card'; this._renderBarContent(); }, 2400);
   }
 
   // ── V1 Chat ─────────────────────────────────────────────────────────────
