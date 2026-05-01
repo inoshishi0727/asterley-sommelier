@@ -765,9 +765,13 @@ class AsterleySommelier extends HTMLElement {
   }
 
   _typewrite(el, text, speed = 16, onDone = null) {
+    // Strip [label](url) to just label for typewriter display; _linkifyMessage re-adds links
+    const displayText = text.replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g, '$1');
+    el.dataset.rawText = text; // preserve original for linkification
     el.textContent = '';
     el.classList.add('ab-caret');
     let i = 0;
+    text = displayText;
     const t = setInterval(() => {
       el.textContent = text.slice(0, ++i);
       this._scrollToBottom();
@@ -781,6 +785,15 @@ class AsterleySommelier extends HTMLElement {
   }
 
   _linkifyMessage(el) {
+    // Extract markdown links from original text before linkify runs on display text
+    const mdLinks = [];
+    const rawText = el.dataset.rawText;
+    if (rawText) {
+      const mdRaw = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+      let mr;
+      while ((mr = mdRaw.exec(rawText)) !== null) mdLinks.push({ label: mr[1], url: mr[2] });
+      delete el.dataset.rawText;
+    }
     const LINKS = [
       { re: /\bOriginal Aperitivo\b/g, url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
       { re: /\bAsterley Original\b/g,  url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' },
@@ -801,6 +814,12 @@ class AsterleySommelier extends HTMLElement {
       while ((m = rex.exec(text)) !== null) {
         spans.push({ start: m.index, end: m.index + m[0].length, url, matched: m[0] });
       }
+    });
+
+    // Markdown links extracted from rawText — find label in display text and link it
+    mdLinks.forEach(({ label, url }) => {
+      const idx = text.indexOf(label);
+      if (idx !== -1) spans.push({ start: idx, end: idx + label.length, url, matched: label });
     });
 
     // "here: URL" pattern — link the word "here", drop raw URL from display
