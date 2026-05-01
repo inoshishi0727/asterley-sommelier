@@ -578,9 +578,9 @@ class AsterleySommelier extends HTMLElement {
       case 'intro':
         content.innerHTML = `
           <div class="ab-view-intro">Pick a glass and tell me your mood — I'll find your serve.</div>
-          <div class="ab-voice-dock" style="opacity:0.35;pointer-events:none;cursor:default;">
-            <div class="ab-voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
-            <div class="ab-voice-text">voice — coming soon</div>
+          <div class="ab-voice-dock" id="voice-dock" role="button" tabindex="0" aria-label="Speak to Jarvis">
+            <div class="ab-voice-bars" id="voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
+            <div class="ab-voice-text" id="voice-text">or just tell me what you fancy…</div>
           </div>
           <div class="ab-glass-grid">
             ${GLASSES.map((g,i) => `
@@ -599,6 +599,7 @@ class AsterleySommelier extends HTMLElement {
             this._renderBarContent();
           };
         });
+        this._bindVoiceDock(content);
         break;
 
       case 'inquire':
@@ -694,6 +695,66 @@ class AsterleySommelier extends HTMLElement {
         };
         break;
     }
+  }
+
+  // ── Voice input ─────────────────────────────────────────────────────────
+
+  _bindVoiceDock(container) {
+    const dock = container.querySelector('#voice-dock');
+    const barsEl = container.querySelector('#voice-bars');
+    const textEl = container.querySelector('#voice-text');
+    if (!dock || !textEl) return;
+
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+      dock.style.opacity = '0.35';
+      dock.style.cursor = 'default';
+      textEl.textContent = 'voice not supported in this browser';
+      return;
+    }
+
+    dock.style.cursor = 'pointer';
+
+    dock.onclick = () => {
+      if (dock.dataset.listening === 'true') return;
+      const rec = new SR();
+      rec.lang = 'en-GB';
+      rec.interimResults = false;
+      rec.maxAlternatives = 1;
+
+      rec.onstart = () => {
+        dock.dataset.listening = 'true';
+        barsEl?.classList.add('ab-voice-listening');
+        textEl.textContent = 'listening…';
+      };
+
+      rec.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        dock.dataset.listening = 'false';
+        barsEl?.classList.remove('ab-voice-listening');
+        textEl.textContent = transcript;
+        setTimeout(() => {
+          this._switchTab('chat');
+          this._sendMessage(transcript);
+        }, 400);
+      };
+
+      rec.onerror = (e) => {
+        dock.dataset.listening = 'false';
+        barsEl?.classList.remove('ab-voice-listening');
+        textEl.textContent = e.error === 'not-allowed'
+          ? 'microphone access denied'
+          : 'try again';
+        setTimeout(() => { textEl.textContent = 'or just tell me what you fancy…'; }, 2000);
+      };
+
+      rec.onend = () => {
+        dock.dataset.listening = 'false';
+        barsEl?.classList.remove('ab-voice-listening');
+      };
+
+      rec.start();
+    };
   }
 
   // ── V1 Chat ─────────────────────────────────────────────────────────────
