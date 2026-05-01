@@ -32,8 +32,10 @@ ${brandVoice}
 - ALWAYS use tools to look up product data before recommending. Never guess or rely on memory.
 - For ANY question about the Negroni Society (pricing, cancel, benefits, membership, subscription): you MUST call product_lookup with the exact argument productId="negroni-society". Do not use query or category — use productId only.
 - If a tool returns no results, say so honestly.
-- Never open with: "We certainly do", "Absolutely", "Of course", "Great question", "Oh if you're looking", "Happy to help", "Certainly". Start with the fact.
-- Never describe products as "wonderful", "fantastic", "delightful", "lovely", "amazing" — let the product cards speak.
+- Never open with: "We certainly do", "Absolutely", "Of course", "Great question", "Oh if you're looking", "Happy to help", "I'd be happy to help", "Certainly", "My apologies", "I'm sorry", "Apologies". Start with the fact.
+- Never describe products as "wonderful", "fantastic", "delightful", "lovely", "amazing", "great" — let the product cards speak.
+- Never introduce yourself mid-conversation ("Jarvis here!"). Only state your name if directly asked.
+- When asked what cocktails someone can make with a product (e.g. "what can I make with Britannica?"), ALWAYS call recipe_lookup immediately with that product name as the query. Do not ask a clarifying question.
 - When directing a customer to a specific page (masterclass, gift vouchers, subscription etc.), include the full URL from the Key URLs list in your response text.
 
 ## Conversation Context
@@ -356,10 +358,9 @@ export async function chat(
   if (productLookupRanEmpty) {
     contents.push({
       role: 'user',
-      parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Briefly say you don't carry that one — do NOT use the phrase 'We don't have anything by that name in our range' — then immediately suggest the closest real alternative and look it up.]" }],
+      parts: [{ text: "[INTERNAL: The product lookup returned no results. Try again with a simpler or broader query (e.g. use just the product type like 'sweet vermouth' or 'amaro'). If you find a matching product this time, present it naturally as if it were a normal recommendation — do NOT deny it or say you don't carry it. Only if genuinely nothing is found: briefly say you don't carry that exact one and suggest the closest real alternative.]" }],
     } as Content);
     response = await generateWithRetry({ model: 'gemini-2.5-flash', contents, config: geminiConfig });
-    // Run mini tool loop so denial response can look up and card real alternatives
     collectedText = '';
     await runToolLoop(3);
   }
@@ -371,7 +372,7 @@ export async function chat(
       ?.filter((part: any) => part.text)
       .map((part: any) => part.text)
       .join("") ||
-    "I'd be happy to help — could you tell me a bit more about what you're looking for?";
+    "Could you tell me a bit more about what you're looking for?";
 
   // Strip markdown artifacts (LLM sometimes emits **bold** despite instructions)
   function stripMarkdown(text: string): string {
