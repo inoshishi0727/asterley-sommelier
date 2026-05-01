@@ -48,7 +48,7 @@ export function executeShippingInfo(args: ShippingInfoArgs): string {
     if (topic.includes("return") || topic.includes("refund")) {
       response.returns = {
         policy: "If you're not satisfied with your order, please contact us within 14 days of delivery.",
-        contact: "Email hello@asterleybros.com with your order number.",
+        contact: "Email info@asterleybros.com with your order number.",
         note: "Due to the nature of alcoholic beverages, opened bottles cannot be returned unless faulty.",
       };
     }
@@ -63,7 +63,7 @@ export function executeShippingInfo(args: ShippingInfoArgs): string {
 
     if (topic.includes("contact") || topic.includes("help") || topic.includes("support")) {
       response.contact = {
-        email: "hello@asterleybros.com",
+        email: "info@asterleybros.com",
         location: "South London, UK",
         socialMedia: "Find us on Instagram @asterleybros",
       };
@@ -87,7 +87,7 @@ export function executeShippingInfo(args: ShippingInfoArgs): string {
       international: shipping.international,
     };
     response.contact = {
-      email: "hello@asterleybros.com",
+      email: "info@asterleybros.com",
       location: "South London, UK",
     };
   }

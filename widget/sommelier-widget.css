@@ -674,6 +674,7 @@
   display: -webkit-box; -webkit-line-clamp: 2;
   -webkit-box-orient: vertical; overflow: hidden;
 }
+.ab-pcard-actions { display: flex; gap: 6px; align-items: center; margin-top: 6px; }
 .ab-btn-add {
   font-family: var(--mono); font-size: 9px;
   background: var(--claret); color: var(--cream);
@@ -681,6 +682,14 @@
   cursor: pointer; letter-spacing: 0.3px; text-transform: uppercase;
 }
 .ab-btn-add:hover { background: var(--ink); }
+.ab-btn-view {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--claret); text-decoration: none;
+  border: 0.5px solid var(--claret); padding: 4px 10px;
+  letter-spacing: 0.3px; text-transform: uppercase;
+  white-space: nowrap;
+}
+.ab-btn-view:hover { background: var(--claret); color: var(--cream); }
 
 /* Recipe cards — prescription pad */
 .ab-recipe-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }

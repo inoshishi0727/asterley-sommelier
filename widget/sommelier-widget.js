@@ -268,7 +268,7 @@ class AsterleySommelier extends HTMLElement {
     this._fetchMenu();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: `${getGreeting()}. Jarvis here — use Recipes to browse our cocktails, Make a Drink to find your perfect serve, or just ask me anything.`,
+      message: `${getGreeting()}. Drinking or thinking? Either way, I can help.`,
       productCards: [], recipeCards: [],
       suggestedActions: [],
     });
@@ -340,7 +340,7 @@ class AsterleySommelier extends HTMLElement {
           </div>
           <div class="ab-subrule">
             <div class="ab-subrule-line"></div>
-            <span class="ab-subrule-text">№ MMXXVI · SE23 · OPEN</span>
+            <span class="ab-subrule-text">№ MMXXVI · SE26 · OPEN</span>
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
@@ -372,7 +372,7 @@ class AsterleySommelier extends HTMLElement {
         <div class="ab-view ab-view-hidden" id="view-bar">
           <div class="ab-jarvis-line" id="jarvis-line"></div>
           <div id="bar-content"></div>
-          <div class="ab-bar-footer">asterley bros · dalmain rd, SE23 · est. MMXIV</div>
+          <div class="ab-bar-footer">asterley bros · dalmain rd, SE26 · est. MMXIV</div>
         </div>
 
         <!-- ── View: Chat (V1) ── -->
@@ -567,7 +567,7 @@ class AsterleySommelier extends HTMLElement {
 
     const cocktail = cocktailFor(this._barGlass?.id, this._barMood?.id);
     const lines = {
-      intro:   `${getGreeting()}. Pull up a stool — I'm Jarvis. What shape of glass feels right tonight?`,
+      intro:   `${getGreeting()}. Pull up a stool. I'm Jarvis. What shape of glass feels right tonight?`,
       inquire: `${this._barGlass?.name || 'That glass'}. An excellent instinct. Tell me your mood.`,
       pouring: `A ${cocktail?.name || 'serve'}, coming up. Watch the ice.`,
       card:    "There. Yours to keep — or I'll print it for the fridge.",
@@ -578,9 +578,9 @@ class AsterleySommelier extends HTMLElement {
       case 'intro':
         content.innerHTML = `
           <div class="ab-view-intro">Pick a glass and tell me your mood — I'll find your serve.</div>
-          <div class="ab-voice-dock">
+          <div class="ab-voice-dock" style="opacity:0.35;pointer-events:none;cursor:default;">
             <div class="ab-voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
-            <div class="ab-voice-text">or just tell me what you fancy…</div>
+            <div class="ab-voice-text">voice — coming soon</div>
           </div>
           <div class="ab-glass-grid">
             ${GLASSES.map((g,i) => `
@@ -848,13 +848,19 @@ class AsterleySommelier extends HTMLElement {
     const imgHtml = card.imageUrl?.startsWith('http')
       ? `<img class="ab-pcard-img" src="${this._esc(card.imageUrl)}" alt="${this._esc(card.name)}">`
       : `<div class="ab-pcard-img ab-pcard-placeholder">${(card.name||'A')[0]}</div>`;
+    const viewLink = card.url
+      ? `<a class="ab-btn-view" href="${this._esc(card.url)}" target="_blank">View →</a>`
+      : '';
     div.innerHTML = `
       ${imgHtml}
       <div class="ab-pcard-info">
         <div class="ab-pcard-meta">${this._esc(meta)}</div>
         <div class="ab-pcard-name">${this._esc(card.name)}</div>
         <div class="ab-pcard-desc">${this._esc(card.description || '')}</div>
-        <button class="ab-btn-add">Add to Cart</button>
+        <div class="ab-pcard-actions">
+          <button class="ab-btn-add">Add to Cart</button>
+          ${viewLink}
+        </div>
       </div>`;
     div.querySelector('.ab-btn-add').onclick = () => this._addToCart(card);
     return div;

@@ -21,7 +21,7 @@ const ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
 // Product cards, recipe cards, and suggestion chips are assembled
 // by the backend from the tool call results.
 
-const SYSTEM_INSTRUCTION = `You are the Asterley Bros Online Sommelier — a warm, knowledgeable guide helping customers discover and enjoy Asterley Bros botanical spirits.
+const SYSTEM_INSTRUCTION = `You are Jarvis, the Asterley Bros online sommelier — a warm, knowledgeable guide helping customers discover and enjoy Asterley Bros botanical spirits.
 
 ${brandVoice}
 
@@ -115,6 +115,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
           description: p.tastingNotes || p.description,
           imageUrl: p.imageUrl,
           shopifyVariantId: p.shopifyVariantId,
+          url: p.productUrl,
         });
       }
     }
@@ -130,6 +131,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
           description: s.description,
           imageUrl: s.imageUrl,
           shopifyVariantId: s.shopifyVariantId,
+          url: s.productUrl,
         });
       }
     }
@@ -196,7 +198,7 @@ function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductC
 
   // Always offer a general follow-up if we have room
   if (actions.length < 3) {
-    actions.push({ label: "Help me choose", type: "question", value: "I'm not sure what to pick — can you help me choose?" });
+    actions.push({ label: "Help me choose", type: "question", value: "I'm not sure what to pick. Can you help me choose?" });
   }
 
   return actions.slice(0, 3);
@@ -223,7 +225,7 @@ function buildConversationalChips(lower: string): SuggestedAction[] {
     ];
   return [
     { label: "Show me what you make", type: "question", value: "What products do you offer?" },
-    { label: "Help me choose",        type: "question", value: "I'm not sure what to pick — can you help me choose?" },
+    { label: "Help me choose",        type: "question", value: "I'm not sure what to pick. Can you help me choose?" },
   ];
 }
 
@@ -354,7 +356,7 @@ export async function chat(
   if (productLookupRanEmpty) {
     contents.push({
       role: 'user',
-      parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Begin your response immediately with a clear denial, e.g. \"We don't have anything by that name in our range.\" Do not react positively to the premise before correcting it.]" }],
+      parts: [{ text: "[INTERNAL: The product mentioned does not exist in our catalog. Briefly say you don't carry that one — do NOT use the phrase 'We don't have anything by that name in our range' — then immediately suggest the closest real alternative and look it up.]" }],
     } as Content);
     response = await generateWithRetry({ model: 'gemini-2.5-flash', contents, config: geminiConfig });
     // Run mini tool loop so denial response can look up and card real alternatives
@@ -371,9 +373,17 @@ export async function chat(
       .join("") ||
     "I'd be happy to help — could you tell me a bit more about what you're looking for?";
 
+  // Strip markdown artifacts (LLM sometimes emits **bold** despite instructions)
+  function stripMarkdown(text: string): string {
+    return text
+      .replace(/\*\*(.+?)\*\*/gs, '$1')
+      .replace(/\*(.+?)\*/gs, '$1')
+      .replace(/`(.+?)`/gs, '$1');
+  }
+
   // ── Allergen post-processing footer ──
-  const ALLERGEN_FOOTER = '\n\nAllergen note: always check the product label before purchasing. For serious allergies, contact hello@asterleybros.com before ordering.';
-  const finalMessage = isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText;
+  const ALLERGEN_FOOTER = '\n\nAllergen note: always check the product label before purchasing. For serious allergies, contact info@asterleybros.com before ordering.';
+  const finalMessage = stripMarkdown(isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText);
 
   // Backend assembles structured response from tool results
   const productCards = buildProductCards(allToolResults, flaggedAllergens);

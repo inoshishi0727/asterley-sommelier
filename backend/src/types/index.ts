@@ -83,6 +83,7 @@ export interface ProductCard {
   description: string;
   imageUrl: string;
   shopifyVariantId: string;
+  url?: string;
 }
 
 export interface RecipeCard {

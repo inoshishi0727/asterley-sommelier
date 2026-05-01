@@ -156,6 +156,6 @@ export function getShippingInfo(): {
     freeThreshold: "Free shipping on orders over £60",
     delivery: "Next working day UK delivery",
     international:
-      "Please contact hello@asterleybros.com for international shipping enquiries",
+      "Please contact info@asterleybros.com for international shipping enquiries",
   };
 }

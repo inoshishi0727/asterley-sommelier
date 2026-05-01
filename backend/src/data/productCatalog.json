@@ -277,7 +277,7 @@
     "currency": "GBP",
     "abv": null,
     "volume": "2 Negronis per month",
-    "description": "A monthly subscription club for Negroni lovers. Each month receive 2 seasonal Negronis crafted in collaboration with the world's best bars and bartenders, delivered to your door on the 10th. Your first delivery includes a Negroni Society Membership Card. Sign up for 6 or 12 months and we'll send a free Negroni Box to anyone in the UK as a gift. Cancel anytime — no notice period required. To manage your subscription or change your delivery address, contact hello@asterleybros.com.",
+    "description": "A monthly subscription club for Negroni lovers. Each month receive 2 seasonal Negronis crafted in collaboration with the world's best bars and bartenders, delivered to your door on the 10th. Your first delivery includes a Negroni Society Membership Card. Sign up for 6 or 12 months and we'll send a free Negroni Box to anyone in the UK as a gift. Cancel anytime — no notice period required. To manage your subscription or change your delivery address, contact info@asterleybros.com.",
     "tastingNotes": "Each month is different — two seasonal Negroni variations crafted by top bartenders worldwide.",
     "botanicals": [],
     "servingSuggestions": [
@@ -290,7 +290,7 @@
     "isVegan": true,
     "isGlutenFree": true,
     "shopifyVariantId": "negroni-society-monthly",
-    "imageUrl": "https://asterleybros.com/cdn/shop/files/Photo19-02-2026_100118_3.png?v=1771492147",
+    "imageUrl": "https://asterleybros.com/cdn/shop/files/negorani.jpg?v=1724328693",
     "productUrl": "https://shop.asterleybros.com/products/the-negroni-society-new",
     "inStock": true
   },
@@ -299,7 +299,7 @@
     "name": "Introduction To Amaro: A Masterclass",
     "shortName": "Amaro Masterclass",
     "category": "experience",
-    "price": 49.50,
+    "price": 59.50,
     "currency": "GBP",
     "abv": null,
     "volume": "1 ticket",
@@ -315,7 +315,7 @@
     "isVegan": true,
     "isGlutenFree": true,
     "shopifyVariantId": "amaro-masterclass-single",
-    "imageUrl": "https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944",
+    "imageUrl": "https://asterleybros.com/cdn/shop/files/amaro_new.png?v=1761123402",
     "productUrl": "https://asterleybros.com/products/introduction-to-amaro-a-masterclass",
     "inStock": true
   },
