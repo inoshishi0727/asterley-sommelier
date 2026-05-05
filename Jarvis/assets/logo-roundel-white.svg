@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Asterley Bros roundel, white">
+  <defs>
+    <path id="abw-top" d="M 200,200 m -158,0 a 158,158 0 0 1 316,0" fill="none"></path>
+    <path id="abw-bot" d="M 200,200 m -138,0 a 138,138 0 0 0 276,0" fill="none"></path>
+  </defs>
+  <circle cx="200" cy="200" r="192" fill="none" stroke="#FFFFFF" stroke-width="6"></circle>
+  <circle cx="200" cy="200" r="170" fill="none" stroke="#FFFFFF" stroke-width="2"></circle>
+  <text fill="#FFFFFF" font-family="&#39;Acumin Pro&#39;, &#39;Helvetica Neue&#39;, sans-serif" font-weight="700" font-size="28" letter-spacing="8">
+    <textPath href="#abw-top" startOffset="50%" text-anchor="middle">ASTERLEY · BROS</textPath>
+  </text>
+  <text fill="#FFFFFF" font-family="&#39;Acumin Pro&#39;, &#39;Helvetica Neue&#39;, sans-serif" font-weight="700" font-size="22" letter-spacing="10">
+    <textPath href="#abw-bot" startOffset="50%" text-anchor="middle">· LONDON ·</textPath>
+  </text>
+  <g transform="translate(200,205)" fill="#FFFFFF">
+    <text text-anchor="middle" font-family="&#39;Adobe Caslon Pro&#39;, &#39;EB Garamond&#39;, Georgia, serif" font-style="italic" font-size="150" dy="0.35em">AB</text>
+  </g>
+  <circle cx="200" cy="50" r="4" fill="#FFFFFF"></circle>
+  <circle cx="200" cy="350" r="4" fill="#FFFFFF"></circle>
+</svg>

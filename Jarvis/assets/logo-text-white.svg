@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" role="img" aria-label="Asterley Bros, London">
+  <g fill="#FFFFFF" font-family="&#39;Acumin Pro&#39;, &#39;Helvetica Neue&#39;, sans-serif">
+    <text x="360" y="78" text-anchor="middle" font-weight="700" font-size="70" letter-spacing="6">ASTERLEY BROS</text>
+    <line x1="120" y1="100" x2="320" y2="100" stroke="#FFFFFF" stroke-width="1.5"></line>
+    <line x1="400" y1="100" x2="600" y2="100" stroke="#FFFFFF" stroke-width="1.5"></line>
+    <text x="360" y="132" text-anchor="middle" font-family="&#39;Adobe Caslon Pro&#39;, &#39;EB Garamond&#39;, Georgia, serif" font-style="italic" font-size="34" fill="#FFFFFF">London</text>
+  </g>
+</svg>

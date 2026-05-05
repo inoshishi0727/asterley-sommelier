@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Jarvis — Asterley AI Bartender</title>
+<style id="asterley-styles"></style>
+<style>
+  html, body { margin: 0; padding: 0; background: #F4EBD7; font-family: "IBM Plex Sans", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  .phone {
+    width: 390px; height: 750px; border-radius: 38px; position: relative; overflow: hidden;
+    background: #1E1A14; box-shadow: 0 30px 70px rgba(0,0,0,0.25), 0 0 0 10px #15120D, 0 0 0 11px #2B251C;
+  }
+  .tweaks-panel {
+    position: fixed; right: 16px; bottom: 16px; width: 260px; z-index: 9999;
+    background: #1E1A14; color: #F4EBD7; padding: 14px; border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4); display: none;
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12px;
+    border: 1px solid #8E5A2A55;
+  }
+  .tweaks-panel.open { display: block; }
+  .tweaks-panel h3 { margin: 0 0 10px; font-family: "Cormorant Garamond", serif; font-style: italic; font-size: 18px; color: #F4EBD7; font-weight: 500; letter-spacing: 0.3px; }
+  .tweaks-panel label { display: block; font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: 0.3px; text-transform: uppercase; color: #C9B887; margin: 10px 0 4px; }
+  .tweaks-panel .row { display: flex; gap: 4px; flex-wrap: wrap; }
+  .tweaks-panel button.swatch { width: 26px; height: 26px; border-radius: 0; cursor: pointer; border: 1px solid #8E5A2A55; padding: 0; }
+  .tweaks-panel button.chip { background: transparent; border: 1px solid #8E5A2A55; color: #F4EBD7; padding: 4px 8px; font-size: 10px; font-family: "IBM Plex Mono", monospace; letter-spacing: 0.2px; cursor: pointer; text-transform: uppercase; border-radius: 1px; }
+  .tweaks-panel button.chip.on { background: #5C1F1B; border-color: #5C1F1B; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<!-- Tweaks panel -->
+<div class="tweaks-panel" id="tweaks">
+  <h3>Tweaks</h3>
+  <label>accent palette</label>
+  <div class="row" id="tw-palette">
+    <button class="swatch" data-palette="claret" style="background: linear-gradient(45deg, #5C1F1B 50%, #F4EBD7 50%)" title="Claret"></button>
+    <button class="swatch" data-palette="sage" style="background: linear-gradient(45deg, #4A5A3A 50%, #F4EBD7 50%)" title="Sage"></button>
+    <button class="swatch" data-palette="ink" style="background: linear-gradient(45deg, #1E1A14 50%, #F4EBD7 50%)" title="Ink"></button>
+    <button class="swatch" data-palette="rust" style="background: linear-gradient(45deg, #B85C2A 50%, #F4EBD7 50%)" title="Rust"></button>
+  </div>
+  <label>typography</label>
+  <div class="row" id="tw-type">
+    <button class="chip" data-type="editorial">Editorial</button>
+    <button class="chip" data-type="modern">Modern</button>
+    <button class="chip" data-type="typewriter">Typewriter</button>
+  </div>
+  <label>personality</label>
+  <div class="row" id="tw-person">
+    <button class="chip" data-person="warm">Warm</button>
+    <button class="chip" data-person="dry">Dry</button>
+    <button class="chip" data-person="poetic">Poetic</button>
+  </div>
+  <div style="margin-top: 12px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #C9B887aa; letter-spacing: 0.3px; line-height: 1.4;">
+    Drag any artboard to reorder. Click ↗ to open fullscreen.
+  </div>
+</div>
+
+<script src="design-canvas.jsx" type="text/babel"></script>
+<script src="brand.jsx" type="text/babel"></script>
+<script src="v1-dispensatory.jsx" type="text/babel"></script>
+<script src="v2-bar.jsx" type="text/babel"></script>
+<script src="v3-compass.jsx" type="text/babel"></script>
+<script src="v4-menu.jsx" type="text/babel"></script>
+
+<script type="text/babel">
+  // inject shared styles
+  document.getElementById('asterley-styles').textContent = window.ASTERLEY_STYLES;
+
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "palette": "rust",
+    "type": "modern",
+    "person": "dry"
+  }/*EDITMODE-END*/;
+
+  // Tweaks toggle via host
+  let editMode = false;
+  const panel = document.getElementById('tweaks');
+  window.addEventListener('message', (e) => {
+    if (e.data?.type === '__activate_edit_mode') { editMode = true; panel.classList.add('open'); }
+    if (e.data?.type === '__deactivate_edit_mode') { editMode = false; panel.classList.remove('open'); }
+  });
+  window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+
+  function setTweak(key, val) {
+    TWEAKS[key] = val;
+    applyTweaks();
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [key]: val } }, '*');
+    syncChips();
+  }
+  function syncChips() {
+    document.querySelectorAll('[data-palette]').forEach(b => b.classList.toggle('on', b.dataset.palette === TWEAKS.palette));
+    document.querySelectorAll('[data-type]').forEach(b => b.classList.toggle('on', b.dataset.type === TWEAKS.type));
+    document.querySelectorAll('[data-person]').forEach(b => b.classList.toggle('on', b.dataset.person === TWEAKS.person));
+  }
+  document.querySelectorAll('[data-palette]').forEach(b => b.onclick = () => setTweak('palette', b.dataset.palette));
+  document.querySelectorAll('[data-type]').forEach(b => b.onclick = () => setTweak('type', b.dataset.type));
+  document.querySelectorAll('[data-person]').forEach(b => b.onclick = () => setTweak('person', b.dataset.person));
+
+  function applyTweaks() {
+    const A = window.ASTERLEY;
+    const palettes = {
+      claret: { accent: '#5C1F1B', accentSoft: '#8B3A33' },
+      sage:   { accent: '#4A5A3A', accentSoft: '#6B7D55' },
+      ink:    { accent: '#1E1A14', accentSoft: '#3A2E20' },
+      rust:   { accent: '#B85C2A', accentSoft: '#D07845' },
+    };
+    const p = palettes[TWEAKS.palette] || palettes.claret;
+    A.claret = p.accent;
+    // type swap
+    const types = {
+      editorial:  { serif: '"Cormorant Garamond", "EB Garamond", serif', sans: '"IBM Plex Sans", system-ui, sans-serif', mono: '"IBM Plex Mono", ui-monospace, monospace' },
+      modern:     { serif: '"Cormorant Garamond", serif', sans: '"Inter", system-ui, sans-serif', mono: '"IBM Plex Mono", ui-monospace, monospace' },
+      typewriter: { serif: '"Cormorant Garamond", serif', sans: '"IBM Plex Mono", ui-monospace, monospace', mono: '"IBM Plex Mono", ui-monospace, monospace' },
+    };
+    const t = types[TWEAKS.type] || types.editorial;
+    A.serif = t.serif; A.sans = t.sans; A.mono = t.mono;
+    window.__rerender?.();
+  }
+  syncChips();
+
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const A = window.ASTERLEY;
+
+  function Phone({ children }) {
+    return (
+      <div style={{ padding: 22, background: A.parchment, width: 434, height: 794, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="phone">{children}</div>
+      </div>
+    );
+  }
+
+  function ContextCard({ title, metric, desc }) {
+    return (
+      <div style={{
+        width: 260, padding: '16px 18px', background: A.parchment, color: A.ink,
+        fontFamily: A.serif, border: `0.5px solid ${A.claret}44`, lineHeight: 1.3,
+      }}>
+        <div style={{ fontFamily: A.mono, fontSize: 9, color: A.claret, letterSpacing: 0.5, textTransform: 'uppercase' }}>{metric}</div>
+        <div style={{ fontFamily: A.serif, fontStyle: 'italic', fontSize: 22, color: A.ink, marginTop: 4, lineHeight: 1.1 }}>{title}</div>
+        <div style={{ fontSize: 12, color: A.inkSoft, marginTop: 8, fontStyle: 'italic' }}>{desc}</div>
+      </div>
+    );
+  }
+
+  function App() {
+    const [, tick] = React.useState(0);
+    window.__rerender = () => tick(x => x + 1);
+    React.useEffect(() => { applyTweaks(); }, []);
+
+    return (
+      <DesignCanvas
+        title="Jarvis · The Asterley AI Bartender"
+        subtitle="Four directions · subverting the chatbot format, mobile-first"
+        initialScale={0.7}
+      >
+        <DCSection id="intro" title="Brief & System">
+          <DCArtboard id="system" label="The system" width={560} height={794}>
+            <div style={{ padding: 28, background: A.cream, width: '100%', height: '100%', fontFamily: A.serif, color: A.ink, position: 'relative', overflow: 'hidden' }} className="a-paper">
+              <div style={{ fontFamily: A.mono, fontSize: 9, color: A.claret, letterSpacing: 0.5, textTransform: 'uppercase' }}>Design system · v.01</div>
+              <div style={{ fontFamily: A.serif, fontSize: 42, fontStyle: 'italic', color: A.ink, lineHeight: 0.95, marginTop: 10, fontWeight: 500 }}>
+                Meet Jarvis.
+              </div>
+              <div style={{ fontSize: 14, color: A.inkSoft, marginTop: 12, lineHeight: 1.4, fontStyle: 'italic', maxWidth: 440 }}>
+                Four directions to take the Asterley AI Bartender beyond the standard chat widget.
+                Warm host personality. Editorial, botanical visual language. Prescription-pad recipe cards.
+                Full typewriter streaming. Mobile-first.
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginTop: 26 }}>
+                {[
+                  ['#F4EBD7', 'cream'],
+                  ['#F7EFDC', 'parchment'],
+                  ['#5C1F1B', 'claret'],
+                  ['#1E1A14', 'ink'],
+                  ['#8E5A2A', 'sienna'],
+                  ['#4A5A3A', 'sage'],
+                  ['#B85C2A', 'rust'],
+                  ['#C9B887', 'gilt'],
+                ].map(([hex, name]) => (
+                  <div key={name} style={{ fontFamily: A.mono, fontSize: 9, color: A.ink }}>
+                    <div style={{ width: '100%', height: 44, background: hex, border: `0.5px solid ${A.ink}22` }} />
+                    <div style={{ marginTop: 4, letterSpacing: 0.3, textTransform: 'uppercase', color: A.inkSoft }}>{name}</div>
+                    <div style={{ letterSpacing: 0.3 }}>{hex}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <div>
+                  <div style={{ fontFamily: A.mono, fontSize: 9, color: A.claret, letterSpacing: 0.5, textTransform: 'uppercase' }}>Voice · Jarvis</div>
+                  <div style={{ fontFamily: A.serif, fontStyle: 'italic', fontSize: 16, marginTop: 8, lineHeight: 1.35, color: A.ink }}>
+                    "Warm host. British. A touch wry. Knows the shelves intimately but never lectures. Opens with curiosity, not a script."
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontFamily: A.mono, fontSize: 9, color: A.claret, letterSpacing: 0.5, textTransform: 'uppercase' }}>Four directions</div>
+                  <div style={{ fontFamily: A.serif, fontSize: 13, marginTop: 8, lineHeight: 1.5, color: A.ink }}>
+                    01 · The Dispensatory (widget)<br/>
+                    02 · Behind the Bar (full-screen)<br/>
+                    03 · The Flavour Compass (no-input)<br/>
+                    04 · The Menu Unfurls (editorial)
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ position: 'absolute', bottom: 24, left: 28, right: 28, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderTop: `0.5px solid ${A.claret}55`, paddingTop: 12 }}>
+                <div style={{ fontFamily: A.mono, fontSize: 9, color: A.claret, letterSpacing: 0.4 }}>ASTERLEY BROS · SE26</div>
+                <div style={{ fontFamily: A.serif, fontStyle: 'italic', fontSize: 12, color: A.inkSoft }}>handmade with integrity in south london</div>
+              </div>
+            </div>
+          </DCArtboard>
+
+          <DCArtboard id="brief" label="Brief & ambitions" width={280} height={400}>
+            <ContextCard metric="The brief" title="Beyond the widget." desc="Host Claude as Jarvis — an AI bartender with character. Starts conversations, recommends, writes recipes, prints shareable cards." />
+          </DCArtboard>
+          <DCArtboard id="jobs" label="Jobs-to-be-done" width={280} height={400}>
+            <ContextCard metric="Jobs" title="Four things Jarvis does." desc="① proactive greeting ② mood/occasion cocktails ③ bespoke recipe cards ④ vermouth & amaro recommendations" />
+          </DCArtboard>
+          <DCArtboard id="subvert" label="Subversions" width={280} height={400}>
+            <ContextCard metric="The subversions" title="No bubbles. No chips. No tropes." desc="Bubbles → prescriptions. Input → dial. Chat → menu. Typing → dragging bottles. Pick a direction or mix them." />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="dispensatory" title="01 · The Dispensatory">
+          <DCArtboard id="v1-open" label="Widget, open with greeting" width={434} height={794}>
+            <Phone><V1Dispensatory /></Phone>
+          </DCArtboard>
+          <DCArtboard id="v1-rec" label="Prescription card in-chat" width={434} height={794}>
+            <Phone><V1WithRecipe /></Phone>
+          </DCArtboard>
+          <DCArtboard id="v1-notes" label="Direction notes" width={280} height={400}>
+            <ContextCard metric="01" title="The Dispensatory." desc="Evolution of the widget. Bubbles replaced with typed 'prescriptions' on parchment. Proactive paper-note peeks from the corner. Recipe cards print inline." />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="bar" title="02 · Behind the Bar">
+          <DCArtboard id="v2-intro" label="Full-screen · intro, pick a bottle" width={434} height={794}>
+            <Phone><V2BehindTheBar /></Phone>
+          </DCArtboard>
+          <DCArtboard id="v2-notes" label="Direction notes" width={280} height={400}>
+            <ContextCard metric="02" title="Behind the Bar." desc="Full-screen takeover. You're at Jarvis's bar. His words ARE the UI. Bottles stand on a shelf, you tap one, he asks a mood. The glass fills. A card prints." />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="compass" title="03 · The Flavour Compass">
+          <DCArtboard id="v3-dial" label="No-input · the dial" width={434} height={794}>
+            <Phone><V3Compass /></Phone>
+          </DCArtboard>
+          <DCArtboard id="v3-notes" label="Direction notes" width={280} height={400}>
+            <ContextCard metric="03" title="The Flavour Compass." desc="Radical: no typing at all. A compass dial + ingredient shelf. You plot a quadrant (bitter/sweet/bright/spiced), Jarvis responds. Drag bottles in. Get a card." />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="menu" title="04 · The Menu Unfurls">
+          <DCArtboard id="v4-menu" label="Editorial menu · expanding" width={434} height={794}>
+            <Phone><V4Menu /></Phone>
+          </DCArtboard>
+          <DCArtboard id="v4-notes" label="Direction notes" width={280} height={400}>
+            <ContextCard metric="04" title="The Menu Unfurls." desc="Feels like a printed aperitivo menu. Sections open sequentially, each annotated by Jarvis. A whisper box at the bottom if none of the options fit." />
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  function V1WithRecipe() {
+    const [mounted, setMounted] = React.useState(false);
+    React.useEffect(() => {
+      const t = setTimeout(() => setMounted(true), 200);
+      return () => clearTimeout(t);
+    }, []);
+    return <V1Dispensatory key={mounted ? 'r' : 'i'} />;
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('app'));
+  root.render(<App />);
+</script>
+</body>
+</html>

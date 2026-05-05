@@ -1,0 +1,37 @@
+Glass Category,Glass Note,Mood ID,Mood Label,Mood Note,Recipe,Spec,Garnish,Method,Glass Used
+Martini,bright balanced,bright,Bright & Crisp,martini territory,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Martini,bright balanced,dark,Dark & Brooding,a stirred affair,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Martini,bright balanced,easy,Easy & Long,highball slow,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Martini,bright balanced,strong,Strong & Bitter,negroni country,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Martini,bright balanced,fizzy,Fizzy & Social,spritz for two,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Martini,bright balanced,spice,Warm & Spiced,a rainy day drink,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Rocks,spirit-forward neat,bright,Bright & Crisp,martini territory,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Rocks,spirit-forward neat,dark,Dark & Brooding,a stirred affair,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Rocks,spirit-forward neat,easy,Easy & Long,highball slow,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Rocks,spirit-forward neat,strong,Strong & Bitter,negroni country,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Rocks,spirit-forward neat,fizzy,Fizzy & Social,spritz for two,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Rocks,spirit-forward neat,spice,Warm & Spiced,a rainy day drink,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Highball,long drink,bright,Bright & Crisp,martini territory,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Highball,long drink,dark,Dark & Brooding,a stirred affair,Britannica Fernet & Ginger,"Britannica London Fernet 40ml · Ginger ale 120ml",Lime wedge,Build over ice,Highball glass
+Highball,long drink,easy,Easy & Long,highball slow,Britannica Fernet & Ginger,"Britannica London Fernet 40ml · Ginger ale 120ml",Lime wedge,Build over ice,Highball glass
+Highball,long drink,strong,Strong & Bitter,negroni country,Britannica Fernet & Ginger,"Britannica London Fernet 40ml · Ginger ale 120ml",Lime wedge,Build over ice,Highball glass
+Highball,long drink,fizzy,Fizzy & Social,spritz for two,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Highball,long drink,spice,Warm & Spiced,a rainy day drink,Britannica Fernet & Ginger,"Britannica London Fernet 40ml · Ginger ale 120ml",Lime wedge,Build over ice,Highball glass
+Negroni,bitter balanced,bright,Bright & Crisp,martini territory,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Negroni,bitter balanced,dark,Dark & Brooding,a stirred affair,Dispense Boulevardier,"Dispense Amaro 30ml · Bourbon whiskey 30ml · Sweet vermouth 20ml",Orange peel,Stir 25–30s,Rocks glass
+Negroni,bitter balanced,easy,Easy & Long,highball slow,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Negroni,bitter balanced,strong,Strong & Bitter,negroni country,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Negroni,bitter balanced,fizzy,Fizzy & Social,spritz for two,Estate White Negroni,"Estate Sweet Vermouth 30ml · London dry gin 30ml · Suze gentian 20ml",Lemon twist,Stir 20s,Coupe or rocks glass
+Negroni,bitter balanced,spice,Warm & Spiced,a rainy day drink,Dispense Negroni Scuro,"Dispense Amaro 30ml · London dry gin 30ml · Sweet vermouth 30ml",Orange twist,Stir 30s,Rocks glass
+Fizz,sparkling celebratory,bright,Bright & Crisp,martini territory,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Fizz,sparkling celebratory,dark,Dark & Brooding,a stirred affair,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Fizz,sparkling celebratory,easy,Easy & Long,highball slow,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Fizz,sparkling celebratory,strong,Strong & Bitter,negroni country,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Fizz,sparkling celebratory,fizzy,Fizzy & Social,spritz for two,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Fizz,sparkling celebratory,spice,Warm & Spiced,a rainy day drink,Asterley Grapefruit Spritz,"Asterley Original Aperitivo 45ml · Pink grapefruit juice 30ml · Prosecco 75ml",Grapefruit half-wheel,Shake then top with prosecco,Large wine glass
+Digestivo,warming contemplative,bright,Bright & Crisp,martini territory,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass
+Digestivo,warming contemplative,dark,Dark & Brooding,a stirred affair,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass
+Digestivo,warming contemplative,easy,Easy & Long,highball slow,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass
+Digestivo,warming contemplative,strong,Strong & Bitter,negroni country,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass
+Digestivo,warming contemplative,fizzy,Fizzy & Social,spritz for two,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass
+Digestivo,warming contemplative,spice,Warm & Spiced,a rainy day drink,Britannica Toronto,"Rye whiskey 50ml · Britannica London Fernet 15ml · Simple syrup 10ml · Bitters 2 dashes",Orange peel,Stir until velvety,Coupe or rocks glass

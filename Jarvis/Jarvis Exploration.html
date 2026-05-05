@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Jarvis — UI/UX Exploration · Asterley Bros</title>
+<meta name="viewport" content="width=1440">
+<link rel="stylesheet" href="./shell.css">
+<link rel="icon" href="./assets/logo-roundel-orange.svg">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="./shared.jsx"></script>
+<script type="text/babel" src="./concepts/c1-bar-rail.jsx"></script>
+<script type="text/babel" src="./concepts/c2-behind-the-bar.jsx"></script>
+<script type="text/babel" src="./concepts/c3-ledger.jsx"></script>
+<script type="text/babel" src="./concepts/c4-last-orders.jsx"></script>
+<script type="text/babel" src="./concepts/c5-corkscrew.jsx"></script>
+<script type="text/babel" src="./concepts/pages.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const CONCEPTS = [
+  { id: "opening", num: "00", name: "Brief, in my words", tag: "opening statement", pitch: "What I heard. Before the work." },
+  { id: "c1", num: "01", name: "The Bar Rail", tag: "Safe-but-elevated", pitch: "The best version of the form. A floor, not a ceiling." },
+  { id: "c2", num: "02", name: "Behind the Bar", tag: "Spatial / inhabited", pitch: "Not a panel. A place you step up to." },
+  { id: "c3", num: "03", name: "The Ledger", tag: "Object / editorial", pitch: "A letterpress ledger. Typography is the interface." },
+  { id: "c4", num: "04", name: "Last Orders", tag: "Radical / broadcast", pitch: "One voice. No scroll. The room listens." },
+  { id: "c5", num: "05", name: "Corkscrew", tag: "Ambient + Trade", pitch: "No panel at all. Jarvis annotates the site itself." },
+  { id: "matrix", num: "06", name: "Matrix & verdict", tag: "evaluation", pitch: "Scores, my favourite, and where I'd push." },
+];
+
+const App = () => {
+  const [cur, setCur] = useState(() => localStorage.getItem("jarvis-cur") || "c3");
+  useEffect(() => { localStorage.setItem("jarvis-cur", cur); }, [cur]);
+
+  const active = CONCEPTS.find(c => c.id === cur) || CONCEPTS[0];
+
+  return (
+    <div className="shell">
+      <aside className="rail">
+        <div className="rail__brand">
+          <img src="./assets/logo-roundel-orange.svg" alt=""/>
+          <div className="rail__brand-text">
+            <div className="rail__brand-name">ASTERLEY BROS</div>
+            <div className="rail__brand-sub">London</div>
+          </div>
+        </div>
+        <div>
+          <div className="rail__eyebrow">Project · JARVIS</div>
+          <h2 className="rail__title">UI / UX<br/>Exploration</h2>
+          <p className="rail__desc">Five distinct directions for an AI bartender that refuses to look like a support bot.</p>
+        </div>
+
+        <nav className="rail__nav" aria-label="Concepts">
+          {CONCEPTS.map(c => (
+            <button key={c.id} className="rail__item" aria-current={cur === c.id} onClick={() => setCur(c.id)}>
+              <span className="rail__num">{c.num}</span>
+              <span>
+                <span className="rail__name">{c.name}</span>
+                <span className="rail__tag">{c.tag}</span>
+              </span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="rail__foot">
+          <div className="rail__foot-row"><span>Prepared for</span><span style={{color:"var(--ab-orange)"}}>ASTERLEY BROS</span></div>
+          <div className="rail__foot-row"><span>Brief</span><span>Round 1 · 5 concepts</span></div>
+          <div className="rail__foot-row"><span>Voice</span><span className="caslon" style={{letterSpacing:0, textTransform:"none", fontSize:13}}>blunt, per request</span></div>
+        </div>
+      </aside>
+
+      <main className="stage" key={cur}>
+        <header className="stage__header">
+          <div className="stage__meta">
+            <span className="stage__step">{active.num}</span>
+            <span className="stage__name">{active.name}</span>
+            <span className="stage__dash">—</span>
+            <span className="stage__pitch">{active.pitch}</span>
+          </div>
+          <div className="stage__controls">
+            <span style={{fontSize:11, letterSpacing:"0.22em", fontWeight:700, color:"rgba(243,238,228,0.45)"}}>
+              {CONCEPTS.findIndex(c=>c.id===cur)+1} / {CONCEPTS.length}
+            </span>
+          </div>
+        </header>
+
+        <div className="concept">
+          {cur === "opening" && <OpeningPage/>}
+          {cur === "c1" && <ConceptPage
+            h1={<>The <span className="caslon">Bar Rail.</span></>}
+            lede="The best-in-class version of a chat, typeset like a masthead. A baseline for comparison — and a reminder that taste alone can't carry a concept that looks like a support bot."
+            core="A thin editorial rail pinned to the foot of the page. No floating bubble, no paper plane. Attribution as typography (‘J.’ and ‘You.’) separated by hairline rules, not bubbles."
+          ><BarRail/></ConceptPage>}
+          {cur === "c2" && <ConceptPage
+            h1={<>Behind the <span className="caslon">Bar.</span></>}
+            lede="Jarvis is not a panel you open. He's a room you step into — an unhurried dusk-lit bar that takes over the viewport when you engage, and politely returns the site to you when you don't."
+            core="Full-viewport takeover with a horizontally-scrolled ‘bar top’. The site does not disappear — it slides down into a dark strip. Time of day drives the light."
+          ><BehindTheBar/></ConceptPage>}
+          {cur === "c3" && <ConceptPage
+            h1={<>The <span className="caslon">Ledger.</span></>}
+            lede="Jarvis is a column of type in a hand-set ledger. No bubbles. No chat. An editorial artefact, scored by hairline rules, that happens to respond."
+            core="The entire surface is a single typeset page. Jarvis's replies set in upright sans; yours in Caslon italic. Marginalia holds meta; a red pen underlines the serve. This is my favourite."
+            isFavourite
+          ><Ledger/></ConceptPage>}
+          {cur === "c4" && <ConceptPage
+            h1={<>Last <span className="caslon">Orders.</span></>}
+            lede="A radio broadcast. One sentence at a time, large enough to fill the room. No scroll of history, no chat log. Jarvis speaks and the page listens. Impractical on purpose."
+            core="There is only ever one message on screen. Replies replace — they don't accumulate. Time-of-day governs the tone. A ‘dial’ tunes the register, not the topic."
+          ><LastOrders/></ConceptPage>}
+          {cur === "c5" && <ConceptPage
+            h1={<>Cork<span className="caslon">screw.</span></>}
+            lede="Jarvis has no panel. He lives in the margins of the existing site — annotations, stickers, small asides. In trade mode the same annotations become invoice lines. Duality as interface."
+            core="A typographic overlay on the site. A single hairline rule runs the length of the viewport; Jarvis speaks from it. Stickers attach to products. Trade mode is the same grammar in a different key."
+          ><Corkscrew/></ConceptPage>}
+          {cur === "matrix" && <MatrixPage/>}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+// ConceptPage wraps a concept's artifact with heading + core-move block
+window.ConceptPage = ({ h1, lede, core, isFavourite, children }) => (
+  <>
+    <div className="concept__hed">
+      <div>
+        {isFavourite && <span className="eyebrow" style={{color:"var(--ab-orange)", fontSize:11, fontWeight:700, letterSpacing:"0.28em", textTransform:"uppercase"}}>★ My pick for round 2</span>}
+        <h1 className="concept__h1">{h1}</h1>
+        <p className="concept__lede">{lede}</p>
+      </div>
+      <div className="concept__core">
+        <b>The core move</b>
+        {core}
+      </div>
+    </div>
+    {children}
+  </>
+);
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

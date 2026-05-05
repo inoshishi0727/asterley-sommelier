@@ -1,0 +1,303 @@
+/* Asterley Bros — Colors & Type
+   Based on brand: Modern British Amaro/Vermouth, South London
+   Signature: Acumin Pro (display/UI) + Adobe Caslon Pro Italic (accent/flourish)
+   Palette: Amaro Orange, Ink Black, Bone Cream, muted botanical hues
+*/
+
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/Acumin-RPro.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/Acumin-ItPro.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/Acumin-BdPro.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Acumin Pro";
+  src: url("./fonts/Acumin-BdItPro.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Caslon Italic";
+  src: url("./fonts/Adobe Caslon Pro Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ========================================
+     COLORS — Primitive palette
+     ======================================== */
+  --ab-black:        #111111;    /* Ink black — bottles, primary text */
+  --ab-off-black:    #1C1B1A;    /* Warm near-black backgrounds */
+  --ab-charcoal:     #2B2A28;    /* Secondary dark */
+  --ab-slate:        #4A4844;    /* Muted dark */
+
+  --ab-orange:       #ED6B3B;    /* Amaro Orange — signature brand color (roundel) */
+  --ab-orange-deep:  #C4542A;    /* Deep pour / pressed state */
+  --ab-orange-soft:  #F38A5E;    /* Hover / highlight */
+  --ab-terracotta:   #C44A22;    /* Print-safe alt */
+
+  --ab-bone:         #F3EEE4;    /* Bone cream — page background */
+  --ab-cream:        #EDE5D4;    /* Warmer cream */
+  --ab-parchment:    #E4D9BE;    /* Label paper */
+  --ab-off-white:    #FAF7F1;    /* Softest bg */
+  --ab-white:        #FFFFFF;
+
+  /* Botanical accents — sparing, supporting orange */
+  --ab-bottle-green: #2E3A2A;    /* Green wine bottle */
+  --ab-hedge:        #4C5A3F;    /* Muted botanical green */
+  --ab-burgundy:     #5C1E1E;    /* Vermouth red */
+  --ab-mustard:      #C49A3A;    /* Amber/gentian */
+  --ab-ink-blue:     #1F2A3C;    /* Deep blue, rare use */
+
+  /* Line work / borders */
+  --ab-rule:         #1A1A1A;
+  --ab-rule-soft:    rgba(17,17,17,0.16);
+  --ab-rule-bone:    rgba(17,17,17,0.10);
+
+  /* ========================================
+     SEMANTIC COLORS
+     ======================================== */
+  --fg-1:            var(--ab-black);
+  --fg-2:            var(--ab-charcoal);
+  --fg-3:            var(--ab-slate);
+  --fg-inverse:      var(--ab-off-white);
+  --fg-accent:       var(--ab-orange);
+  --fg-accent-deep:  var(--ab-orange-deep);
+
+  --bg-page:         var(--ab-bone);
+  --bg-surface:      var(--ab-off-white);
+  --bg-inverse:      var(--ab-off-black);
+  --bg-label:        var(--ab-parchment);
+
+  --border-1:        var(--ab-rule);
+  --border-soft:     var(--ab-rule-soft);
+
+  --link:            var(--ab-black);
+  --link-hover:      var(--ab-orange);
+
+  /* ========================================
+     TYPEFACES
+     ======================================== */
+  --font-sans:       "Acumin Pro", "Helvetica Neue", "Inter", system-ui, sans-serif;
+  --font-display:    "Acumin Pro", "Helvetica Neue", "Inter", system-ui, sans-serif; /* tight, big, bold, uppercase */
+  --font-italic:     "Caslon Italic", "Adobe Caslon Pro", "EB Garamond", Georgia, serif; /* flourish only */
+  --font-mono:       ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* ========================================
+     TYPE SCALE — investor-deck sized
+     ======================================== */
+  --fs-eyebrow:      12px;    /* 0.75rem — uppercase tag */
+  --fs-caption:      13px;
+  --fs-body-sm:      15px;
+  --fs-body:         17px;
+  --fs-body-lg:      20px;
+  --fs-lead:         24px;
+  --fs-h5:           22px;
+  --fs-h4:           28px;
+  --fs-h3:           36px;
+  --fs-h2:           52px;
+  --fs-h1:           76px;
+  --fs-display:      112px;   /* deck title */
+
+  /* Line heights */
+  --lh-tight:        1.02;
+  --lh-snug:         1.15;
+  --lh-normal:       1.35;
+  --lh-body:         1.55;
+  --lh-loose:        1.7;
+
+  /* Letter-spacing */
+  --ls-wide:         0.28em;  /* eyebrow caps */
+  --ls-med:          0.12em;  /* headline caps */
+  --ls-tight:        -0.01em; /* big display */
+  --ls-normal:       0;
+
+  /* ========================================
+     SPACING — 4px base, generous
+     ======================================== */
+  --sp-0:  0;
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  24px;
+  --sp-6:  32px;
+  --sp-7:  48px;
+  --sp-8:  64px;
+  --sp-9:  96px;
+  --sp-10: 128px;
+
+  /* Radii — deliberately MINIMAL. Brand is sharp, editorial, label-like. */
+  --radius-none: 0;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-pill: 999px;   /* pill only for small tags */
+
+  /* Shadows — restrained, print-inspired */
+  --shadow-soft:  0 1px 2px rgba(17,17,17,0.06), 0 8px 24px rgba(17,17,17,0.06);
+  --shadow-card:  0 2px 4px rgba(17,17,17,0.08), 0 16px 40px rgba(17,17,17,0.08);
+  --shadow-lift:  0 24px 60px rgba(17,17,17,0.18);
+  --shadow-inner: inset 0 0 0 1px rgba(17,17,17,0.08);
+
+  /* Motion */
+  --ease:         cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast:     120ms;
+  --dur:          220ms;
+  --dur-slow:     420ms;
+
+  /* Layout */
+  --container:    1240px;
+  --gutter:       32px;
+}
+
+/* ========================================
+   SEMANTIC TYPE — drop-in classes
+   ======================================== */
+
+.ab-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-eyebrow);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--fg-accent);
+  line-height: 1;
+}
+
+.ab-display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-snug);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-h5 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--fs-h5);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--ls-med);
+  text-transform: uppercase;
+  color: var(--fg-1);
+}
+
+.ab-lead {
+  font-family: var(--font-italic);
+  font-weight: 400;
+  font-style: italic;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+}
+
+.ab-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg-1);
+}
+
+.ab-body-sm {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-body);
+  color: var(--fg-2);
+}
+
+.ab-caption {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-caption);
+  line-height: var(--lh-normal);
+  letter-spacing: 0.04em;
+  color: var(--fg-3);
+}
+
+.ab-flourish {
+  font-family: var(--font-italic);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--fg-accent);
+}
+
+.ab-rule {
+  display: block;
+  height: 1px;
+  background: var(--border-1);
+  border: 0;
+  margin: var(--sp-4) 0;
+}
+.ab-rule--orange { background: var(--fg-accent); }
+.ab-rule--thick  { height: 2px; }
+
+/* Utility: small wordmark asterism divider, like "· · ·" in Caslon italic */
+.ab-divider::before {
+  content: "· · ·";
+  font-family: var(--font-italic);
+  font-style: italic;
+  color: var(--fg-accent);
+  letter-spacing: 0.4em;
+}

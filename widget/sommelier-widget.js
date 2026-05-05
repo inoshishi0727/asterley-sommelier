@@ -102,61 +102,122 @@ const GLASSES = [
 ];
 
 const MOODS = [
-  { id: 'bright', label: 'Bright & Crisp',  note: 'martini territory'  },
-  { id: 'dark',   label: 'Dark & Brooding', note: 'a stirred affair'   },
-  { id: 'easy',   label: 'Easy & Long',     note: 'highball, slow'     },
-  { id: 'strong', label: 'Strong & Bitter', note: 'negroni country'    },
-  { id: 'fizzy',  label: 'Fizzy & Social',  note: 'spritz, for two'    },
-  { id: 'spice',  label: 'Warm & Spiced',   note: 'a rainy day drink'  },
+  { id: 'bright', label: 'Bright & Crisp'  },
+  { id: 'dark',   label: 'Dark & Brooding' },
+  { id: 'easy',   label: 'Easy & Long'     },
+  { id: 'strong', label: 'Strong & Bitter' },
+  { id: 'fizzy',  label: 'Fizzy & Social'  },
+  { id: 'spice',  label: 'Warm & Spiced'   },
 ];
+
+// Three moods per glass — order shown in Page 2.
+const GLASS_MOODS = {
+  negroni:  ['dark', 'strong', 'bright'],
+  flute:    ['fizzy', 'spice', 'easy'],
+  highball: ['bright', 'easy', 'strong'],
+  rocks:    ['easy', 'strong', 'dark'],
+  snifter:  ['dark', 'strong', 'spice'],
+  martini:  ['bright', 'easy', 'spice'],
+};
+
+const ESTATE_PRODUCT     = { name: 'ESTATE.',          sub: 'English Sweet Vermouth', price: '£26.95',
+  img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
+  url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' };
+const DISPENSE_PRODUCT   = { name: 'DISPENSE.',        sub: 'Modern British Amaro', price: '£31.95',
+  img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
+  url: 'https://asterleybros.com/products/dispense-modern-british-amaro' };
+const BRITANNICA_PRODUCT = { name: 'BRITANNICA.',      sub: 'London Fernet', price: '£38.95',
+  img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
+  url: 'https://asterleybros.com/products/britannica-london-fernet' };
+const ASTERLEY_PRODUCT   = { name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
+  img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
+  url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' };
+const CUNARD_PRODUCT     = { name: 'CUNARD.',          sub: 'English Dry Vermouth', price: '£30.95',
+  img: 'https://asterleybros.com/cdn/shop/files/CunardRedBackground.png?v=1716570477',
+  url: 'https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth' };
+const SCHOFIELDS_PRODUCT = { name: "SCHOFIELD'S.",     sub: 'English Dry Vermouth', price: '£26.95',
+  img: 'https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132',
+  url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' };
 
 const COCKTAILS = [
   { id: 'white-neg',  name: 'Estate White Negroni',
     spec: [['Estate Sweet Vermouth','30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
-    garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass', mood: 'elegant',
-    products: [{ name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
-      img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
-      url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' }] },
-  { id: 'boul',       name: 'Dispense Boulevardier',
-    spec: [['Dispense Amaro','30ml'],['Bourbon whiskey','30ml'],['Sweet vermouth','20ml']],
-    garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass', mood: 'contemplative',
-    products: [{ name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
-      img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
-      url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
-  { id: 'fern-gin',   name: 'Britannica Fernet & Ginger',
-    spec: [['Britannica London Fernet','40ml'],['Ginger ale','120ml']],
-    garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass', mood: 'easy',
-    products: [{ name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
-      img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
-      url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
+    garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass',
+    products: [ESTATE_PRODUCT] },
+  { id: 'brit-neg-amaro', name: 'Britannica Negroni Amaro',
+    spec: [['Britannica London Fernet','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
+    garnish: 'Grapefruit twist', method: 'Stir 30s', glass: 'Rocks glass',
+    products: [BRITANNICA_PRODUCT] },
   { id: 'neg-scuro',  name: 'Dispense Negroni Scuro',
     spec: [['Dispense Amaro','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
-    garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass', mood: 'bitter',
-    products: [{ name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
-      img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
-      url: 'https://asterleybros.com/products/dispense-modern-british-amaro' }] },
-  { id: 'spritz',     name: 'Asterley Grapefruit Spritz',
-    spec: [['Asterley Original Aperitivo','45ml'],['Pink grapefruit juice','30ml'],['Prosecco','75ml']],
-    garnish: 'Grapefruit half-wheel', method: 'Shake then top with prosecco', glass: 'Large wine glass', mood: 'celebratory',
-    products: [{ name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
-      img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
-      url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' }] },
+    garnish: 'Orange twist', method: 'Stir 30s', glass: 'Rocks glass',
+    products: [DISPENSE_PRODUCT] },
+  { id: 'cunard-pf-fizz', name: 'Cunard Passion Fruit Fizz',
+    spec: [['Cunard English Dry Vermouth','45ml'],['Fresh passion fruit','½ fruit'],['Fresh lime juice','10ml'],['Sparkling water','100ml']],
+    garnish: 'Passion fruit half', method: 'Build over ice', glass: 'Tall glass',
+    products: [CUNARD_PRODUCT] },
+  { id: 'estate-rhubarb', name: 'Estate Rhubarb Spritz',
+    spec: [['Estate English Sweet Vermouth','45ml'],['Rhubarb syrup','20ml'],['Dry prosecco','90ml']],
+    garnish: 'Rhubarb ribbon + lemon twist', method: 'Build over ice', glass: 'Large wine glass',
+    products: [ESTATE_PRODUCT] },
+  { id: 'asterley-spritz', name: 'Asterley Spritz',
+    spec: [['Asterley Original Aperitivo','60ml'],['Dry prosecco','90ml'],['Soda water','30ml']],
+    garnish: 'Orange slice + olive', method: 'Build over ice', glass: 'Large wine glass',
+    products: [ASTERLEY_PRODUCT] },
+  { id: 'cunard-elder', name: 'Cunard Elderflower Spritz',
+    spec: [['Cunard English Dry Vermouth','45ml'],['Elderflower liqueur','15ml'],['Dry sparkling wine','90ml']],
+    garnish: 'Cucumber slice + elderflower', method: 'Build over ice', glass: 'Large wine glass',
+    products: [CUNARD_PRODUCT] },
+  { id: 'estate-strawberry', name: 'Estate Strawberry Cobbler',
+    spec: [['Estate English Sweet Vermouth','60ml'],['Fresh strawberries','2 hulled'],['Fresh orange juice','15ml']],
+    garnish: 'Strawberry half + mint', method: 'Muddle, shake, strain over crushed ice', glass: 'Rocks glass',
+    products: [ESTATE_PRODUCT] },
+  { id: 'fern-gin',   name: 'Britannica Fernet & Ginger',
+    spec: [['Britannica London Fernet','40ml'],['Ginger ale','120ml']],
+    garnish: 'Lime wedge', method: 'Build over ice', glass: 'Highball glass',
+    products: [BRITANNICA_PRODUCT] },
+  { id: 'sl-amaro-sour', name: 'South London Amaro Sour',
+    spec: [['Dispense Modern British Amaro','45ml'],['Fresh lemon juice','20ml'],['Honey syrup (1:1)','10ml'],['Egg white (optional)','15ml']],
+    garnish: 'Lemon twist', method: 'Dry shake, then shake with ice', glass: 'Chilled coupe',
+    products: [DISPENSE_PRODUCT] },
+  { id: 'boul',       name: 'Dispense Boulevardier',
+    spec: [['Dispense Amaro','30ml'],['Bourbon whiskey','30ml'],['Sweet vermouth','20ml']],
+    garnish: 'Orange peel', method: 'Stir 25–30s', glass: 'Rocks glass',
+    products: [DISPENSE_PRODUCT] },
+  { id: 'estate-of', name: 'Estate Old Fashioned',
+    spec: [['Estate English Sweet Vermouth','60ml'],['Angostura bitters','2 dashes'],['Orange bitters','1 dash']],
+    garnish: 'Orange peel + cherry', method: 'Stir 20s', glass: 'Rocks glass',
+    products: [ESTATE_PRODUCT] },
   { id: 'toronto',    name: 'Britannica Toronto',
     spec: [['Rye whiskey','50ml'],['Britannica London Fernet','15ml'],['Simple syrup','10ml'],['Bitters','2 dashes']],
-    garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass', mood: 'warming',
-    products: [{ name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
-      img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
-      url: 'https://asterleybros.com/products/britannica-london-fernet' }] },
+    garnish: 'Orange peel', method: 'Stir until velvety', glass: 'Coupe or rocks glass',
+    products: [BRITANNICA_PRODUCT] },
+  { id: 'dispense-nightcap', name: 'Dispense Nightcap',
+    spec: [['Dispense Modern British Amaro','50ml'],['Large ice cube','1']],
+    garnish: 'Orange twist', method: 'Pour over ice, sip slowly', glass: 'Rocks glass',
+    products: [DISPENSE_PRODUCT] },
+  { id: 'cunard-martini', name: 'Cunard Martini',
+    spec: [['London dry gin','60ml'],['Cunard English Dry Vermouth','20ml'],['Orange bitters','1 dash (optional)']],
+    garnish: 'Lemon twist', method: 'Stir until ice-cold', glass: 'Chilled Martini glass',
+    products: [CUNARD_PRODUCT] },
+  { id: 'schofields-gibson', name: "Schofield's Gibson",
+    spec: [['London dry gin','60ml'],["Schofield's English Dry Vermouth",'20ml']],
+    garnish: 'Pickled cocktail onion', method: 'Stir until thoroughly chilled', glass: 'Chilled coupe or Martini glass',
+    products: [SCHOFIELDS_PRODUCT] },
+  { id: 'estate-manhattan', name: 'Estate Manhattan',
+    spec: [['Rye or bourbon whiskey','50ml'],['Estate English Sweet Vermouth','25ml'],['Aromatic bitters','2 dashes']],
+    garnish: 'Brandied cherry', method: 'Stir until very cold and silky', glass: 'Chilled coupe or Nick & Nora',
+    products: [ESTATE_PRODUCT] },
 ];
 
 function cocktailFor(glassId, moodId) {
   const matrix = {
-    martini:  { bright:'white-neg', dark:'boul',     easy:'white-neg', strong:'neg-scuro', fizzy:'white-neg', spice:'boul'      },
-    rocks:    { bright:'white-neg', dark:'boul',     easy:'boul',      strong:'neg-scuro', fizzy:'neg-scuro', spice:'boul'      },
-    highball: { bright:'spritz',   dark:'fern-gin',  easy:'fern-gin',  strong:'fern-gin',  fizzy:'spritz',    spice:'fern-gin'  },
-    negroni:  { bright:'white-neg', dark:'boul',     easy:'neg-scuro', strong:'neg-scuro', fizzy:'white-neg', spice:'neg-scuro' },
-    flute:    { bright:'spritz',   dark:'spritz',    easy:'spritz',    strong:'spritz',    fizzy:'spritz',    spice:'spritz'    },
-    snifter:  { bright:'toronto',  dark:'toronto',   easy:'toronto',   strong:'toronto',   fizzy:'toronto',   spice:'toronto'   },
+    negroni:  { dark:'neg-scuro',         strong:'brit-neg-amaro',     bright:'white-neg'        },
+    flute:    { fizzy:'cunard-pf-fizz',   spice:'estate-rhubarb',      easy:'asterley-spritz'    },
+    highball: { bright:'cunard-elder',    easy:'estate-strawberry',    strong:'fern-gin'         },
+    rocks:    { easy:'sl-amaro-sour',     strong:'boul',               dark:'estate-of'          },
+    snifter:  { dark:'toronto',           strong:'dispense-nightcap',  spice:'boul'              },
+    martini:  { bright:'cunard-martini',  easy:'schofields-gibson',    spice:'estate-manhattan'  },
   };
   const id = (matrix[glassId] || {})[moodId] || 'neg-scuro';
   return COCKTAILS.find(c => c.id === id);
@@ -603,14 +664,17 @@ class AsterleySommelier extends HTMLElement {
         break;
 
       case 'inquire':
+        const allowedMoodIds = GLASS_MOODS[this._barGlass?.id] || MOODS.map(m => m.id);
+        const allowedMoods = allowedMoodIds
+          .map(id => MOODS.find(m => m.id === id))
+          .filter(Boolean);
         content.innerHTML = `
           <button class="ab-back-btn" id="bar-back">← Back</button>
           <div class="ab-mood-list">
-            ${MOODS.map((m,i) => `
+            ${allowedMoods.map((m,i) => `
               <button class="ab-mood-btn a-rise" data-id="${m.id}" style="animation-delay:${i*40}ms">
                 <div>
                   <div class="ab-mood-label">${this._esc(m.label)}</div>
-                  <div class="ab-mood-note">${this._esc(m.note)}</div>
                 </div>
                 <div class="ab-mood-arrow">→</div>
               </button>`).join('')}
