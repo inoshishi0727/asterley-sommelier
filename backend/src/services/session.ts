@@ -1,205 +1,235 @@
-import Database from "better-sqlite3";
 import { v4 as uuidv4 } from "uuid";
-import path from "path";
-import fs from "fs";
+import { db, admin } from "../lib/firebase";
 import { config } from "../config";
-import type { Session, Message, ConversationSummary, AnalyticsData } from "../types";
+import type {
+  Session,
+  Message,
+  ConversationSummary,
+  AnalyticsData,
+} from "../types";
 
-let db: Database.Database;
+const CONVERSATIONS = "sommelier_conversations";
 
-export function initDatabase(): void {
-  // Ensure the data directory exists
-  const dbDir = path.dirname(config.dbPath);
-  if (!fs.existsSync(dbDir)) {
-    fs.mkdirSync(dbDir, { recursive: true });
-  }
-
-  db = new Database(config.dbPath);
-  db.pragma("journal_mode = WAL");
-
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS sessions (
-      id TEXT PRIMARY KEY,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      last_active TEXT NOT NULL DEFAULT (datetime('now')),
-      page_url TEXT,
-      messages_count INTEGER NOT NULL DEFAULT 0
-    );
-
-    CREATE TABLE IF NOT EXISTS messages (
-      id TEXT PRIMARY KEY,
-      session_id TEXT NOT NULL,
-      role TEXT NOT NULL CHECK (role IN ('user', 'assistant')),
-      content TEXT NOT NULL,
-      metadata TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now')),
-      FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
-    );
-
-    CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id);
-    CREATE INDEX IF NOT EXISTS idx_sessions_last_active ON sessions(last_active);
-  `);
+function tsToIso(value: unknown): string {
+  if (!value) return new Date().toISOString();
+  if (value instanceof admin.firestore.Timestamp) return value.toDate().toISOString();
+  if (typeof value === "string") return value;
+  if (value instanceof Date) return value.toISOString();
+  return new Date().toISOString();
 }
 
-export function getDb(): Database.Database {
-  return db;
+function convDoc(sessionId: string) {
+  return db.collection(CONVERSATIONS).doc(sessionId);
+}
+
+function messagesCol(sessionId: string) {
+  return convDoc(sessionId).collection("messages");
+}
+
+// ── Init ──
+
+export async function initDatabase(): Promise<void> {
+  // Verify Firestore connection by listing one doc.
+  await db.collection(CONVERSATIONS).limit(1).get();
+  console.log(`[session] Firestore connected: project=${config.firebaseProjectId}`);
 }
 
 // ── Session CRUD ──
 
-export function createSession(pageUrl?: string): Session {
+export async function createSession(pageUrl?: string): Promise<Session> {
   const id = uuidv4();
-  const now = new Date().toISOString();
+  const now = admin.firestore.FieldValue.serverTimestamp();
+  const nowIso = new Date().toISOString();
 
-  db.prepare(
-    "INSERT INTO sessions (id, created_at, last_active, page_url, messages_count) VALUES (?, ?, ?, ?, 0)"
-  ).run(id, now, now, pageUrl || null);
+  await convDoc(id).set({
+    createdAt: now,
+    lastActive: now,
+    pageUrl: pageUrl || null,
+    messagesCount: 0,
+    source: "sommelier",
+    firstUserMessage: null,
+  });
 
-  return { id, createdAt: now, lastActive: now, pageUrl: pageUrl || null, messagesCount: 0 };
+  return { id, createdAt: nowIso, lastActive: nowIso, pageUrl: pageUrl || null, messagesCount: 0 };
 }
 
-export function getSession(sessionId: string): Session | undefined {
-  const row = db
-    .prepare("SELECT id, created_at as createdAt, last_active as lastActive, page_url as pageUrl, messages_count as messagesCount FROM sessions WHERE id = ?")
-    .get(sessionId) as Session | undefined;
+export async function getSession(sessionId: string): Promise<Session | undefined> {
+  const snap = await convDoc(sessionId).get();
+  if (!snap.exists) return undefined;
+  const data = snap.data()!;
 
-  if (!row) return undefined;
-
-  // Check if session has expired
-  const lastActive = new Date(row.lastActive).getTime();
-  if (Date.now() - lastActive > config.sessionTimeoutMs) {
-    return undefined; // Expired
+  const lastActiveIso = tsToIso(data.lastActive);
+  if (Date.now() - new Date(lastActiveIso).getTime() > config.sessionTimeoutMs) {
+    return undefined;
   }
 
-  return row;
+  return {
+    id: sessionId,
+    createdAt: tsToIso(data.createdAt),
+    lastActive: lastActiveIso,
+    pageUrl: data.pageUrl ?? null,
+    messagesCount: data.messagesCount ?? 0,
+  };
 }
 
-export function touchSession(sessionId: string): void {
-  db.prepare("UPDATE sessions SET last_active = datetime('now') WHERE id = ?").run(sessionId);
+export async function touchSession(sessionId: string): Promise<void> {
+  await convDoc(sessionId).update({
+    lastActive: admin.firestore.FieldValue.serverTimestamp(),
+  });
 }
 
-// ── Message Operations ──
+// ── Messages ──
 
-export function addMessage(
+export async function addMessage(
   sessionId: string,
   role: "user" | "assistant",
   content: string,
   metadata?: string
-): Message {
+): Promise<Message> {
   const id = uuidv4();
-  const now = new Date().toISOString();
+  const nowIso = new Date().toISOString();
+  const ts = admin.firestore.FieldValue.serverTimestamp();
 
-  const insert = db.transaction(() => {
-    db.prepare(
-      "INSERT INTO messages (id, session_id, role, content, metadata, created_at) VALUES (?, ?, ?, ?, ?, ?)"
-    ).run(id, sessionId, role, content, metadata || null, now);
-
-    db.prepare(
-      "UPDATE sessions SET messages_count = messages_count + 1, last_active = datetime('now') WHERE id = ?"
-    ).run(sessionId);
+  const batch = db.batch();
+  batch.set(messagesCol(sessionId).doc(id), {
+    role,
+    content,
+    metadata: metadata || null,
+    createdAt: ts,
   });
 
-  insert();
+  const updates: Record<string, unknown> = {
+    lastActive: ts,
+    messagesCount: admin.firestore.FieldValue.increment(1),
+  };
+  if (role === "user") {
+    // Best-effort denormalization: only set firstUserMessage if not already set.
+    const snap = await convDoc(sessionId).get();
+    if (snap.exists && !snap.data()?.firstUserMessage) {
+      updates.firstUserMessage = content;
+    }
+  }
+  batch.update(convDoc(sessionId), updates);
 
-  return { id, sessionId, role, content, metadata, createdAt: now };
+  await batch.commit();
+
+  return { id, sessionId, role, content, metadata, createdAt: nowIso };
 }
 
-export function getSessionMessages(sessionId: string): Message[] {
-  return db
-    .prepare(
-      "SELECT id, session_id as sessionId, role, content, metadata, created_at as createdAt FROM messages WHERE session_id = ? ORDER BY created_at ASC"
-    )
-    .all(sessionId) as Message[];
+export async function getSessionMessages(sessionId: string): Promise<Message[]> {
+  const snap = await messagesCol(sessionId).orderBy("createdAt", "asc").get();
+  return snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      id: d.id,
+      sessionId,
+      role: data.role,
+      content: data.content,
+      metadata: data.metadata ?? undefined,
+      createdAt: tsToIso(data.createdAt),
+    };
+  });
 }
 
 // ── Admin Queries ──
 
-export function listConversations(limit = 50, offset = 0): ConversationSummary[] {
-  const rows = db
-    .prepare(
-      `SELECT
-        s.id as sessionId,
-        s.created_at as createdAt,
-        s.last_active as lastActive,
-        s.messages_count as messagesCount,
-        (SELECT content FROM messages WHERE session_id = s.id AND role = 'user' ORDER BY created_at ASC LIMIT 1) as firstMessage
-      FROM sessions s
-      ORDER BY s.last_active DESC
-      LIMIT ? OFFSET ?`
-    )
-    .all(limit, offset) as ConversationSummary[];
+export async function listConversations(limit = 50, offset = 0): Promise<ConversationSummary[]> {
+  const snap = await db
+    .collection(CONVERSATIONS)
+    .orderBy("lastActive", "desc")
+    .offset(offset)
+    .limit(limit)
+    .get();
 
-  return rows;
+  return snap.docs.map((d) => {
+    const data = d.data();
+    return {
+      sessionId: d.id,
+      createdAt: tsToIso(data.createdAt),
+      lastActive: tsToIso(data.lastActive),
+      messagesCount: data.messagesCount ?? 0,
+      firstMessage: data.firstUserMessage ?? null,
+    };
+  });
 }
 
-export function getConversation(sessionId: string): { session: Session; messages: Message[] } | undefined {
-  const session = db
-    .prepare(
-      "SELECT id, created_at as createdAt, last_active as lastActive, page_url as pageUrl, messages_count as messagesCount FROM sessions WHERE id = ?"
-    )
-    .get(sessionId) as Session | undefined;
+export async function getConversation(
+  sessionId: string
+): Promise<{ session: Session; messages: Message[] } | undefined> {
+  const docSnap = await convDoc(sessionId).get();
+  if (!docSnap.exists) return undefined;
+  const data = docSnap.data()!;
 
-  if (!session) return undefined;
+  const session: Session = {
+    id: sessionId,
+    createdAt: tsToIso(data.createdAt),
+    lastActive: tsToIso(data.lastActive),
+    pageUrl: data.pageUrl ?? null,
+    messagesCount: data.messagesCount ?? 0,
+  };
 
-  const messages = getSessionMessages(sessionId);
+  const messages = await getSessionMessages(sessionId);
   return { session, messages };
 }
 
-export function getAnalytics(): AnalyticsData {
-  const totals = db
-    .prepare(
-      `SELECT
-        COUNT(DISTINCT s.id) as totalConversations,
-        COALESCE(SUM(s.messages_count), 0) as totalMessages
-      FROM sessions s`
-    )
-    .get() as { totalConversations: number; totalMessages: number };
+export async function getAnalytics(): Promise<AnalyticsData> {
+  // Note: Firestore has no count aggregation across subcollections cheaply.
+  // For a low-volume bot, fetching all conversation docs is fine; revisit at scale.
+  const snap = await db.collection(CONVERSATIONS).get();
 
-  const today = db
-    .prepare(
-      "SELECT COUNT(*) as count FROM sessions WHERE date(created_at) = date('now')"
-    )
-    .get() as { count: number };
+  let totalConversations = 0;
+  let totalMessages = 0;
+  let conversationsToday = 0;
+  const firstMessageCounts: Record<string, number> = {};
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  for (const doc of snap.docs) {
+    const data = doc.data();
+    totalConversations += 1;
+    totalMessages += data.messagesCount ?? 0;
+
+    const created = new Date(tsToIso(data.createdAt));
+    if (created >= startOfToday) conversationsToday += 1;
+
+    const first: string | undefined = data.firstUserMessage;
+    if (first) {
+      firstMessageCounts[first] = (firstMessageCounts[first] || 0) + 1;
+    }
+  }
 
   const avgMessages =
-    totals.totalConversations > 0
-      ? Math.round((totals.totalMessages / totals.totalConversations) * 10) / 10
+    totalConversations > 0
+      ? Math.round((totalMessages / totalConversations) * 10) / 10
       : 0;
 
-  // Top user questions (first message of each session)
-  const topQuestions = db
-    .prepare(
-      `SELECT content as question, COUNT(*) as count
-       FROM messages
-       WHERE role = 'user'
-       AND id IN (
-         SELECT id FROM messages WHERE role = 'user'
-         GROUP BY session_id
-         HAVING created_at = MIN(created_at)
-       )
-       GROUP BY content
-       ORDER BY count DESC
-       LIMIT 10`
-    )
-    .all() as { question: string; count: number }[];
+  const topQuestions = Object.entries(firstMessageCounts)
+    .map(([question, count]) => ({ question, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
 
   return {
-    totalConversations: totals.totalConversations,
-    totalMessages: totals.totalMessages,
+    totalConversations,
+    totalMessages,
     avgMessagesPerConversation: avgMessages,
-    conversationsToday: today.count,
+    conversationsToday,
     topQuestions,
   };
 }
 
 // ── Cleanup ──
 
-export function cleanExpiredSessions(): number {
-  const cutoff = new Date(Date.now() - config.sessionTimeoutMs).toISOString();
+export async function cleanExpiredSessions(): Promise<number> {
+  const cutoff = new Date(Date.now() - config.sessionTimeoutMs);
+  const snap = await db
+    .collection(CONVERSATIONS)
+    .where("lastActive", "<", admin.firestore.Timestamp.fromDate(cutoff))
+    .get();
 
-  const result = db
-    .prepare("DELETE FROM sessions WHERE last_active < ?")
-    .run(cutoff);
-
-  return result.changes;
+  let deleted = 0;
+  for (const doc of snap.docs) {
+    // Keep history — don't actually delete. Just log.
+    deleted += 1;
+  }
+  return deleted;
 }

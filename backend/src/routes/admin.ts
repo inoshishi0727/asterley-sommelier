@@ -8,17 +8,17 @@ import {
 export const adminRouter = Router();
 
 // List recent conversations
-adminRouter.get("/conversations", (req: Request, res: Response) => {
+adminRouter.get("/conversations", async (req: Request, res: Response) => {
   const limit = Math.min(parseInt(String(req.query.limit || "50"), 10), 200);
   const offset = parseInt(String(req.query.offset || "0"), 10);
 
-  const conversations = listConversations(limit, offset);
+  const conversations = await listConversations(limit, offset);
   res.json({ conversations, limit, offset });
 });
 
 // View a specific conversation
-adminRouter.get("/conversations/:id", (req: Request, res: Response) => {
-  const conversation = getConversation(String(req.params.id));
+adminRouter.get("/conversations/:id", async (req: Request, res: Response) => {
+  const conversation = await getConversation(String(req.params.id));
 
   if (!conversation) {
     res.status(404).json({ error: "Conversation not found" });
@@ -45,7 +45,7 @@ adminRouter.get("/conversations/:id", (req: Request, res: Response) => {
 });
 
 // Analytics dashboard data
-adminRouter.get("/analytics", (_req: Request, res: Response) => {
-  const analytics = getAnalytics();
+adminRouter.get("/analytics", async (_req: Request, res: Response) => {
+  const analytics = await getAnalytics();
   res.json(analytics);
 });

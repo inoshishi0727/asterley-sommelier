@@ -22,24 +22,24 @@ chatRouter.post("/", async (req: Request, res: Response) => {
     // Get or create session
     let session;
     if (sessionId) {
-      session = getSession(sessionId);
+      session = await getSession(sessionId);
     }
     if (!session) {
-      session = createSession(pageContext?.currentUrl);
+      session = await createSession(pageContext?.currentUrl);
     }
 
     // Save user message
-    addMessage(session.id, "user", message.trim());
+    await addMessage(session.id, "user", message.trim());
 
     // Get conversation history (excluding the message we just added, since we pass it directly)
-    const history = getSessionMessages(session.id).slice(0, -1);
+    const history = (await getSessionMessages(session.id)).slice(0, -1);
 
     // Call Gemini
     const response = await chat(message.trim(), history, pageContext);
     response.sessionId = session.id;
 
     // Save assistant response
-    addMessage(
+    await addMessage(
       session.id,
       "assistant",
       JSON.stringify({

@@ -8,15 +8,23 @@ export const config = {
   port: parseInt(process.env.PORT || "3000", 10),
   nodeEnv: process.env.NODE_ENV || "development",
   sessionTimeoutMs: 30 * 60 * 1000,
-  dbPath: path.resolve(__dirname, "../data/sommelier.db"),
   shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN || "",
   shopifyStoreDomain: process.env.SHOPIFY_STORE_DOMAIN || "",
+  firebaseProjectId: process.env.FIREBASE_PROJECT_ID || "",
+  firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL || "",
+  firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY || "",
 } as const;
 
 export function validateConfig(): void {
   if (!config.geminiApiKey) {
     console.error(
       "GEMINI_API_KEY is required. Get one at https://aistudio.google.com/apikey"
+    );
+    process.exit(1);
+  }
+  if (!config.firebaseProjectId || !config.firebaseClientEmail || !config.firebasePrivateKey) {
+    console.error(
+      "Firebase credentials missing. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY in environment."
     );
     process.exit(1);
   }

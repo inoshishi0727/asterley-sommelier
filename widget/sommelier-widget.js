@@ -329,9 +329,13 @@ class AsterleySommelier extends HTMLElement {
     this._fetchMenu();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: `${getGreeting()}. Drinking or thinking? Either way, I can help.`,
+      message: `${getGreeting()}. I'm Jarvis — Asterley's AI sommelier. Drinking or thinking? Either way, I can help.`,
       productCards: [], recipeCards: [],
-      suggestedActions: [],
+      suggestedActions: [
+        { label: 'Suggest a drink',       type: 'question', value: "I'd love a recommendation — suggest me a drink." },
+        { label: 'Help me choose a gift', type: 'question', value: "I'm looking for a gift — can you help me choose?" },
+        { label: 'Show me what you make', type: 'question', value: 'What products do you make?' },
+      ],
     });
     this._startNoteRotation();
   }
@@ -1134,7 +1138,7 @@ class AsterleySommelier extends HTMLElement {
     } catch {
       this._hideTyping();
       this._addBotMessage({
-        message: "My apologies — lost the connection briefly. Try again in a moment, or reach us at hello@asterleybros.com.",
+        message: "My apologies — lost the connection briefly. Try again in a moment, or reach us at info@asterleybros.com.",
         productCards: [], recipeCards: [],
         suggestedActions: [{ label: '§ Try again', type: 'question', value: text }],
       });

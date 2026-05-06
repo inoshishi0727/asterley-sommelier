@@ -31,7 +31,10 @@ app.get("/api/health", (_req, res) => {
 });
 
 // Initialize database and start live data sync
-initDatabase();
+initDatabase().catch((err) => {
+  console.error("Firestore init failed:", err);
+  process.exit(1);
+});
 startShopifySync();
 startRecipeScraper();
 
