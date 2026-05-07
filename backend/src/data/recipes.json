@@ -1,10 +1,10 @@
 [
   {
     "id": "britannica-negroni-amaro",
-    "name": "Britannica Negroni Amaro",
+    "name": "The Britannica Negroni",
     "description": "A dark, stirred Negroni riff showcasing Britannica London Fernet's menthol bitterness alongside gin and sweet vermouth. Bold and complex.",
     "productIds": ["britannica"],
-    "jarvisSuggests": "Britannica in place of Campari — darker, more herbal, less sweet. Stir it long and serve cold.",
+    "jarvisSuggests": "Britannica in place of Campari. Darker, more herbal, less sweet. Stir it long and serve cold.",
     "ingredients": [
       { "item": "Britannica London Fernet", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
       { "item": "London dry gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -23,7 +23,7 @@
   {
     "id": "dispense-negroni-scuro",
     "name": "Dispense Negroni Scuro",
-    "description": "Our amaro takes the Campari slot in this herbal, stirred Negroni — lighter on sweetness, heavier on botanicals.",
+    "description": "Our amaro takes the Campari slot in this herbal, stirred Negroni. Lighter on sweetness, heavier on botanicals.",
     "productIds": ["dispense"],
     "jarvisSuggests": "Dispense swaps in for Campari. Same structure, more depth. Equal parts, well-stirred.",
     "ingredients": [
@@ -46,7 +46,7 @@
     "name": "Estate Negroni Sbagliato",
     "description": "The 'mistaken' Negroni: Estate sweet vermouth and Campari topped with prosecco instead of gin. Lighter, bubblier, still beautiful.",
     "productIds": ["estate"],
-    "jarvisSuggests": "Estate vermouth, Campari, prosecco — a lighter Negroni for warmer evenings. Build it in the glass, no shaker needed.",
+    "jarvisSuggests": "Estate vermouth, Campari, prosecco. A lighter Negroni for warmer evenings. Build it in the glass, no shaker needed.",
     "ingredients": [
       { "item": "Estate English Sweet Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Campari", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -65,7 +65,7 @@
   {
     "id": "asterley-bitter-lemon",
     "name": "Asterley Bitter Lemon",
-    "description": "Asterley Original with fresh lemon juice and bitter lemon tonic — a long, zesty aperitivo that works all afternoon.",
+    "description": "Asterley Original with fresh lemon juice and bitter lemon tonic. A long, zesty aperitivo that works all afternoon.",
     "productIds": ["asterley-original"],
     "jarvisSuggests": "Asterley Original over ice, topped with bitter lemon. Fifteen minutes of effort, all afternoon of drinking.",
     "ingredients": [
@@ -88,7 +88,7 @@
     "name": "Cunard Chamomile Cooler",
     "description": "Our maritime Cunard vermouth with chamomile honey syrup and soda. Delicate, floral, and effortlessly low-ABV.",
     "productIds": ["cunard"],
-    "jarvisSuggests": "Cunard with chamomile honey and soda — floral, low-ABV, effortless. The afternoon drink.",
+    "jarvisSuggests": "Cunard with chamomile honey and soda. Floral, low-ABV, effortless. The afternoon drink.",
     "ingredients": [
       { "item": "Cunard English Dry Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Chamomile honey syrup", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
@@ -109,7 +109,7 @@
     "name": "Dispense Blood Orange Aperitivo",
     "description": "Dispense shaken with blood orange juice, topped with prosecco. Deeply coloured, bittersweet, and built for Italian-style aperitivo hour.",
     "productIds": ["dispense"],
-    "jarvisSuggests": "Dispense shaken with blood orange, then prosecco on top. Bittersweet, deeply coloured — the aperitivo hour drink.",
+    "jarvisSuggests": "Dispense shaken with blood orange, then prosecco on top. Bittersweet, deeply coloured. The aperitivo hour drink.",
     "ingredients": [
       { "item": "Dispense Modern British Amaro", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh blood orange juice", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -130,7 +130,7 @@
     "name": "Estate Old Fashioned",
     "description": "An approachable, lower-ABV Old Fashioned using Estate sweet vermouth in place of spirit. Rich, bitters-forward, and deeply satisfying.",
     "productIds": ["estate"],
-    "jarvisSuggests": "Estate vermouth carrying an Old Fashioned on its own — no spirit needed. Bitters-forward, deeply satisfying, half the ABV.",
+    "jarvisSuggests": "Estate vermouth carrying an Old Fashioned on its own. No spirit needed. Bitters-forward, deeply satisfying, half the ABV.",
     "ingredients": [
       { "item": "Estate English Sweet Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Angostura bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false },
@@ -149,9 +149,9 @@
   {
     "id": "asterley-mule",
     "name": "Asterley Mule",
-    "description": "Asterley Original with lime and fiery ginger beer — a British aperitivo take on the mule. Refreshing and easy.",
+    "description": "Asterley Original with lime and fiery ginger beer. A British aperitivo take on the mule. Refreshing and easy.",
     "productIds": ["asterley-original"],
-    "jarvisSuggests": "Asterley Original with lime and fiery ginger beer. A British aperitivo mule — simple to build, easy to drink.",
+    "jarvisSuggests": "Asterley Original with lime and fiery ginger beer. A British aperitivo mule, simple to build and easy to drink.",
     "ingredients": [
       { "item": "Asterley Original British Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh lime juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
@@ -172,7 +172,7 @@
     "name": "Cunard Passion Fruit Fizz",
     "description": "Cunard dry vermouth with passion fruit and lime juice, topped with sparkling water. Tropical and light.",
     "productIds": ["cunard"],
-    "jarvisSuggests": "Cunard's maritime dryness against fresh passion fruit — bright, tropical, and genuinely low-ABV.",
+    "jarvisSuggests": "Cunard's maritime dryness against fresh passion fruit. Bright, tropical, and genuinely low-ABV.",
     "ingredients": [
       { "item": "Cunard English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh passion fruit, halved", "amount": "1", "unit": "fruit", "isAsterleyProduct": false },
@@ -194,7 +194,7 @@
     "name": "Dispense Espresso Highball",
     "description": "Cold espresso meets Dispense amaro over ice, topped with tonic. A bitter, caffeinated afternoon pick-me-up.",
     "productIds": ["dispense"],
-    "jarvisSuggests": "Cold espresso and Dispense, topped with tonic. The 4pm drink — bitter, caffeinated, no apology required.",
+    "jarvisSuggests": "Cold espresso and Dispense, topped with tonic. The 4pm drink: bitter, caffeinated, no apology required.",
     "ingredients": [
       { "item": "Dispense Modern British Amaro", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Cold espresso", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -215,7 +215,7 @@
     "name": "Schofield's Cucumber Collins",
     "description": "Schofield's dry vermouth with lemon, elderflower soda, and cucumber. The ideal summer garden drink.",
     "productIds": ["schofields"],
-    "jarvisSuggests": "Schofield's dry vermouth is built for this — bright, crisp, herbal. Lemon and elderflower finish the job.",
+    "jarvisSuggests": "Schofield's dry vermouth is built for this. Bright, crisp, herbal. Lemon and elderflower finish the job.",
     "ingredients": [
       { "item": "Schofield's English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh lemon juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
@@ -235,9 +235,9 @@
   {
     "id": "asterley-paloma-highball",
     "name": "Asterley Paloma Highball",
-    "description": "Asterley Original, lime juice, and sparkling grapefruit soda — a refreshing Paloma-style highball perfect for warm afternoons.",
+    "description": "Asterley Original, lime juice, and sparkling grapefruit soda. A refreshing Paloma-style highball perfect for warm afternoons.",
     "productIds": ["asterley-original"],
-    "jarvisSuggests": "Asterley Original's rhubarb bitterness works beautifully with grapefruit. A Paloma without the tequila — arguably better.",
+    "jarvisSuggests": "Asterley Original's rhubarb bitterness works beautifully with grapefruit. A Paloma without the tequila, arguably better.",
     "ingredients": [
       { "item": "Asterley Original British Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh lime juice", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
@@ -255,10 +255,10 @@
   },
   {
     "id": "britannica-negroni-sbagliato",
-    "name": "Britannica Negroni Sbagliato",
-    "description": "Britannica Fernet replaces gin in this sparkling Negroni riff — bitter, herbal, and effortless to make.",
+    "name": "Britannica Fernet Sbagliato",
+    "description": "Britannica Fernet replaces gin in this sparkling riff. Bitter, herbal, and effortless to make.",
     "productIds": ["britannica"],
-    "jarvisSuggests": "Britannica where the gin would be, prosecco to finish. Bitter, herbal, sparkling — the effortless Negroni.",
+    "jarvisSuggests": "Britannica where the gin would be, prosecco to finish. Bitter, herbal, sparkling. The effortless serve.",
     "ingredients": [
       { "item": "Britannica London Fernet", "amount": "20", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Bitter aperitivo", "amount": "25", "unit": "ml", "isAsterleyProduct": false },
@@ -277,7 +277,7 @@
   {
     "id": "dispense-boulevardier",
     "name": "Dispense Boulevardier",
-    "description": "Dispense amaro stands in for Campari in this whisky Boulevardier. Stirred, spirit-forward, and excellent after dinner.",
+    "description": "Dispense amaro stands in for Campari in this whisky Boulevardier. Stirred, spirit-forward, and deeply satisfying.",
     "productIds": ["dispense"],
     "jarvisSuggests": "Dispense for Campari, bourbon for gin. More depth, more warmth. The Boulevardier for people who mean it.",
     "ingredients": [
@@ -292,15 +292,15 @@
     ],
     "glassware": "Rocks glass",
     "garnish": "Orange peel",
-    "occasion": ["digestif", "after-dinner", "negroni-week", "stirred", "spirit-forward", "winter"],
+    "occasion": ["stirred", "dinner party", "winter", "bitter", "spirit-forward"],
     "difficulty": "medium"
   },
   {
     "id": "estate-white-negroni",
     "name": "Estate White Negroni",
-    "description": "Estate sweet vermouth with gin and Suze gentian. A softer, more floral Negroni variation — elegant and aromatic.",
+    "description": "Estate sweet vermouth with gin and Suze gentian. A softer, more floral Negroni variation. Elegant and aromatic.",
     "productIds": ["estate"],
-    "jarvisSuggests": "Estate's 31 botanicals carry this beautifully — floral, gentian-bitter, far more elegant than a standard Negroni.",
+    "jarvisSuggests": "Estate's 31 botanicals carry this beautifully. Floral, gentian-bitter, far more elegant than a standard Negroni.",
     "ingredients": [
       { "item": "Estate English Sweet Vermouth", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
       { "item": "London dry gin", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -321,7 +321,7 @@
     "name": "Estate Strawberry Cobbler",
     "description": "Estate vermouth shaken with fresh strawberries and orange, strained over crushed ice. A lush summer cobbler.",
     "productIds": ["estate"],
-    "jarvisSuggests": "Estate vermouth shaken with fresh strawberries. Crushed ice, short straw — the summer cobbler that earns its keep.",
+    "jarvisSuggests": "Estate vermouth shaken with fresh strawberries. Crushed ice, short straw. The summer cobbler that earns its keep.",
     "ingredients": [
       { "item": "Estate English Sweet Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh strawberries (hulled)", "amount": "2", "unit": "berries", "isAsterleyProduct": false },
@@ -364,7 +364,7 @@
     "name": "Schofield's Garden Cup",
     "description": "Schofield's dry vermouth topped with cloudy lemonade and loaded with garden garnishes. Our British take on a Pimm's cup.",
     "productIds": ["schofields"],
-    "jarvisSuggests": "Schofield's instead of Pimm's — more vermouth character, less sugar. Garnish generously and serve outdoors.",
+    "jarvisSuggests": "Schofield's instead of Pimm's. More vermouth character, less sugar. Garnish generously and serve outdoors.",
     "ingredients": [
       { "item": "Schofield's English Dry Vermouth", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Cloudy lemonade", "amount": "100", "unit": "ml", "isAsterleyProduct": false },
@@ -383,9 +383,9 @@
   {
     "id": "cunard-elderflower-spritz",
     "name": "Cunard Elderflower Spritz",
-    "description": "Cunard vermouth with elderflower liqueur and sparkling wine — floral, delicate, and perfectly suited to spring.",
+    "description": "Cunard vermouth with elderflower liqueur and sparkling wine. Floral, delicate, and perfectly suited to spring.",
     "productIds": ["cunard"],
-    "jarvisSuggests": "Cunard's sea-salt dryness against elderflower and bubbles. Spring in a glass — best when the weather finally earns it.",
+    "jarvisSuggests": "Cunard's sea-salt dryness against elderflower and bubbles. Spring in a glass, best when the weather finally earns it.",
     "ingredients": [
       { "item": "Cunard English Dry Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Elderflower liqueur", "amount": "15", "unit": "ml", "isAsterleyProduct": false },
@@ -406,7 +406,7 @@
     "name": "Asterley Grapefruit Spritz",
     "description": "Asterley Original shaken with pink grapefruit, topped with prosecco. Citrus-forward, bitter, and brilliantly easy.",
     "productIds": ["asterley-original"],
-    "jarvisSuggests": "Pink grapefruit sharpens Asterley Original's bitterness perfectly. Shake, strain, prosecco on top — done.",
+    "jarvisSuggests": "Pink grapefruit sharpens Asterley Original's bitterness perfectly. Shake, strain, prosecco on top. Done.",
     "ingredients": [
       { "item": "Asterley Original Aperitivo", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Fresh pink grapefruit juice", "amount": "30", "unit": "ml", "isAsterleyProduct": false },
@@ -427,7 +427,7 @@
     "name": "Estate Rhubarb Spritz",
     "description": "Estate sweet vermouth with rhubarb syrup and prosecco. Tart, pink-hued, and full of spring energy.",
     "productIds": ["estate"],
-    "jarvisSuggests": "Estate already has rhubarb running through it — the syrup amplifies it. Tart, pink, fizzy. The spring aperitivo.",
+    "jarvisSuggests": "Estate already has rhubarb running through it. The syrup amplifies it. Tart, pink, fizzy. The spring aperitivo.",
     "ingredients": [
       { "item": "Estate English Sweet Vermouth", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Rhubarb syrup", "amount": "20", "unit": "ml", "isAsterleyProduct": false },
@@ -448,7 +448,7 @@
     "name": "Britannica Mint Spritz",
     "description": "Britannica London Fernet over ice with tonic, cucumber and mint. Menthol-forward, herbal, and surprisingly refreshing.",
     "productIds": ["britannica"],
-    "jarvisSuggests": "Britannica with tonic — the menthol opens right up. Cucumber and mint make it a summer drink. Surprisingly easy.",
+    "jarvisSuggests": "Britannica with tonic. The menthol opens right up. Cucumber and mint make it a summer drink. Surprisingly easy.",
     "ingredients": [
       { "item": "Britannica London Fernet", "amount": "30", "unit": "ml", "isAsterleyProduct": true },
       { "item": "Tonic water", "amount": "120", "unit": "ml", "isAsterleyProduct": false }
@@ -466,9 +466,9 @@
   {
     "id": "britannica-toronto",
     "name": "Britannica Toronto",
-    "description": "Rye whisky with Britannica Fernet, a touch of syrup and bitters — the classic Toronto cocktail, British-made.",
+    "description": "Rye whisky with Britannica Fernet, a touch of syrup and bitters. The classic Toronto cocktail, British-made.",
     "productIds": ["britannica"],
-    "jarvisSuggests": "The Toronto is Britannica's natural habitat — rye, fernet, a touch of sweetness. Stir until cold, serve cold.",
+    "jarvisSuggests": "The Toronto is Britannica's natural habitat. Rye, fernet, a touch of sweetness. Stir until cold, serve cold.",
     "ingredients": [
       { "item": "Rye whiskey", "amount": "50", "unit": "ml", "isAsterleyProduct": false },
       { "item": "Britannica London Fernet", "amount": "15", "unit": "ml", "isAsterleyProduct": true },
@@ -488,7 +488,7 @@
   {
     "id": "britannica-fernet-ginger",
     "name": "Britannica Fernet & Ginger",
-    "description": "The simplest way to enjoy Britannica — long over ice with fiery ginger ale and a squeeze of lime. Herbal and refreshing.",
+    "description": "The simplest way to enjoy Britannica. Long over ice with fiery ginger ale and a squeeze of lime. Herbal and refreshing.",
     "productIds": ["britannica"],
     "jarvisSuggests": "Britannica and ginger ale. The simplest thing on the list and often the most requested. Lime, ice, done.",
     "ingredients": [
@@ -503,6 +503,49 @@
     "glassware": "Highball glass",
     "garnish": "Lime wedge, mint sprig optional",
     "occasion": ["casual", "long drink", "herbal", "summer", "easy serves"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "schofields-dry-martini",
+    "name": "Schofield's Dry Martini",
+    "description": "A bone-dry, spirit-forward martini. Schofield's English Dry Vermouth brings bright citrus and aromatic lift to the gin — clean, precise, and perfectly cold.",
+    "productIds": ["schofields"],
+    "jarvisSuggests": "Schofield's in a martini is the move. Very dry, very cold, very good. Lemon twist, not olive.",
+    "ingredients": [
+      { "item": "Schofield's English Dry Vermouth", "amount": "15", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "London dry gin", "amount": "60", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Chill a martini glass in the freezer for at least 10 minutes, or fill with ice water while you build the drink.",
+      "Add the gin and Schofield's to a mixing glass filled with ice. Stir for 30 seconds until well diluted and very cold.",
+      "Discard the ice water from the glass, then strain the martini in.",
+      "Express a lemon twist over the surface and rest it on the rim."
+    ],
+    "glassware": "Martini glass",
+    "garnish": "Lemon twist",
+    "occasion": ["stirred", "spirit-forward", "dinner party", "aperitivo"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "estate-perfect-martini",
+    "name": "The Perfect Martini",
+    "description": "A 'perfect' martini splits the vermouth between dry and sweet — Schofield's for lift, Estate for depth. Rounder and more complex than a classic dry.",
+    "productIds": ["schofields", "estate"],
+    "jarvisSuggests": "Half Schofield's, half Estate. Same gin, twice the character. The perfect split.",
+    "ingredients": [
+      { "item": "Schofield's English Dry Vermouth", "amount": "10", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Estate English Sweet Vermouth", "amount": "10", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "London dry gin", "amount": "50", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "Chill a martini glass. Add both vermouths and the gin to a mixing glass filled with ice.",
+      "Stir for 30 seconds until cold and well diluted.",
+      "Strain into the chilled glass.",
+      "Garnish with a lemon twist or a single olive."
+    ],
+    "glassware": "Martini glass",
+    "garnish": "Lemon twist or olive",
+    "occasion": ["stirred", "spirit-forward", "dinner party", "aperitivo"],
     "difficulty": "easy"
   }
 ]

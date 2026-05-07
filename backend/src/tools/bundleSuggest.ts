@@ -62,6 +62,7 @@ export function executeBundleSuggest(args: BundleSuggestArgs): string {
       volume: s.volume,
       shopifyVariantId: s.shopifyVariantId,
       imageUrl: s.imageUrl,
+      productUrl: s.productUrl,
     })),
     freeShippingNote: "Orders over £60 qualify for free UK shipping!",
   });

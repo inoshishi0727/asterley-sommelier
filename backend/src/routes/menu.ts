@@ -32,19 +32,17 @@ interface MenuSection {
 function classifyRecipe(r: Recipe): string {
   const tags = r.occasion ?? [];
 
-  const isDigestif = tags.some((t) =>
-    ["digestif", "after-dinner", "spirit-forward", "slow sipper"].includes(t)
-  );
-  const isLong = tags.some((t) =>
-    ["long drink", "garden party", "casual", "punch", "tropical"].includes(t)
-  ) && !tags.some((t) => ["stirred", "negroni-week"].includes(t));
-  const isStirred =
-    tags.some((t) => ["stirred", "dinner party", "negroni-week"].includes(t)) &&
-    !isDigestif;
-
-  if (isDigestif) return "digestivo";
-  if (isStirred) return "stirred";
-  if (isLong) return "long";
+  if (tags.some(t => ["digestif", "after-dinner", "spirit-forward", "slow sipper"].includes(t))) {
+    return "digestivo";
+  }
+  // negroni-week removed — sparkling Negroni riffs (Sbagliato) were incorrectly landing here
+  if (tags.some(t => ["stirred", "dinner party"].includes(t))) {
+    return "stirred";
+  }
+  // casual removed — too broad; sparkling aperitivo drinks were landing in Long
+  if (tags.some(t => ["long drink", "garden party", "punch", "tropical"].includes(t))) {
+    return "long";
+  }
   return "aperitivo";
 }
 
@@ -54,7 +52,7 @@ menuRouter.get("/", (_req, res) => {
       id: "aperitivo",
       title: "Aperitivo",
       sub: "to begin the evening",
-      note: "Start light — bitter's the key that unlocks the appetite.",
+      note: "Start light. Bitter is the key that unlocks the appetite.",
       items: [],
     },
     {
@@ -88,7 +86,7 @@ menuRouter.get("/", (_req, res) => {
     if (section && section.items.length < 6) {
       const p = recipe.productIds?.[0] ? getProductById(recipe.productIds[0]) : undefined;
       const generated = p
-        ? `${p.shortName} — ${p.tastingNotes.split('.')[0].charAt(0).toLowerCase() + p.tastingNotes.split('.')[0].slice(1)}.`
+        ? `${p.shortName}: ${p.tastingNotes.split('.')[0].charAt(0).toLowerCase() + p.tastingNotes.split('.')[0].slice(1)}.`
         : undefined;
       const jarvisSuggests = recipe.jarvisSuggests ?? generated;
       section.items.push({

@@ -13,6 +13,13 @@ export const config = {
   firebaseProjectId: process.env.FIREBASE_PROJECT_ID || "",
   firebaseClientEmail: process.env.FIREBASE_CLIENT_EMAIL || "",
   firebasePrivateKey: process.env.FIREBASE_PRIVATE_KEY || "",
+  adminApiKey: process.env.ADMIN_API_KEY || "",
+  emailPlatform: (process.env.EMAIL_PLATFORM || "firestore") as "klaviyo" | "mailchimp" | "firestore",
+  klaviyoApiKey: process.env.KLAVIYO_API_KEY || "",
+  klaviyoListId: process.env.KLAVIYO_LIST_ID || "",
+  mailchimpApiKey: process.env.MAILCHIMP_API_KEY || "",
+  mailchimpListId: process.env.MAILCHIMP_LIST_ID || "",
+  mailchimpServer: process.env.MAILCHIMP_SERVER || "",
 } as const;
 
 export function validateConfig(): void {

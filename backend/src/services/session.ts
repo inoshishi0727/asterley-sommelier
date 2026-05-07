@@ -87,19 +87,24 @@ export async function addMessage(
   metadata?: string
 ): Promise<Message> {
   const id = uuidv4();
-  const nowIso = new Date().toISOString();
-  const ts = admin.firestore.FieldValue.serverTimestamp();
+  const now = new Date();
+  const nowIso = now.toISOString();
+  // Use a client-side Timestamp for createdAt so orderBy("createdAt") is immediately
+  // consistent after batch.commit() — serverTimestamp() resolves asynchronously and
+  // can cause the just-written message to sort to position 0, breaking history slicing.
+  const msgTs = admin.firestore.Timestamp.fromDate(now);
+  const sessionTs = admin.firestore.FieldValue.serverTimestamp();
 
   const batch = db.batch();
   batch.set(messagesCol(sessionId).doc(id), {
     role,
     content,
     metadata: metadata || null,
-    createdAt: ts,
+    createdAt: msgTs,
   });
 
   const updates: Record<string, unknown> = {
-    lastActive: ts,
+    lastActive: sessionTs,
     messagesCount: admin.firestore.FieldValue.increment(1),
   };
   if (role === "user") {

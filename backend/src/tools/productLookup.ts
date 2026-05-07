@@ -55,6 +55,7 @@ export function executeProductLookup(args: ProductLookupArgs): string {
       isGlutenFree: p.isGlutenFree,
       shopifyVariantId: p.shopifyVariantId,
       imageUrl: p.imageUrl,
+      productUrl: p.productUrl,
     })),
   });
 }

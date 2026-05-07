@@ -197,8 +197,8 @@
     "price": 29.95,
     "currency": "GBP",
     "abv": 23,
-    "volume": "1000ml",
-    "description": "Ready To Drink Negroni. A limited edition large-format Negroni made with Estate vermouth, Campari, Dispense Amaro, and rhubarb gin. A zesty rhubarb twist on the classic Negroni, perfect for gatherings. Provides 8-10 servings.",
+    "volume": "500ml",
+    "description": "Ready To Drink Negroni. Made with Estate vermouth, Campari, Dispense Amaro, and rhubarb gin. A zesty rhubarb twist on the classic Negroni.",
     "tastingNotes": "A zesty rhubarb twist that adds a fresh spin to the classic Negroni. The tartness of rhubarb complements the drink's natural bitterness beautifully.",
     "botanicals": [
       "Rhubarb Root", "Wormwood", "Fresh Rhubarb"
@@ -291,7 +291,7 @@
     "isGlutenFree": true,
     "shopifyVariantId": "negroni-society-monthly",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/negorani.jpg?v=1724328693",
-    "productUrl": "https://shop.asterleybros.com/products/the-negroni-society-new",
+    "productUrl": "https://asterleybros.com/products/the-negroni-society-new",
     "inStock": true
   },
   {

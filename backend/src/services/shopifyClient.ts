@@ -84,7 +84,7 @@ function mapShopifyProduct(node: Record<string, unknown>): Product | null {
       currency: price.currencyCode,
       abv: staticProduct?.abv ?? null,
       volume: staticProduct?.volume ?? "",
-      description: (node.description as string) || staticProduct?.description || "",
+      description: staticProduct?.description || (node.description as string) || "",
       tastingNotes: staticProduct?.tastingNotes ?? "",
       botanicals: staticProduct?.botanicals ?? [],
       servingSuggestions: staticProduct?.servingSuggestions ?? [],
@@ -93,7 +93,7 @@ function mapShopifyProduct(node: Record<string, unknown>): Product | null {
       isGlutenFree: staticProduct?.isGlutenFree ?? true,
       shopifyVariantId: (variant.id as string) ?? staticProduct?.shopifyVariantId ?? "",
       imageUrl: image?.url ?? staticProduct?.imageUrl ?? "",
-      productUrl: (node.onlineStoreUrl as string) ?? staticProduct?.productUrl ?? "",
+      productUrl: (node.onlineStoreUrl as string) || staticProduct?.productUrl || "",
       inStock: variant.availableForSale as boolean,
     };
   } catch (_) {

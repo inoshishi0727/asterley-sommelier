@@ -5,6 +5,7 @@ import { config, validateConfig } from "./config";
 import { chatRouter } from "./routes/chat";
 import { adminRouter } from "./routes/admin";
 import { menuRouter } from "./routes/menu";
+import { subscribeRouter } from "./routes/subscribe";
 import { initDatabase } from "./services/session";
 import { startRecipeScraper } from "./services/recipeScraper";
 import { startShopifySync } from "./services/shopifyClient";
@@ -24,6 +25,7 @@ app.use("/widget", express.static(path.resolve(__dirname, "../../widget")));
 app.use("/api/chat", chatRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/menu", menuRouter);
+app.use("/api/subscribe", subscribeRouter);
 
 // Health check
 app.get("/api/health", (_req, res) => {

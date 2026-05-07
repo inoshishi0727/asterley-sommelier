@@ -13,25 +13,32 @@ function getGreeting() {
   return 'Evening';
 }
 
+function getSessionWord() {
+  const h = new Date().getHours();
+  if (h < 12) return 'this morning';
+  if (h < 18) return 'this afternoon';
+  return 'tonight';
+}
+
 // ─── Data ─────────────────────────────────────────────────────────────────
 
 const MENU_SECTIONS = [
   {
     id: 'aperitivo', title: 'Aperitivo', sub: 'to begin the evening',
-    note: "Start light — bitter's the key that unlocks the appetite.",
+    note: "Start light. Bitter is the key that unlocks the appetite.",
     items: [
       { name: 'Original Spritz', desc: 'Our Aperitivo, prosecco, soda.', price: '£11',
-        jarvisSuggests: "Built around our Original Aperitivo — lighter than Campari, rhubarb and citrus forward. The easiest drink on the menu.",
+        jarvisSuggests: "Built around our Original Aperitivo, lighter than Campari. Rhubarb and citrus forward. The easiest drink on the menu.",
         product: { name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
           img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
           url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' } },
       { name: 'Estate & Tonic', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
-        jarvisSuggests: "Estate sweet vermouth over citrus tonic — 31 botanicals do the heavy lifting. Just add ice.",
+        jarvisSuggests: "Estate sweet vermouth over citrus tonic. 31 botanicals do the heavy lifting. Just add ice.",
         product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
           url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
       { name: 'Dispense Americano', desc: 'Dispense, Estate, soda.', price: '£10',
-        jarvisSuggests: "Dispense in place of Campari. More depth, more bitterness — more worth your time.",
+        jarvisSuggests: "Dispense in place of Campari. More depth, more bitterness, more worth your time.",
         product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
           img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
@@ -63,12 +70,12 @@ const MENU_SECTIONS = [
     note: 'Drinks that last a conversation.',
     items: [
       { name: 'Estate Highball', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
-        jarvisSuggests: "50ml Estate, 75ml citrus tonic over ice. The simplest drink on the list — and often the best one.",
+        jarvisSuggests: "50ml Estate, 75ml citrus tonic over ice. The simplest drink on the list, and often the best one.",
         product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
           url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
       { name: 'Fernet & Tonic', desc: 'Britannica Fernet, Indian tonic.', price: '£10',
-        jarvisSuggests: "Britannica is bracing — menthol, bitter, aromatic. Indian tonic cuts through it just enough. A late-afternoon drink.",
+        jarvisSuggests: "Britannica is bracing: menthol, bitter, aromatic. Indian tonic cuts through it just enough. A late-afternoon drink.",
         product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
           img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
           url: 'https://asterleybros.com/products/britannica-london-fernet' } },
@@ -79,12 +86,12 @@ const MENU_SECTIONS = [
     note: 'A bitter, reflective end. Neat, or one rock.',
     items: [
       { name: 'Dispense, neat', desc: '35ml, room temperature.', price: '£8',
-        jarvisSuggests: "35ml at room temperature. No ice. Let the gentian and hops speak — they've earned it.",
+        jarvisSuggests: "35ml at room temperature. No ice. Let the gentian and hops speak. They've earned it.",
         product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
           img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
       { name: 'Britannica, rocks', desc: '35ml, one cube.', price: '£8',
-        jarvisSuggests: "One large ice cube. That's all. The cold opens up the menthol and softens the edge — just enough.",
+        jarvisSuggests: "One large ice cube. That's all. The cold opens up the menthol and softens the edge. Just enough.",
         product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
           img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
           url: 'https://asterleybros.com/products/britannica-london-fernet' } },
@@ -306,6 +313,8 @@ class AsterleySommelier extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this._isOpen           = false;
+    this._greeting         = getGreeting();
+    this._sessionWord      = getSessionWord();
     this._sessionId        = localStorage.getItem('ab-session-id') || null;
     this._isLoading        = false;
     this._tab              = 'chat';
@@ -329,11 +338,11 @@ class AsterleySommelier extends HTMLElement {
     this._fetchMenu();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: `${getGreeting()}. I'm Jarvis — Asterley's AI sommelier. Drinking or thinking? Either way, I can help.`,
+      message: `${this._greeting}. I'm Jarvis, Asterley's AI sommelier. Drinking or thinking? Either way, I can help.`,
       productCards: [], recipeCards: [],
       suggestedActions: [
-        { label: 'Suggest a drink',       type: 'question', value: "I'd love a recommendation — suggest me a drink." },
-        { label: 'Help me choose a gift', type: 'question', value: "I'm looking for a gift — can you help me choose?" },
+        { label: 'Suggest a drink',       type: 'question', value: "I'd love a recommendation. Suggest me a drink." },
+        { label: 'Help me choose a gift', type: 'question', value: "I'm looking for a gift. Can you help me choose?" },
         { label: 'Show me what you make', type: 'question', value: 'What products do you make?' },
       ],
     });
@@ -345,11 +354,11 @@ class AsterleySommelier extends HTMLElement {
   _startNoteRotation() {
     const LONGER_MSGS = [
       "I've a Negroni spec with your name on it when you're ready.",
-      "What shall we make tonight?",
-      "Ask me about our botanicals — there are rather a lot of them.",
+      `What shall we make ${this._sessionWord}?`,
+      "Ask me about our botanicals. There are rather a lot of them.",
       "Looking for a gift? I can help narrow it down.",
       "Tell me your glass and mood. I'll find the serve.",
-      "Something bitter, something bright — I know the difference.",
+      "Something bitter, something bright. I know the difference.",
     ];
     const el = this.shadowRoot.getElementById('note-text');
     if (!el) return;
@@ -387,7 +396,7 @@ class AsterleySommelier extends HTMLElement {
       <button class="ab-note-launcher" id="bubble" aria-label="Open Jarvis">
         <div class="ab-note-eyebrow">a note from the bar</div>
         <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
-        <div class="ab-note-sig">— J.</div>
+        <div class="ab-note-sig">· J.</div>
       </button>
 
       <!-- Panel -->
@@ -405,7 +414,7 @@ class AsterleySommelier extends HTMLElement {
           </div>
           <div class="ab-subrule">
             <div class="ab-subrule-line"></div>
-            <span class="ab-subrule-text">№ MMXXVI · SE26 · OPEN</span>
+            <span class="ab-subrule-text">№ MMXXVI · SE23 · OPEN</span>
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
@@ -421,23 +430,22 @@ class AsterleySommelier extends HTMLElement {
             <div class="ab-menu-edition">No. XII · Spring MMXXVI</div>
             <div class="ab-menu-heading">The Asterley<br><em>Aperitivo Hour.</em></div>
             <div class="ab-menu-rule-line"></div>
-            <div class="ab-menu-sub">— curated by Jarvis, for the drinker who knows what they like but is open to being surprised.</div>
+            <div class="ab-menu-sub">Curated by Jarvis, for the drinker who knows what they like but is open to being surprised.</div>
           </div>
-          <div class="ab-view-intro">Browse cocktails made with our bottles — tap any to ask Jarvis for the full recipe.</div>
+          <div class="ab-view-intro">Browse cocktails made with our bottles. Tap any to ask Jarvis for the full recipe.</div>
           <div id="accordion"></div>
           <div class="ab-whisper">
-            <span class="ab-rx">℞</span>
-            <input class="ab-whisper-input" id="whisper" placeholder="whisper to jarvis…" autocomplete="off">
+            <input class="ab-whisper-input" id="whisper" placeholder="ask Jarvis anything…" autocomplete="off">
             <button class="ab-whisper-btn" id="whisper-send" aria-label="Send">${sendSVG(CLARET)}</button>
           </div>
-          <div class="ab-menu-footer">— fin —<br>handmade with integrity in south london</div>
+          <div class="ab-menu-footer">fin.<br>handmade with integrity in south london</div>
         </div>
 
         <!-- ── View: Bar (V2) ── -->
         <div class="ab-view ab-view-hidden" id="view-bar">
           <div class="ab-jarvis-line" id="jarvis-line"></div>
           <div id="bar-content"></div>
-          <div class="ab-bar-footer">asterley bros · dalmain rd, SE26 · est. MMXIV</div>
+          <div class="ab-bar-footer">asterley bros · dalmain rd, SE23 · est. MMXIV</div>
         </div>
 
         <!-- ── View: Chat (V1) ── -->
@@ -448,7 +456,6 @@ class AsterleySommelier extends HTMLElement {
 
         <!-- Persistent input (Chat tab only) -->
         <div class="ab-input-area ab-input-hidden" id="input-area">
-          <span class="ab-rx-label">℞</span>
           <textarea class="ab-input" id="input" placeholder="ask Jarvis anything…" rows="1"></textarea>
           <button class="ab-send-btn" id="send" aria-label="Send">${sendSVG(CREAM)}</button>
         </div>
@@ -578,7 +585,7 @@ class AsterleySommelier extends HTMLElement {
           <div class="ab-section-left">
             <span class="ab-section-num">${String(idx+1).padStart(2,'0')}</span>
             <span class="ab-section-title">${this._esc(s.title)}</span>
-            <span class="ab-section-sub">— ${this._esc(s.sub)}</span>
+            <span class="ab-section-sub">· ${this._esc(s.sub)}</span>
           </div>
           <span class="ab-chevron" style="transform:${isOpen?'rotate(90deg)':'none'}">›</span>
         </button>
@@ -632,17 +639,17 @@ class AsterleySommelier extends HTMLElement {
 
     const cocktail = cocktailFor(this._barGlass?.id, this._barMood?.id);
     const lines = {
-      intro:   `${getGreeting()}. Pull up a stool. I'm Jarvis. What shape of glass feels right tonight?`,
+      intro:   `${this._greeting}. Pull up a stool. I'm Jarvis. What shape of glass feels right ${this._sessionWord}?`,
       inquire: `${this._barGlass?.name || 'That glass'}. An excellent instinct. Tell me your mood.`,
       pouring: `A ${cocktail?.name || 'serve'}, coming up. Watch the ice.`,
-      card:    "There. Yours to keep — or I'll print it for the fridge.",
+      card:    `There. Yours for ${this._sessionWord}.`,
     };
     lineEl.textContent = lines[this._barStage];
 
     switch (this._barStage) {
       case 'intro':
         content.innerHTML = `
-          <div class="ab-view-intro">Pick a glass and tell me your mood — I'll find your serve.</div>
+          <div class="ab-view-intro">Pick a glass and tell me your mood. I'll find your serve.</div>
           <div class="ab-voice-dock" id="voice-dock" role="button" tabindex="0" aria-label="Speak to Jarvis">
             <div class="ab-voice-bars" id="voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
             <div class="ab-voice-text" id="voice-text">or just tell me what you fancy…</div>
@@ -747,7 +754,7 @@ class AsterleySommelier extends HTMLElement {
               </div>` : ''}
               <div class="ab-bcard-actions">
                 <button class="ab-bcard-btn" id="bar-chat">Ask Jarvis →</button>
-                <button class="ab-bcard-btn ab-bcard-again" id="bar-again">↩ Again</button>
+                <button class="ab-bcard-btn ab-bcard-again" id="bar-again">← Back</button>
               </div>
             </div>
           </div>`;
@@ -927,7 +934,7 @@ class AsterleySommelier extends HTMLElement {
     }
   }
 
-  _typewrite(el, text, speed = 16, onDone = null) {
+  _typewrite(el, text, speed = 8, onDone = null) {
     // Strip [label](url) to just label for typewriter display; _linkifyMessage re-adds links
     const displayText = text.replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/g, '$1');
     el.dataset.rawText = text; // preserve original for linkification
@@ -1030,8 +1037,8 @@ class AsterleySommelier extends HTMLElement {
     const imgHtml = card.imageUrl?.startsWith('http')
       ? `<img class="ab-pcard-img" src="${this._esc(card.imageUrl)}" alt="${this._esc(card.name)}">`
       : `<div class="ab-pcard-img ab-pcard-placeholder">${(card.name||'A')[0]}</div>`;
-    const viewLink = card.url
-      ? `<a class="ab-btn-view" href="${this._esc(card.url)}" target="_blank">View →</a>`
+    const learnMore = card.url
+      ? `<a class="ab-btn-learn" href="${this._esc(card.url)}" target="_blank">Learn more</a>`
       : '';
     div.innerHTML = `
       ${imgHtml}
@@ -1041,7 +1048,7 @@ class AsterleySommelier extends HTMLElement {
         <div class="ab-pcard-desc">${this._esc(card.description || '')}</div>
         <div class="ab-pcard-actions">
           <button class="ab-btn-add">Add to Cart</button>
-          ${viewLink}
+          ${learnMore}
         </div>
       </div>`;
     div.querySelector('.ab-btn-add').onclick = () => this._addToCart(card);
@@ -1081,7 +1088,7 @@ class AsterleySommelier extends HTMLElement {
       ${ings}
       ${steps ? `<div class="ab-recipe-rule" style="margin:10px 0 8px"></div>${steps}` : ''}
       <div class="ab-recipe-footer">${this._esc(card.glassware||'')} · Garnish: ${this._esc(card.garnish||'none')}</div>
-      <div class="ab-recipe-sig">— Jarvis</div>`;
+      <div class="ab-recipe-sig">· Jarvis</div>`;
     return div;
   }
 
@@ -1138,7 +1145,7 @@ class AsterleySommelier extends HTMLElement {
     } catch {
       this._hideTyping();
       this._addBotMessage({
-        message: "My apologies — lost the connection briefly. Try again in a moment, or reach us at info@asterleybros.com.",
+        message: "Lost the connection briefly. Try again in a moment, or reach us at info@asterleybros.com.",
         productCards: [], recipeCards: [],
         suggestedActions: [{ label: '§ Try again', type: 'question', value: text }],
       });
@@ -1182,26 +1189,27 @@ class AsterleySommelier extends HTMLElement {
   }
 
   async _addToCart(product) {
+    const numericId = String(product.shopifyVariantId || '').replace(/^gid:\/\/shopify\/ProductVariant\//, '');
     try {
       const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: product.shopifyVariantId, quantity: 1 }),
+        body: JSON.stringify({ id: numericId, quantity: 1 }),
       });
       if (!res.ok) throw new Error();
       this._addBotMessage({
         message: `Added ${product.name || 'that'} to your cart. Shall I suggest a pairing?`,
         productCards: [], recipeCards: [],
         suggestedActions: [
-          { label: 'View cart',           type: 'link',     value: '/cart' },
-          { label: '§ Suggest a pairing', type: 'question', value: 'What pairs well with what I just added?' },
+          { label: 'View cart',         type: 'link',     value: '/cart' },
+          { label: 'Suggest a pairing', type: 'question', value: 'What pairs well with what I just added?' },
         ],
       });
     } catch {
       this._addBotMessage({
-        message: "Good choice. Visit the product page directly to add to your cart.",
+        message: `Something went wrong adding to your cart. You can add it directly on the product page.`,
         productCards: [], recipeCards: [],
-        suggestedActions: [{ label: 'View on site', type: 'link', value: product.productUrl || 'https://asterleybros.com/collections/all' }],
+        suggestedActions: [{ label: 'View on site', type: 'link', value: product.url || 'https://asterleybros.com/collections/all' }],
       });
     }
   }

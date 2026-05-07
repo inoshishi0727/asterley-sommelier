@@ -8,6 +8,7 @@ import { executeProductLookup, productLookupDeclaration } from "../tools/product
 import { executeRecipeLookup, recipeLookupDeclaration } from "../tools/recipeLookup";
 import { executeBundleSuggest, bundleSuggestDeclaration } from "../tools/bundleSuggest";
 import { executeShippingInfo, shippingInfoDeclaration } from "../tools/shippingInfo";
+import { executeEmailCapture, emailCaptureDeclaration } from "../tools/emailCapture";
 
 const brandVoice = fs.readFileSync(
   path.resolve(__dirname, "../data/brandVoice.md"),
@@ -40,6 +41,7 @@ ${brandVoice}
 - When someone describes a flavour preference, mood, or occasion (e.g. "something bitter", "something sweet and complex", "something for after dinner", "I like smoky spirits"), ALWAYS call product_lookup immediately with those terms as the query. Never ask a clarifying question when you have a flavour cue to work with.
 - HARD RULE — product names: if you are about to mention any Asterley product by name (Estate, Dispense, Britannica, Cunard, Schofield's, Asterley Original, etc.) in your reply, you MUST have called product_lookup in this turn first. No exceptions. This includes food pairings ("what goes with fish?"), gift suggestions, comparisons, "what should I try", or any recommendation. If you haven't called the tool, call it now before answering — query with the food/occasion/preference terms.
 - When directing a customer to a specific page (masterclass, gift vouchers, subscription etc.), include the full URL from the Key URLs list in your response text.
+- Use conversation history. If the customer has already stated a taste preference, occasion, or constraint earlier in this session (e.g. "I like bitter things", "I'm gluten intolerant", "it's for a gift"), carry that forward — do not ask for it again. Refer back to it naturally when relevant.
 
 ## Conversation Context
 The customer is browsing the Asterley Bros online shop. Help them find the perfect product, suggest cocktails, answer questions about ingredients/allergens/shipping, and guide them toward a purchase. Be conversational and helpful, not pushy.`;
@@ -53,6 +55,7 @@ const tools: Tool[] = [
       recipeLookupDeclaration,
       bundleSuggestDeclaration,
       shippingInfoDeclaration,
+      emailCaptureDeclaration,
     ],
   } as Tool,
 ];
@@ -66,7 +69,7 @@ interface ToolResult {
   parsed: any;
 }
 
-function executeTool(name: string, args: Record<string, any>): ToolResult {
+async function executeTool(name: string, args: Record<string, any>): Promise<ToolResult> {
   let resultString: string;
   switch (name) {
     case "product_lookup":
@@ -80,6 +83,9 @@ function executeTool(name: string, args: Record<string, any>): ToolResult {
       break;
     case "shipping_info":
       resultString = executeShippingInfo(args);
+      break;
+    case "email_capture":
+      resultString = await executeEmailCapture(args);
       break;
     default:
       resultString = JSON.stringify({ error: `Unknown tool: ${name}` });
@@ -334,11 +340,11 @@ export async function chat(
 
       contents.push({ role: "model", parts: candidate.content.parts } as Content);
 
-      const functionResponses = functionCalls.map((part: any) => {
-        const result = executeTool(part.functionCall.name, part.functionCall.args);
+      const functionResponses = await Promise.all(functionCalls.map(async (part: any) => {
+        const result = await executeTool(part.functionCall.name, part.functionCall.args);
         allToolResults.push(result);
         return { functionResponse: { name: part.functionCall.name, response: result.parsed } };
-      });
+      }));
 
       contents.push({ role: "user", parts: functionResponses } as Content);
 

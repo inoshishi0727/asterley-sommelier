@@ -4,8 +4,18 @@ import {
   getConversation,
   getAnalytics,
 } from "../services/session";
+import { config } from "../config";
 
 export const adminRouter = Router();
+
+adminRouter.use((req: Request, res: Response, next) => {
+  const key = req.headers["x-admin-key"];
+  if (!config.adminApiKey || key !== config.adminApiKey) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  next();
+});
 
 // List recent conversations
 adminRouter.get("/conversations", async (req: Request, res: Response) => {

@@ -691,14 +691,14 @@
   cursor: pointer; letter-spacing: 0.3px; text-transform: uppercase;
 }
 .ab-btn-add:hover { background: var(--ink); }
-.ab-btn-view {
+.ab-btn-learn {
   font-family: var(--mono); font-size: 9px;
   color: var(--claret); text-decoration: none;
   border: 0.5px solid var(--claret); padding: 4px 10px;
   letter-spacing: 0.3px; text-transform: uppercase;
   white-space: nowrap;
 }
-.ab-btn-view:hover { background: var(--claret); color: var(--cream); }
+.ab-btn-learn:hover { background: var(--claret); color: var(--cream); }
 
 /* Recipe cards — prescription pad */
 .ab-recipe-cards { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
