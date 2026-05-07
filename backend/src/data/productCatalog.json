@@ -27,7 +27,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "estate-500ml",
+    "shopifyVariantId": "36807390724260",
     "imageUrl": "https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159",
     "productUrl": "https://asterleybros.com/products/estate-english-sweet-vermouth",
     "inStock": true
@@ -59,7 +59,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "schofields-500ml",
+    "shopifyVariantId": "36807396196516",
     "imageUrl": "https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132",
     "productUrl": "https://asterleybros.com/products/schofields-english-dry-vermouth",
     "inStock": true
@@ -93,7 +93,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "dispense-500ml",
+    "shopifyVariantId": "36807389446308",
     "imageUrl": "https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169",
     "productUrl": "https://asterleybros.com/products/dispense-modern-british-amaro",
     "inStock": true
@@ -124,7 +124,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "asterley-original-500ml",
+    "shopifyVariantId": "45919150145700",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944",
     "productUrl": "https://asterleybros.com/products/asterley-original-british-aperitivo",
     "inStock": true
@@ -156,7 +156,7 @@
     "allergens": ["Sulphites", "Gluten", "TreeNuts"],
     "isVegan": true,
     "isGlutenFree": false,
-    "shopifyVariantId": "britannica-500ml",
+    "shopifyVariantId": "36807391772836",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944",
     "productUrl": "https://asterleybros.com/products/britannica-london-fernet",
     "inStock": true
@@ -184,7 +184,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "cunard-500ml",
+    "shopifyVariantId": "45692231909540",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/CunardRedBackground.png?v=1716570477",
     "productUrl": "https://asterleybros.com/products/cunard-limited-edition-english-dry-vermouth",
     "inStock": true
@@ -211,7 +211,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "rhubarb-negroni-1l",
+    "shopifyVariantId": "56605280436602",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Photo19-02-2026_100118_3.png?v=1771492147",
     "productUrl": "https://asterleybros.com/products/rhubarb-negroni",
     "inStock": true
@@ -237,7 +237,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "vermouth-bundle",
+    "shopifyVariantId": "56144002974074",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/1Artboard_1_b4ba0cf4-7004-4bf8-8a76-5d4dfa740577.png?v=1770025132",
     "productUrl": "https://asterleybros.com/products/the-vermouth-lovers-bundle",
     "inStock": true
@@ -263,7 +263,7 @@
     "allergens": ["Sulphites", "Gluten"],
     "isVegan": true,
     "isGlutenFree": false,
-    "shopifyVariantId": "amaro-bundle",
+    "shopifyVariantId": "56592803692922",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/Bundle_Amaro.png?v=1771239009",
     "productUrl": "https://asterleybros.com/products/the-amaro-lovers-bundle",
     "inStock": true
@@ -289,7 +289,7 @@
     "allergens": ["Sulphites"],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "negroni-society-monthly",
+    "shopifyVariantId": "42739470925988",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/negorani.jpg?v=1724328693",
     "productUrl": "https://asterleybros.com/products/the-negroni-society-new",
     "inStock": true
@@ -314,7 +314,7 @@
     "allergens": [],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "amaro-masterclass-single",
+    "shopifyVariantId": "56013361414522",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/amaro_new.png?v=1761123402",
     "productUrl": "https://asterleybros.com/products/introduction-to-amaro-a-masterclass",
     "inStock": true
@@ -339,7 +339,7 @@
     "allergens": [],
     "isVegan": true,
     "isGlutenFree": true,
-    "shopifyVariantId": "gift-card",
+    "shopifyVariantId": "56334830174586",
     "imageUrl": "https://asterleybros.com/cdn/shop/files/wmremove-transformed.png?v=1765900963",
     "productUrl": "https://asterleybros.com/products/asterley-bros-gift-cards",
     "inStock": true
