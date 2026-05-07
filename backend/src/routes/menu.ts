@@ -32,7 +32,8 @@ interface MenuSection {
 function classifyRecipe(r: Recipe): string {
   const tags = r.occasion ?? [];
 
-  if (tags.some(t => ["digestif", "after-dinner", "spirit-forward", "slow sipper"].includes(t))) {
+  // spirit-forward removed — it's a style tag, not a section classifier; stirred drinks like Boulevardier share it
+  if (tags.some(t => ["digestif", "after-dinner", "slow sipper"].includes(t))) {
     return "digestivo";
   }
   // negroni-week removed — sparkling Negroni riffs (Sbagliato) were incorrectly landing here

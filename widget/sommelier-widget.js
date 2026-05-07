@@ -561,14 +561,14 @@ class AsterleySommelier extends HTMLElement {
                   <div class="ab-aside-text">&ldquo;${this._esc(suggest)}&rdquo;</div>
                   ${it.product ? `
                   <div class="ab-bcard-shop-label" style="margin-top:10px">Get the bottle</div>
-                  <a class="ab-product-card" href="${it.product.url}" target="_blank">
+                  <a class="ab-product-card" href="${it.product.url}">
                     <img class="ab-product-img" src="${it.product.img}" alt="${this._esc(it.product.name)}" loading="lazy"/>
                     <div class="ab-product-info">
                       <div class="ab-product-name">${this._esc(it.product.name)}</div>
                       <div class="ab-product-sub">${this._esc(it.product.sub)}</div>
                       <div class="ab-product-price">${this._esc(it.product.price)}</div>
                     </div>
-                    <div class="ab-product-cta">Shop →</div>
+                    <div class="ab-product-cta">View product</div>
                   </a>` : ''}
                   <div class="ab-aside-actions">
                     <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(name)}">Recipe card</button>
@@ -742,14 +742,14 @@ class AsterleySommelier extends HTMLElement {
               <div class="ab-bcard-shop">
                 <div class="ab-bcard-shop-label">Get the bottle</div>
                 ${cocktail.products.map(p => `
-                <a class="ab-product-card" href="${p.url}" target="_blank">
+                <a class="ab-product-card" href="${p.url}">
                   <img class="ab-product-img" src="${p.img}" alt="${this._esc(p.name)}" loading="lazy"/>
                   <div class="ab-product-info">
                     <div class="ab-product-name">${this._esc(p.name)}</div>
                     <div class="ab-product-sub">${this._esc(p.sub)}</div>
                     <div class="ab-product-price">${this._esc(p.price)}</div>
                   </div>
-                  <div class="ab-product-cta">Shop →</div>
+                  <div class="ab-product-cta">View product</div>
                 </a>`).join('')}
               </div>` : ''}
               <div class="ab-bcard-actions">
@@ -1050,8 +1050,15 @@ class AsterleySommelier extends HTMLElement {
           <button class="ab-btn-add">Add to Cart</button>
           ${learnMore}
         </div>
+        <div class="ab-pcard-allergen">${
+          (card.allergens && card.allergens.length)
+            ? `Contains: ${card.allergens.join(', ').toLowerCase()}. Always check the label before purchase.`
+            : 'Always check the label before purchase.'
+        }</div>
+        <button class="ab-pcard-recipes-link" data-product="${this._esc(card.name)}">See cocktail recipes →</button>
       </div>`;
     div.querySelector('.ab-btn-add').onclick = () => this._addToCart(card);
+    div.querySelector('.ab-pcard-recipes-link').onclick = () => this._sendMessage(`What cocktails can I make with ${card.name}?`);
     return div;
   }
 
@@ -1222,7 +1229,7 @@ class AsterleySommelier extends HTMLElement {
     const el = document.createElement('div');
     el.id = 'typing';
     el.className = 'ab-typing';
-    el.innerHTML = `<div class="ab-typing-rule"></div>`;
+    el.innerHTML = `<span class="ab-dot"></span><span class="ab-dot"></span><span class="ab-dot"></span>`;
     container?.appendChild(el);
     this._scrollToBottom();
   }

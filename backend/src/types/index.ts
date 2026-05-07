@@ -84,6 +84,7 @@ export interface ProductCard {
   imageUrl: string;
   shopifyVariantId: string;
   url?: string;
+  allergens?: string[];
 }
 
 export interface RecipeCard {

@@ -127,6 +127,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
           imageUrl: p.imageUrl,
           shopifyVariantId: p.shopifyVariantId,
           url: p.productUrl,
+          allergens: p.allergens ?? [],
         });
       }
     }
@@ -392,7 +393,7 @@ export async function chat(
   }
 
   // ── Allergen post-processing footer ──
-  const ALLERGEN_FOOTER = '\n\nAllergen note: always check the product label before purchasing. For serious allergies, contact info@asterleybros.com before ordering.';
+  const ALLERGEN_FOOTER = '\n\nNote: all Asterley Bros products contain sulphites. Always check the product label before purchasing. For serious allergies, contact info@asterleybros.com before ordering.';
   const finalMessage = stripMarkdown(isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText);
 
   // Backend assembles structured response from tool results
