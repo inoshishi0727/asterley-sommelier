@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import {
   searchRecipes,
   getRecipesByProduct,
@@ -63,31 +62,28 @@ export const recipeLookupDeclaration = {
   name: "recipe_lookup",
   description:
     "Find cocktail recipes that use Asterley Bros products. Search by cocktail name, product, occasion (e.g. 'dinner party', 'summer', 'date night'), or difficulty level.",
-  parameters: {
-    type: Type.OBJECT,
+  input_schema: {
+    type: "object" as const,
     properties: {
       query: {
-        type: Type.STRING,
-        description:
-          "Free-text search for recipe names, ingredients, or styles (e.g. 'negroni', 'martini', 'spritz')",
+        type: "string",
+        description: "Free-text search for recipe names, ingredients, or styles (e.g. 'negroni', 'martini', 'spritz')",
       },
       productId: {
-        type: Type.STRING,
-        description:
-          "Find recipes that use a specific Asterley Bros product by ID",
+        type: "string",
+        description: "Find recipes that use a specific Asterley Bros product by ID",
       },
       occasion: {
-        type: Type.STRING,
-        description:
-          "Find recipes for a specific occasion (e.g. 'dinner party', 'summer', 'date night', 'casual')",
+        type: "string",
+        description: "Find recipes for a specific occasion (e.g. 'dinner party', 'summer', 'date night', 'casual')",
       },
       difficulty: {
-        type: Type.STRING,
+        type: "string",
         enum: ["easy", "medium", "advanced"],
         description: "Filter by recipe difficulty level",
       },
       recipeId: {
-        type: Type.STRING,
+        type: "string",
         description: "Look up a specific recipe by its ID",
       },
     },

@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import { subscribeEmail } from "../services/emailService";
 
 export interface EmailCaptureArgs {
@@ -17,11 +16,11 @@ export const emailCaptureDeclaration = {
   name: "email_capture",
   description:
     "Subscribe a customer's email address to the Asterley Bros newsletter. Call this as soon as the customer provides an email address in the context of signing up or staying in touch — do not ask them to confirm first.",
-  parameters: {
-    type: Type.OBJECT,
+  input_schema: {
+    type: "object" as const,
     properties: {
       email: {
-        type: Type.STRING,
+        type: "string",
         description: "The customer's email address",
       },
     },

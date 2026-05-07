@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import { suggestBundle, getProductsByCategory, getAllProducts } from "../services/product";
 
 export interface BundleSuggestArgs {
@@ -72,21 +71,20 @@ export const bundleSuggestDeclaration = {
   name: "bundle_suggest",
   description:
     "Suggest bundles, subscriptions, or gift options based on the customer's current selections, occasion, or budget. Use this to upsell and increase order value.",
-  parameters: {
-    type: Type.OBJECT,
+  input_schema: {
+    type: "object" as const,
     properties: {
       currentProductIds: {
-        type: Type.ARRAY,
-        items: { type: Type.STRING },
+        type: "array",
+        items: { type: "string" },
         description: "Product IDs the customer is currently considering or has in cart",
       },
       occasion: {
-        type: Type.STRING,
-        description:
-          "The occasion or purpose (e.g. 'gift', 'dinner party', 'subscription', 'experience', 'birthday')",
+        type: "string",
+        description: "The occasion or purpose (e.g. 'gift', 'dinner party', 'subscription', 'experience', 'birthday')",
       },
       budget: {
-        type: Type.NUMBER,
+        type: "number",
         description: "Maximum budget in GBP",
       },
     },

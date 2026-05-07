@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import {
   searchProducts,
   getProductsByCategory,
@@ -64,33 +63,24 @@ export const productLookupDeclaration = {
   name: "product_lookup",
   description:
     "Search the Asterley Bros product catalog by name, category, taste preference, or product ID. Use this whenever a customer asks about products, recommendations, pricing, ABV, allergens, or ingredients.",
-  parameters: {
-    type: Type.OBJECT,
+  input_schema: {
+    type: "object" as const,
     properties: {
       query: {
-        type: Type.STRING,
-        description:
-          "Free-text search query matching product names, descriptions, botanicals, or tasting notes",
+        type: "string",
+        description: "Free-text search query matching product names, descriptions, botanicals, or tasting notes",
       },
       category: {
-        type: Type.STRING,
-        enum: [
-          "vermouth",
-          "bitters",
-          "aperitif",
-          "bundle",
-          "subscription",
-          "experience",
-        ],
+        type: "string",
+        enum: ["vermouth", "bitters", "aperitif", "bundle", "subscription", "experience"],
         description: "Filter by product category",
       },
       preference: {
-        type: Type.STRING,
-        description:
-          "Taste/occasion preference like 'sweet', 'dry', 'bitter', 'negroni', 'martini', 'spritz', 'gift', 'party', 'gluten-free', 'digestif'",
+        type: "string",
+        description: "Taste/occasion preference like 'sweet', 'dry', 'bitter', 'negroni', 'martini', 'spritz', 'gift', 'party', 'gluten-free', 'digestif'",
       },
       productId: {
-        type: Type.STRING,
+        type: "string",
         description: "Look up a specific product by its ID",
       },
     },

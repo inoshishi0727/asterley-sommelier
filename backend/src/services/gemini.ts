@@ -1,5 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
-import type { Content, Tool } from "@google/genai";
+import Anthropic from "@anthropic-ai/sdk";
+import type { MessageParam, ToolUseBlock, TextBlock } from "@anthropic-ai/sdk/resources/messages";
 import fs from "fs";
 import path from "path";
 import { config } from "../config";
@@ -15,12 +15,11 @@ const brandVoice = fs.readFileSync(
   "utf-8"
 );
 
-const ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
+const client = new Anthropic({ apiKey: config.anthropicApiKey });
+
+const MODEL = "claude-haiku-4-5-20251001";
 
 // ── System Instruction ──
-// Gemini's only job: produce natural conversational text.
-// Product cards, recipe cards, and suggestion chips are assembled
-// by the backend from the tool call results.
 
 const SYSTEM_INSTRUCTION = `You are Jarvis, the Asterley Bros online sommelier — a warm, knowledgeable guide helping customers discover and enjoy Asterley Bros botanical spirits.
 
@@ -46,22 +45,17 @@ ${brandVoice}
 ## Conversation Context
 The customer is browsing the Asterley Bros online shop. Help them find the perfect product, suggest cocktails, answer questions about ingredients/allergens/shipping, and guide them toward a purchase. Be conversational and helpful, not pushy.`;
 
-// ── Tool Declarations ──
+// ── Tools ──
 
-const tools: Tool[] = [
-  {
-    functionDeclarations: [
-      productLookupDeclaration,
-      recipeLookupDeclaration,
-      bundleSuggestDeclaration,
-      shippingInfoDeclaration,
-      emailCaptureDeclaration,
-    ],
-  } as Tool,
+const tools: Anthropic.Tool[] = [
+  productLookupDeclaration,
+  recipeLookupDeclaration,
+  bundleSuggestDeclaration,
+  shippingInfoDeclaration,
+  emailCaptureDeclaration,
 ];
 
 // ── Tool Executor ──
-// Returns the raw result string AND the parsed data for card assembly.
 
 interface ToolResult {
   name: string;
@@ -95,18 +89,17 @@ async function executeTool(name: string, args: Record<string, any>): Promise<Too
 
 // ── Build History ──
 
-function buildHistory(messages: Message[]): Content[] {
+function buildHistory(messages: Message[]): MessageParam[] {
   return messages.map((m) => {
     let text = m.content;
     if (m.role === "assistant") {
       try { const p = JSON.parse(m.content); if (p.message) text = p.message; } catch {}
     }
-    return { role: m.role === "user" ? "user" : "model", parts: [{ text }] } as Content;
+    return { role: m.role === "user" ? "user" : "assistant", content: text } as MessageParam;
   });
 }
 
 // ── Card Builders ──
-// Extract product/recipe cards from accumulated tool results.
 
 function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<string>): ProductCard[] {
   const cards: ProductCard[] = [];
@@ -115,7 +108,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
     if (result.name === "product_lookup" && result.parsed.found) {
       for (const p of result.parsed.products || []) {
         if (flaggedAllergens?.size && (p.allergens as string[] | undefined)?.some(a => flaggedAllergens.has(a))) {
-          continue; // don't show cards for products containing the flagged allergen
+          continue;
         }
         cards.push({
           productId: p.id,
@@ -144,12 +137,12 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
           imageUrl: s.imageUrl,
           shopifyVariantId: s.shopifyVariantId,
           url: s.productUrl,
+          allergens: s.allergens ?? [],
         });
       }
     }
   }
 
-  // Dedupe by productId, limit to 3
   const seen = new Set<string>();
   return cards.filter((c) => {
     if (seen.has(c.productId)) return false;
@@ -160,7 +153,6 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
 
 function buildRecipeCards(toolResults: ToolResult[]): RecipeCard[] {
   const cards: RecipeCard[] = [];
-
   for (const result of toolResults) {
     if (result.name === "recipe_lookup" && result.parsed.found) {
       for (const r of result.parsed.recipes || []) {
@@ -176,17 +168,14 @@ function buildRecipeCards(toolResults: ToolResult[]): RecipeCard[] {
       }
     }
   }
-
   return cards.slice(0, 2);
 }
 
 function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductCard[], messageText: string): SuggestedAction[] {
-  // No tools called = pure conversation. Generate chips from Jarvis's message content.
   if (toolResults.length === 0) return buildConversationalChips(messageText.toLowerCase());
 
   const actions: SuggestedAction[] = [];
 
-  // If products were returned, offer "Add to Cart" for the first one
   if (productCards.length > 0) {
     actions.push({
       label: `Add ${productCards[0].name} to cart`,
@@ -195,7 +184,6 @@ function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductC
     });
   }
 
-  // Context-aware follow-ups based on which tools were called
   const toolNames = new Set(toolResults.map((r) => r.name));
 
   if (toolNames.has("product_lookup") && !toolNames.has("recipe_lookup")) {
@@ -207,8 +195,6 @@ function buildSuggestedActions(toolResults: ToolResult[], productCards: ProductC
   if (!toolNames.has("bundle_suggest")) {
     actions.push({ label: "Any bundles or gifts?", type: "question", value: "Do you have any bundles or gift options?" });
   }
-
-  // Always offer a general follow-up if we have room
   if (actions.length < 3) {
     actions.push({ label: "Help me choose", type: "question", value: "I'm not sure what to pick. Can you help me choose?" });
   }
@@ -241,24 +227,6 @@ function buildConversationalChips(lower: string): SuggestedAction[] {
   ];
 }
 
-// ── Gemini call with retry for transient capacity errors ──
-
-async function generateWithRetry(params: Parameters<typeof ai.models.generateContent>[0], maxRetries = 3): Promise<ReturnType<typeof ai.models.generateContent>> {
-  let lastErr: unknown;
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      return await ai.models.generateContent(params);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      const isRetryable = msg.includes('503') || msg.includes('UNAVAILABLE') || msg.includes('high demand') || msg.includes('429') || msg.includes('RESOURCE_EXHAUSTED');
-      if (!isRetryable) throw err;
-      lastErr = err;
-      await new Promise(r => setTimeout(r, 1000 * (attempt + 1)));
-    }
-  }
-  throw lastErr;
-}
-
 // ── Main Chat Function ──
 
 export async function chat(
@@ -266,32 +234,22 @@ export async function chat(
   history: Message[],
   pageContext?: PageContext
 ): Promise<ChatResponse> {
-  // Build context-enhanced user message
   let enhancedMessage = userMessage;
   if (pageContext) {
     const contextParts: string[] = [];
-    if (pageContext.currentUrl) {
-      contextParts.push(`[Customer is viewing: ${pageContext.currentUrl}]`);
-    }
-    if (pageContext.currentProductId) {
-      contextParts.push(`[Currently viewing product: ${pageContext.currentProductId}]`);
-    }
+    if (pageContext.currentUrl) contextParts.push(`[Customer is viewing: ${pageContext.currentUrl}]`);
+    if (pageContext.currentProductId) contextParts.push(`[Currently viewing product: ${pageContext.currentProductId}]`);
     if (pageContext.cartItems && pageContext.cartItems.length > 0) {
-      const cartSummary = pageContext.cartItems
-        .map((i) => `${i.title} (x${i.quantity})`)
-        .join(", ");
+      const cartSummary = pageContext.cartItems.map((i) => `${i.title} (x${i.quantity})`).join(", ");
       contextParts.push(`[Cart contains: ${cartSummary}, total: £${pageContext.cartTotal?.toFixed(2)}]`);
     }
-    if (contextParts.length > 0) {
-      enhancedMessage = `${contextParts.join(" ")}\n\nCustomer message: ${userMessage}`;
-    }
+    if (contextParts.length > 0) enhancedMessage = `${contextParts.join(" ")}\n\nCustomer message: ${userMessage}`;
   }
 
   // ── Allergen guard ──
   const ALLERGY_KEYWORDS = ['allerg', 'nut', 'hazelnut', 'gluten', 'sulphit', 'lactose', 'dairy', 'safe for'];
   const isAllergyQuery = ALLERGY_KEYWORDS.some(k => userMessage.toLowerCase().includes(k));
 
-  // Map query keywords → catalog allergen names for card filtering
   const ALLERGEN_KEYWORD_MAP: Record<string, string[]> = {
     'nut':      ['TreeNuts'],
     'hazelnut': ['TreeNuts'],
@@ -309,82 +267,75 @@ export async function chat(
     ? `\n\n## ALLERGEN SAFETY — active for this query\nState allergen facts directly — no opener, no filler. 2 sentences max. If the product contains the allergen: confirm it, then say "If you need something without [allergen], [Product] is a great alternative — [one-line reason]." Then call product_lookup for that alternative so its product card is shown. Do NOT include any label or email disclaimer in your response — it is appended automatically.`
     : '';
 
-  // Build conversation history
-  const conversationHistory = buildHistory(history);
-
-  // Add current user message
-  const contents: Content[] = [
-    ...conversationHistory,
-    { role: "user", parts: [{ text: enhancedMessage }] } as Content,
+  // Build messages array for Claude
+  const messages: MessageParam[] = [
+    ...buildHistory(history),
+    { role: "user", content: enhancedMessage },
   ];
 
-  // Accumulate all tool results across rounds
   const allToolResults: ToolResult[] = [];
-  // Accumulate text seen in any model turn (model may produce text alongside tool calls)
-  let collectedText = '';
+  let finalText = '';
 
-  const geminiConfig = { systemInstruction: SYSTEM_INSTRUCTION + allergenInstruction, tools, temperature: 0.7, maxOutputTokens: 1024 };
+  const systemPrompt = SYSTEM_INSTRUCTION + allergenInstruction;
 
-  // ── Reusable tool executor loop ──
-  async function runToolLoop(maxRounds: number) {
-    let r = 0;
-    while (r < maxRounds) {
-      const candidate = response.candidates?.[0];
-      if (!candidate?.content?.parts) break;
+  // ── Tool loop — up to 5 rounds ──
+  let round = 0;
+  const MAX_ROUNDS = 5;
 
-      // Capture any text produced in this turn
-      const textInTurn = candidate.content.parts.filter((p: any) => p.text).map((p: any) => p.text).join('');
-      if (textInTurn) collectedText = textInTurn;
+  let response = await client.messages.create({
+    model: MODEL,
+    max_tokens: 1024,
+    system: systemPrompt,
+    tools,
+    messages,
+  });
 
-      const functionCalls = candidate.content.parts.filter((part: any) => part.functionCall);
-      if (functionCalls.length === 0) break;
+  while (round < MAX_ROUNDS) {
+    // Collect any text from this turn
+    const textBlocks = response.content.filter((b): b is TextBlock => b.type === "text");
+    if (textBlocks.length) finalText = textBlocks.map(b => b.text).join("");
 
-      contents.push({ role: "model", parts: candidate.content.parts } as Content);
+    // Find tool calls
+    const toolUseBlocks = response.content.filter((b): b is ToolUseBlock => b.type === "tool_use");
+    if (toolUseBlocks.length === 0 || response.stop_reason === "end_turn") break;
 
-      const functionResponses = await Promise.all(functionCalls.map(async (part: any) => {
-        const result = await executeTool(part.functionCall.name, part.functionCall.args);
+    // Execute all tool calls in this round
+    const toolResults = await Promise.all(
+      toolUseBlocks.map(async (block) => {
+        const result = await executeTool(block.name, block.input as Record<string, any>);
         allToolResults.push(result);
-        return { functionResponse: { name: part.functionCall.name, response: result.parsed } };
-      }));
+        return { id: block.id, result };
+      })
+    );
 
-      contents.push({ role: "user", parts: functionResponses } as Content);
+    // Append assistant turn + tool results to messages
+    messages.push({ role: "assistant", content: response.content });
+    messages.push({
+      role: "user",
+      content: toolResults.map(({ id, result }) => ({
+        type: "tool_result" as const,
+        tool_use_id: id,
+        content: result.resultString,
+      })),
+    });
 
-      response = await generateWithRetry({ model: "gemini-2.5-flash", contents, config: geminiConfig });
-      r++;
-    }
+    response = await client.messages.create({
+      model: MODEL,
+      max_tokens: 1024,
+      system: systemPrompt,
+      tools,
+      messages,
+    });
+
+    round++;
   }
 
-  // Initial Gemini request
-  let response = await generateWithRetry({ model: "gemini-2.5-flash", contents, config: geminiConfig });
+  // Capture final text if not already set
+  const lastTextBlocks = response.content.filter((b): b is TextBlock => b.type === "text");
+  if (lastTextBlocks.length) finalText = lastTextBlocks.map(b => b.text).join("");
 
-  // Main tool call loop — up to 5 rounds
-  await runToolLoop(5);
+  const messageText = finalText || "Could you tell me a bit more about what you're looking for?";
 
-  // ── Hallucination guard ──
-  // Only fire if ALL product_lookups returned empty.
-  const productLookups = allToolResults.filter(r => r.name === 'product_lookup');
-  const productLookupRanEmpty = productLookups.length > 0 &&
-    productLookups.every(r => !r.parsed.found);
-  if (productLookupRanEmpty) {
-    contents.push({
-      role: 'user',
-      parts: [{ text: "[INTERNAL: The product lookup returned no results. Try again with a simpler or broader query (e.g. use just the product type like 'sweet vermouth' or 'amaro'). If you find a matching product this time, present it naturally as if it were a normal recommendation — do NOT deny it or say you don't carry it. Only if genuinely nothing is found: briefly say you don't carry that exact one and suggest the closest real alternative.]" }],
-    } as Content);
-    response = await generateWithRetry({ model: 'gemini-2.5-flash', contents, config: geminiConfig });
-    collectedText = '';
-    await runToolLoop(3);
-  }
-
-  // Extract final text — prefer last collectedText from any turn, fall back to final response parts
-  const messageText =
-    collectedText ||
-    response.candidates?.[0]?.content?.parts
-      ?.filter((part: any) => part.text)
-      .map((part: any) => part.text)
-      .join("") ||
-    "Could you tell me a bit more about what you're looking for?";
-
-  // Strip markdown artifacts (LLM sometimes emits **bold** despite instructions)
   function stripMarkdown(text: string): string {
     return text
       .replace(/\*\*(.+?)\*\*/gs, '$1')
@@ -392,21 +343,18 @@ export async function chat(
       .replace(/`(.+?)`/gs, '$1');
   }
 
-  // ── Allergen post-processing footer ──
   const ALLERGEN_FOOTER = '\n\nNote: all Asterley Bros products contain sulphites. Always check the product label before purchasing. For serious allergies, contact info@asterleybros.com before ordering.';
   const finalMessage = stripMarkdown(isAllergyQuery ? messageText + ALLERGEN_FOOTER : messageText);
 
-  // Backend assembles structured response from tool results
   const productCards = buildProductCards(allToolResults, flaggedAllergens);
   const recipeCards = buildRecipeCards(allToolResults);
   const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
 
   return {
-    sessionId: "", // Set by the route
+    sessionId: "",
     message: finalMessage,
     productCards,
     recipeCards,
     suggestedActions,
   };
 }
-

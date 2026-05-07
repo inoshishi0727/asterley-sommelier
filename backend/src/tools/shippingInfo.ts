@@ -1,4 +1,3 @@
-import { Type } from "@google/genai";
 import { getShippingInfo, getProductById } from "../services/product";
 
 export interface ShippingInfoArgs {
@@ -99,16 +98,15 @@ export const shippingInfoDeclaration = {
   name: "shipping_info",
   description:
     "Get shipping rates, delivery info, allergen/dietary information, returns policy, storage advice, age policy, or contact details. Use for any logistics or policy questions.",
-  parameters: {
-    type: Type.OBJECT,
+  input_schema: {
+    type: "object" as const,
     properties: {
       topic: {
-        type: Type.STRING,
-        description:
-          "The topic to look up: 'shipping', 'allergen', 'dietary', 'returns', 'age', 'contact', 'storage', or a combination",
+        type: "string",
+        description: "The topic to look up: 'shipping', 'allergen', 'dietary', 'returns', 'age', 'contact', 'storage', or a combination",
       },
       productId: {
-        type: Type.STRING,
+        type: "string",
         description: "Optional product ID for product-specific allergen/dietary info",
       },
     },
