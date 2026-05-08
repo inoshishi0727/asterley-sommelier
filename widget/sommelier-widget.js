@@ -583,7 +583,7 @@ class AsterleySommelier extends HTMLElement {
           const desc    = it.desc || it.v || '';
           const suggest = it.jarvisSuggests || 'Ask me for the full recipe or to find the right bottle.';
           return `
-            <button class="ab-item" data-section="${s.id}" data-idx="${j}">
+            <div class="ab-item" role="button" tabindex="0" data-section="${s.id}" data-idx="${j}">
               <div class="ab-item-row">
                 <div class="ab-item-name">${this._esc(name)}${it.star ? ' <span class="ab-star">★</span>' : ''}</div>
                 <div class="ab-item-dots"></div>
@@ -610,7 +610,7 @@ class AsterleySommelier extends HTMLElement {
                     <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
                   </div>
                 </div>` : ''}
-            </button>`;
+            </div>`;
         }).join('');
       }
 
