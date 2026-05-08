@@ -20,6 +20,9 @@ function getSessionWord() {
   return 'tonight';
 }
 
+const AB_ROUNDEL_URL = 'https://firebasestorage.googleapis.com/v0/b/asterley-bros-b29c0.firebasestorage.app/o/asterley-bros-logos%2FAB%20Roundel.png?alt=media';
+const AB_WORDMARK_URL = 'https://firebasestorage.googleapis.com/v0/b/asterley-bros-b29c0.firebasestorage.app/o/asterley-bros-logos%2FText%20Logo%20Small.png?alt=media';
+
 // ─── Data ─────────────────────────────────────────────────────────────────
 
 const MENU_SECTIONS = [
@@ -29,16 +32,28 @@ const MENU_SECTIONS = [
     items: [
       { name: 'Original Spritz', desc: 'Our Aperitivo, prosecco, soda.', price: '£11',
         jarvisSuggests: "Built around our Original Aperitivo, lighter than Campari. Rhubarb and citrus forward. The easiest drink on the menu.",
+        recipe: {
+          spec: [['Asterley Original Aperitivo','60ml'],['Dry prosecco','90ml'],['Soda water','30ml']],
+          method: 'Build over ice, stir gently.', glass: 'Large wine glass', garnish: 'Orange slice',
+        },
         product: { name: 'ASTERLEY ORIGINAL.', sub: 'British Aperitivo', price: '£20.95',
           img: 'https://asterleybros.com/cdn/shop/files/Asterley_Original_-_Product_Shot_SML.png?v=1771155944',
           url: 'https://asterleybros.com/products/asterley-original-british-aperitivo' } },
       { name: 'Estate & Tonic', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
         jarvisSuggests: "Estate sweet vermouth over citrus tonic. 31 botanicals do the heavy lifting. Just add ice.",
+        recipe: {
+          spec: [['Estate Sweet Vermouth','50ml'],['Citrus tonic water','100ml']],
+          method: 'Build over ice in a highball, stir once.', glass: 'Highball', garnish: 'Orange slice',
+        },
         product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
           url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
       { name: 'Dispense Americano', desc: 'Dispense, Estate, soda.', price: '£10',
         jarvisSuggests: "Dispense in place of Campari. More depth, more bitterness, more worth your time.",
+        recipe: {
+          spec: [['Dispense Amaro','30ml'],['Estate Sweet Vermouth','30ml'],['Soda water','60ml']],
+          method: 'Build over ice, top with soda.', glass: 'Highball or rocks', garnish: 'Orange slice',
+        },
         product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
           img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
@@ -50,16 +65,28 @@ const MENU_SECTIONS = [
     items: [
       { name: 'The Asterley Negroni', desc: 'Estate, Dispense, gin.', price: '£12', star: true,
         jarvisSuggests: "Equal parts Estate, Dispense, gin. Our house Negroni. Buy both bottles and you'll never run out.",
+        recipe: {
+          spec: [['Estate Sweet Vermouth','30ml'],['Dispense Amaro','30ml'],['London dry gin','30ml']],
+          method: 'Stir 30 seconds with ice, strain over a large cube.', glass: 'Rocks', garnish: 'Orange peel',
+        },
         product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
           img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
       { name: "Schofield's Martini", desc: "Gin, Schofield's, frozen.", price: '£13',
         jarvisSuggests: "Schofield's is built for this. Freeze the coupe 45 minutes before you pour. Don't rush it.",
+        recipe: {
+          spec: [['London dry gin','60ml'],["Schofield's English Dry Vermouth",'20ml']],
+          method: 'Stir until ice-cold, strain into a frozen coupe.', glass: 'Frozen coupe', garnish: 'Lemon twist',
+        },
         product: { name: "SCHOFIELD'S.", sub: 'English Dry Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132',
           url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' } },
       { name: 'White Negroni Society', desc: "Schofield's, Suze, gin.", price: '£12',
         jarvisSuggests: "Schofield's dry instead of sweet vermouth, Suze for the gentian. Lighter, more spring-forward than a classic Negroni.",
+        recipe: {
+          spec: [["Schofield's English Dry Vermouth",'30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
+          method: 'Stir 20 seconds with ice, strain.', glass: 'Coupe or rocks', garnish: 'Lemon twist',
+        },
         product: { name: "SCHOFIELD'S.", sub: 'English Dry Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/SDVSQsml.png?v=1770025132',
           url: 'https://asterleybros.com/products/schofields-english-dry-vermouth' } },
@@ -71,11 +98,19 @@ const MENU_SECTIONS = [
     items: [
       { name: 'Estate Highball', desc: 'Sweet vermouth, citrus tonic.', price: '£9',
         jarvisSuggests: "50ml Estate, 75ml citrus tonic over ice. The simplest drink on the list, and often the best one.",
+        recipe: {
+          spec: [['Estate Sweet Vermouth','50ml'],['Citrus tonic water','75ml']],
+          method: 'Build over ice in a highball.', glass: 'Highball', garnish: 'Lemon wheel',
+        },
         product: { name: 'ESTATE.', sub: 'English Sweet Vermouth', price: '£26.95',
           img: 'https://asterleybros.com/cdn/shop/products/ESTATESQsml.jpg?v=1718448159',
           url: 'https://asterleybros.com/products/estate-english-sweet-vermouth' } },
       { name: 'Fernet & Tonic', desc: 'Britannica Fernet, Indian tonic.', price: '£10',
         jarvisSuggests: "Britannica is bracing: menthol, bitter, aromatic. Indian tonic cuts through it just enough. A late-afternoon drink.",
+        recipe: {
+          spec: [['Britannica London Fernet','40ml'],['Indian tonic water','120ml']],
+          method: 'Build over ice in a highball, stir once.', glass: 'Highball', garnish: 'Lime wedge',
+        },
         product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
           img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
           url: 'https://asterleybros.com/products/britannica-london-fernet' } },
@@ -87,11 +122,19 @@ const MENU_SECTIONS = [
     items: [
       { name: 'Dispense, neat', desc: '35ml, room temperature.', price: '£8',
         jarvisSuggests: "35ml at room temperature. No ice. Let the gentian and hops speak. They've earned it.",
+        recipe: {
+          spec: [['Dispense Modern British Amaro','35ml']],
+          method: 'Pour neat at room temperature. No ice.', glass: 'Small tumbler', garnish: 'None',
+        },
         product: { name: 'DISPENSE.', sub: 'Modern British Amaro', price: '£31.95',
           img: 'https://asterleybros.com/cdn/shop/products/DispenseSQsml.jpg?v=1718448169',
           url: 'https://asterleybros.com/products/dispense-modern-british-amaro' } },
       { name: 'Britannica, rocks', desc: '35ml, one cube.', price: '£8',
         jarvisSuggests: "One large ice cube. That's all. The cold opens up the menthol and softens the edge. Just enough.",
+        recipe: {
+          spec: [['Britannica London Fernet','35ml'],['Large ice cube','1']],
+          method: 'Pour over a single large ice cube.', glass: 'Rocks', garnish: 'None',
+        },
         product: { name: 'BRITANNICA.', sub: 'London Fernet', price: '£38.95',
           img: 'https://asterleybros.com/cdn/shop/files/Britannica_SQ_sml.png?v=1771155944',
           url: 'https://asterleybros.com/products/britannica-london-fernet' } },
@@ -236,18 +279,6 @@ const INK    = '#1E1A14';
 const CLARET = '#B85C2A';
 const CREAM  = '#F4EBD7';
 
-function monogramSVG(size = 32) {
-  return `<svg width="${size}" height="${size}" viewBox="0 0 48 48" aria-hidden="true">
-    <circle cx="24" cy="24" r="23" fill="${CREAM}" stroke="#8E5A2A" stroke-width="1"/>
-    <text x="24" y="29" text-anchor="middle" fill="#8E5A2A"
-      font-family="Cormorant Garamond,serif" font-size="20" font-style="italic" font-weight="500">A</text>
-    <text x="33" y="22" text-anchor="middle" fill="#8E5A2A"
-      font-family="Cormorant Garamond,serif" font-size="10">·</text>
-    <text x="38" y="22" text-anchor="middle" fill="#8E5A2A"
-      font-family="Cormorant Garamond,serif" font-size="14" font-style="italic">b</text>
-  </svg>`;
-}
-
 function sendSVG(col = CREAM) {
   return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path d="M4 12 L20 12 M14 6 L20 12 L14 18" stroke="${col}" stroke-width="2"
@@ -388,7 +419,7 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=9', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=10', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
@@ -405,7 +436,8 @@ class AsterleySommelier extends HTMLElement {
         <!-- Masthead (V1 Dispensatory header) -->
         <div class="ab-masthead">
           <div class="ab-masthead-main">
-            ${monogramSVG(32)}
+            <img class="ab-masthead-mark" src="${AB_ROUNDEL_URL}" alt="Asterley Bros" width="32" height="32">
+
             <div class="ab-masthead-text">
               <div class="ab-eyebrow">The Asterley Dispensatory</div>
               <div class="ab-masthead-name">Jarvis, at your service.</div>
@@ -445,7 +477,10 @@ class AsterleySommelier extends HTMLElement {
         <div class="ab-view ab-view-hidden" id="view-bar">
           <div class="ab-jarvis-line" id="jarvis-line"></div>
           <div id="bar-content"></div>
-          <div class="ab-bar-footer">ASTERLEY BROS · SE26 · ORCHARD BUSINESS CENTRE · EST. MMXIV</div>
+          <div class="ab-bar-footer">
+            <img class="ab-footer-mark" src="${AB_WORDMARK_URL}" alt="Asterley Bros">
+            <div class="ab-footer-line">SE26 · ORCHARD BUSINESS CENTRE · EST. MMXIV</div>
+          </div>
         </div>
 
         <!-- ── View: Chat (V1) ── -->
@@ -559,7 +594,7 @@ class AsterleySommelier extends HTMLElement {
                 <div class="ab-jarvis-aside a-rise">
                   <div class="ab-aside-label">Jarvis suggests →</div>
                   <div class="ab-aside-text">&ldquo;${this._esc(suggest)}&rdquo;</div>
-                  ${this._inlineRecipeHTML(name)}
+                  ${this._inlineRecipeHTML(name, it.recipe)}
                   ${it.product ? `
                   <div class="ab-bcard-shop-label" style="margin-top:10px">Get the bottle</div>
                   <div class="ab-product-card">
@@ -641,22 +676,22 @@ class AsterleySommelier extends HTMLElement {
     });
   }
 
-  _inlineRecipeHTML(menuName) {
-    const c = this._findCocktailByMenuName(menuName);
-    if (!c || !Array.isArray(c.spec)) return '';
-    const ings = c.spec.map(([item, amt]) =>
+  _inlineRecipeHTML(menuName, itemRecipe) {
+    const r = itemRecipe || this._findCocktailByMenuName(menuName);
+    if (!r || !Array.isArray(r.spec)) return '';
+    const ings = r.spec.map(([item, amt]) =>
       `<div class="ab-ing-row">
         <span class="ab-ing-vol">${this._esc(amt)}</span>
         <span class="ab-ing-dots"></span>
         <span class="ab-ing-name">${this._esc(item)}</span>
       </div>`).join('');
-    const footer = [c.glass, c.garnish ? `Garnish: ${c.garnish}` : '']
+    const footer = [r.glass, r.garnish ? `Garnish: ${r.garnish}` : '']
       .filter(Boolean).map(s => this._esc(s)).join(' · ');
     return `
       <div class="ab-aside-recipe">
         <div class="ab-aside-recipe-label">Recipe →</div>
         ${ings}
-        ${c.method ? `<div class="ab-aside-recipe-method">${this._esc(c.method)}</div>` : ''}
+        ${r.method ? `<div class="ab-aside-recipe-method">${this._esc(r.method)}</div>` : ''}
         ${footer ? `<div class="ab-aside-recipe-footer">${footer}</div>` : ''}
       </div>`;
   }

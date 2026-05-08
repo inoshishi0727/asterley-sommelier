@@ -142,6 +142,11 @@
   padding: 12px 14px 8px;
   position: relative;
 }
+.ab-masthead-mark {
+  display: block;
+  width: 32px; height: 32px;
+  flex-shrink: 0;
+}
 .ab-masthead-text { flex: 1; }
 
 .ab-eyebrow {
@@ -587,9 +592,19 @@
 .ab-bcard-again { opacity: 0.65; }
 
 .ab-bar-footer {
-  text-align: center; padding: 8px 0 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 0 14px;
   font-family: var(--mono); font-size: 8px;
-  color: var(--claret); letter-spacing: 0.4px; opacity: 0.65;
+  color: var(--claret); letter-spacing: 0.4px; opacity: 0.85;
+}
+.ab-footer-mark {
+  height: 28px; width: auto;
+  display: block;
+}
+.ab-footer-line {
+  font-family: var(--mono); font-size: 8px;
+  color: var(--claret); letter-spacing: 0.4px;
+  text-align: center;
 }
 
 /* ── V1 Chat ────────────────────────────────────────────────────────────── */
