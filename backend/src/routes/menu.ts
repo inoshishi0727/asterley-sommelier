@@ -12,6 +12,13 @@ interface MenuProduct {
   url: string;
 }
 
+interface MenuRecipe {
+  spec: [string, string][];
+  method: string;
+  glass: string;
+  garnish: string;
+}
+
 interface MenuItem {
   id: string;
   name: string;
@@ -19,6 +26,7 @@ interface MenuItem {
   occasion: string[];
   jarvisSuggests?: string;
   product?: MenuProduct;
+  recipe?: MenuRecipe;
 }
 
 interface MenuSection {
@@ -90,6 +98,10 @@ menuRouter.get("/", (_req, res) => {
         ? `${p.shortName}: ${p.tastingNotes.split('.')[0].charAt(0).toLowerCase() + p.tastingNotes.split('.')[0].slice(1)}.`
         : undefined;
       const jarvisSuggests = recipe.jarvisSuggests ?? generated;
+      const spec: [string, string][] = recipe.ingredients.map((ing) => [
+        ing.item,
+        `${ing.amount}${ing.unit ?? ""}`.trim(),
+      ]);
       section.items.push({
         id: recipe.id,
         name: recipe.name,
@@ -103,6 +115,12 @@ menuRouter.get("/", (_req, res) => {
           img: p.imageUrl ?? "",
           url: p.productUrl ?? "",
         } : undefined,
+        recipe: {
+          spec,
+          method: (recipe.method ?? []).join(" "),
+          glass: recipe.glassware ?? "",
+          garnish: recipe.garnish ?? "",
+        },
       });
     }
   }

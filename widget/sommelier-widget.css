@@ -121,6 +121,7 @@
   display: flex;
   animation: ab-slide-up 0.3s ease;
 }
+.ab-panel * { box-sizing: border-box; }
 
 /* ── Masthead (V1) ──────────────────────────────────────────────────────── */
 
@@ -220,6 +221,7 @@
 
 #view-menu {
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ab-menu-hero {
@@ -335,6 +337,7 @@
   font-family: var(--serif); font-style: italic;
   font-size: 12px; color: var(--ink-soft); margin-top: 2px;
   text-transform: uppercase; letter-spacing: 0.5px;
+  overflow-wrap: anywhere; word-break: break-word;
 }
 
 .ab-jarvis-aside {
