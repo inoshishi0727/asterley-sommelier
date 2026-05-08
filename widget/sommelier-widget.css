@@ -342,6 +342,23 @@
   font-size: 13px; color: var(--ink);
   margin-top: 5px; line-height: 1.35;
 }
+.ab-aside-recipe {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 0.5px dashed rgba(184,92,42,0.4);
+}
+.ab-aside-recipe-label {
+  font-family: var(--mono); font-size: 8.5px;
+  color: var(--claret); letter-spacing: 0.3px; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.ab-aside-recipe-method {
+  font-family: var(--serif); font-size: 12px; color: var(--ink);
+  margin-top: 8px; line-height: 1.4;
+}
+.ab-aside-recipe-footer {
+  font-family: var(--mono); font-size: 9px; color: var(--ink-soft, #6b5d4f);
+  margin-top: 8px; letter-spacing: 0.2px;
+}
 .ab-aside-actions { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
 .ab-aside-btn {
   font-family: var(--mono); font-size: 9px; color: var(--ink);

@@ -414,7 +414,7 @@ class AsterleySommelier extends HTMLElement {
           </div>
           <div class="ab-subrule">
             <div class="ab-subrule-line"></div>
-            <span class="ab-subrule-text">№ MMXXVI · SE23 · OPEN</span>
+            <span class="ab-subrule-text">№ MMXXVI · SE26 · OPEN</span>
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
@@ -445,7 +445,7 @@ class AsterleySommelier extends HTMLElement {
         <div class="ab-view ab-view-hidden" id="view-bar">
           <div class="ab-jarvis-line" id="jarvis-line"></div>
           <div id="bar-content"></div>
-          <div class="ab-bar-footer">asterley bros · dalmain rd, SE23 · est. MMXIV</div>
+          <div class="ab-bar-footer">ASTERLEY BROS · SE26 · ORCHARD BUSINESS CENTRE · EST. MMXIV</div>
         </div>
 
         <!-- ── View: Chat (V1) ── -->
@@ -559,19 +559,19 @@ class AsterleySommelier extends HTMLElement {
                 <div class="ab-jarvis-aside a-rise">
                   <div class="ab-aside-label">Jarvis suggests →</div>
                   <div class="ab-aside-text">&ldquo;${this._esc(suggest)}&rdquo;</div>
+                  ${this._inlineRecipeHTML(name)}
                   ${it.product ? `
                   <div class="ab-bcard-shop-label" style="margin-top:10px">Get the bottle</div>
-                  <a class="ab-product-card" href="${it.product.url}">
+                  <div class="ab-product-card">
                     <img class="ab-product-img" src="${it.product.img}" alt="${this._esc(it.product.name)}" loading="lazy"/>
                     <div class="ab-product-info">
                       <div class="ab-product-name">${this._esc(it.product.name)}</div>
                       <div class="ab-product-sub">${this._esc(it.product.sub)}</div>
                       <div class="ab-product-price">${this._esc(it.product.price)}</div>
                     </div>
-                    <div class="ab-product-cta">View product</div>
-                  </a>` : ''}
+                  </div>` : ''}
                   <div class="ab-aside-actions">
-                    <button class="ab-aside-btn" data-action="recipe" data-name="${this._esc(name)}">Recipe card</button>
+                    ${it.product ? `<button class="ab-aside-btn" data-action="link" data-href="${this._esc(it.product.url)}">View product</button>` : ''}
                     <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
                   </div>
                 </div>` : ''}
@@ -618,16 +618,47 @@ class AsterleySommelier extends HTMLElement {
     container.querySelectorAll('.ab-aside-btn').forEach(btn => {
       btn.onclick = (e) => {
         e.stopPropagation();
-        const { action, name } = btn.dataset;
-        if (action === 'recipe') {
-          this._switchTab('chat');
-          this._sendMessage(`Give me the recipe for ${name}`);
+        const { action, name, href } = btn.dataset;
+        if (action === 'link' && href) {
+          window.open(href, '_blank', 'noopener');
         } else if (action === 'chat') {
           this._switchTab('chat');
           this._sendMessage(`Tell me about ${name}`);
         }
       };
     });
+  }
+
+  _findCocktailByMenuName(menuName) {
+    const lower = (menuName || '').toLowerCase();
+    return COCKTAILS.find(c => {
+      const cn = c.name.toLowerCase();
+      if (cn === lower) return true;
+      const lastWord = lower.split(/\s+/).slice(-1)[0];
+      const cnLastWord = cn.split(/\s+/).slice(-1)[0];
+      if (lastWord && cnLastWord && lastWord === cnLastWord && lower.split(/\s+/)[0] === cn.split(/\s+/)[0]) return true;
+      return cn.includes(lower) || lower.includes(cn);
+    });
+  }
+
+  _inlineRecipeHTML(menuName) {
+    const c = this._findCocktailByMenuName(menuName);
+    if (!c || !Array.isArray(c.spec)) return '';
+    const ings = c.spec.map(([item, amt]) =>
+      `<div class="ab-ing-row">
+        <span class="ab-ing-vol">${this._esc(amt)}</span>
+        <span class="ab-ing-dots"></span>
+        <span class="ab-ing-name">${this._esc(item)}</span>
+      </div>`).join('');
+    const footer = [c.glass, c.garnish ? `Garnish: ${c.garnish}` : '']
+      .filter(Boolean).map(s => this._esc(s)).join(' · ');
+    return `
+      <div class="ab-aside-recipe">
+        <div class="ab-aside-recipe-label">Recipe →</div>
+        ${ings}
+        ${c.method ? `<div class="ab-aside-recipe-method">${this._esc(c.method)}</div>` : ''}
+        ${footer ? `<div class="ab-aside-recipe-footer">${footer}</div>` : ''}
+      </div>`;
   }
 
   // ── V2 Bar ──────────────────────────────────────────────────────────────
@@ -663,7 +694,7 @@ class AsterleySommelier extends HTMLElement {
               </button>`).join('')}
           </div>
           <div class="ab-shelf-line"></div>
-          <div class="ab-shelf-hint">tap a glass · or speak up ↑</div>`;
+          <div class="ab-shelf-hint">TAP A GLASS · OR SPEAK UP ↑</div>`;
         content.querySelectorAll('.ab-glass-btn').forEach(btn => {
           btn.onclick = () => {
             this._barGlass = GLASSES.find(g => g.id === btn.dataset.id);

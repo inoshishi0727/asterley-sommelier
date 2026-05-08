@@ -35,7 +35,7 @@ chatRouter.post("/", async (req: Request, res: Response) => {
     const history = (await getSessionMessages(session.id)).slice(0, -1);
 
     // Call Gemini
-    const response = await chat(message.trim(), history, pageContext);
+    const response = await chat(message.trim(), history, pageContext, session.id);
     response.sessionId = session.id;
 
     // Save assistant response

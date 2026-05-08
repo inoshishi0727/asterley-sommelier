@@ -9,6 +9,7 @@ import { executeRecipeLookup, recipeLookupDeclaration } from "../tools/recipeLoo
 import { executeBundleSuggest, bundleSuggestDeclaration } from "../tools/bundleSuggest";
 import { executeShippingInfo, shippingInfoDeclaration } from "../tools/shippingInfo";
 import { executeEmailCapture, emailCaptureDeclaration } from "../tools/emailCapture";
+import { logClaudeUsage } from "./usage";
 
 const brandVoice = fs.readFileSync(
   path.resolve(__dirname, "../data/brandVoice.md"),
@@ -232,7 +233,8 @@ function buildConversationalChips(lower: string): SuggestedAction[] {
 export async function chat(
   userMessage: string,
   history: Message[],
-  pageContext?: PageContext
+  pageContext?: PageContext,
+  sessionId: string = ""
 ): Promise<ChatResponse> {
   let enhancedMessage = userMessage;
   if (pageContext) {
@@ -289,6 +291,7 @@ export async function chat(
     tools,
     messages,
   });
+  logClaudeUsage(sessionId, MODEL, response.usage, { round: 0, toolUse: false });
 
   while (round < MAX_ROUNDS) {
     // Collect any text from this turn
@@ -326,6 +329,7 @@ export async function chat(
       tools,
       messages,
     });
+    logClaudeUsage(sessionId, MODEL, response.usage, { round: round + 1, toolUse: true });
 
     round++;
   }
