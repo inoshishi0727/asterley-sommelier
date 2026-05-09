@@ -4,6 +4,7 @@ import {
   getRecipesByOccasion,
   getEasyRecipes,
   getRecipeById,
+  getProductById,
 } from "../services/product";
 import type { Recipe } from "../types";
 
@@ -40,6 +41,15 @@ export function executeRecipeLookup(args: RecipeLookupArgs): string {
     });
   }
 
+  // Surface linked products so cards can fall back to product imagery.
+  const productIdsAcross = Array.from(
+    new Set(results.flatMap((r) => r.productIds ?? []))
+  );
+  const products = productIdsAcross
+    .map((pid) => getProductById(pid))
+    .filter((p): p is NonNullable<ReturnType<typeof getProductById>> => Boolean(p))
+    .map((p) => ({ id: p.id, imageUrl: p.imageUrl, name: p.name }));
+
   return JSON.stringify({
     found: true,
     count: results.length,
@@ -54,7 +64,9 @@ export function executeRecipeLookup(args: RecipeLookupArgs): string {
       occasion: r.occasion,
       difficulty: r.difficulty,
       productIds: r.productIds,
+      imageUrl: r.imageUrl,
     })),
+    products,
   });
 }
 

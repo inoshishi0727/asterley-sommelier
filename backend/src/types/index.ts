@@ -95,6 +95,7 @@ export interface RecipeCard {
   method: string[];
   glassware: string;
   garnish: string;
+  imageUrl?: string;
 }
 
 export interface SuggestedAction {

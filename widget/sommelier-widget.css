@@ -803,6 +803,15 @@
   font-family: var(--serif); font-size: 12px;
   color: var(--ink-soft); font-style: italic;
   margin-bottom: 2px; line-height: 1.3;
+  text-transform: lowercase;
+}
+.ab-recipe-img-placeholder {
+  width: 56px; height: 56px; flex-shrink: 0;
+  background: var(--parchment);
+  border: 0.5px solid var(--claret-dim);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 14px; color: var(--gold-soft);
+  letter-spacing: 0.5px;
 }
 .ab-recipe-footer {
   margin-top: 8px; font-family: var(--mono);

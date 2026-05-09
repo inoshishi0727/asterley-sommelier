@@ -194,7 +194,7 @@ const COCKTAILS = [
     spec: [['Estate Sweet Vermouth','30ml'],['London dry gin','30ml'],['Suze gentian','20ml']],
     garnish: 'Lemon twist', method: 'Stir 20s', glass: 'Coupe or rocks glass',
     products: [ESTATE_PRODUCT] },
-  { id: 'brit-neg-amaro', name: 'Britannica Negroni Amaro',
+  { id: 'brit-neg-amaro', name: 'The Britannica Negroni',
     spec: [['Britannica London Fernet','30ml'],['London dry gin','30ml'],['Sweet vermouth','30ml']],
     garnish: 'Grapefruit twist', method: 'Stir 30s', glass: 'Rocks glass',
     products: [BRITANNICA_PRODUCT] },
@@ -540,8 +540,13 @@ class AsterleySommelier extends HTMLElement {
     this.shadowRoot.getElementById('bubble').classList.toggle('ab-open', this._isOpen);
     this.shadowRoot.getElementById('panel').classList.toggle('ab-visible', this._isOpen);
     if (this._isOpen) {
+      // Lock host page scroll so the underlying site doesn't scroll past the widget.
+      this._prevBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
       // Force layout init — input-area visibility, scroll position, correct view shown
       this._switchTab(this._tab);
+    } else {
+      document.body.style.overflow = this._prevBodyOverflow ?? '';
     }
   }
 
@@ -1155,7 +1160,7 @@ class AsterleySommelier extends HTMLElement {
           <div class="ab-recipe-name">${this._esc(card.name)}</div>
           ${card.description ? `<div class="ab-recipe-desc">${this._esc(card.description)}</div>` : ''}
         </div>
-        ${imgUrl ? `<img class="ab-recipe-img" src="${this._esc(imgUrl)}" alt="" loading="lazy">` : ''}
+        ${imgUrl ? `<img class="ab-recipe-img" src="${this._esc(imgUrl)}" alt="" loading="lazy">` : `<div class="ab-recipe-img-placeholder" aria-hidden="true">℞</div>`}
       </div>
       <div class="ab-recipe-rule"></div>
       ${ings}
