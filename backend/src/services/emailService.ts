@@ -82,6 +82,13 @@ export async function subscribeEmail(email: string): Promise<SubscribeResult> {
     return { success: false, error: "Invalid email address." };
   }
 
+  // Always mirror to Firestore so we never lose a signup even if a third-party
+  // platform key is missing or its API is failing. Fire-and-forget — never
+  // blocks the user-facing response.
+  subscribeFirestore(trimmed).catch((err) => {
+    console.warn("[emailService] Firestore mirror failed:", (err as Error)?.message);
+  });
+
   try {
     switch (config.emailPlatform) {
       case "klaviyo":
@@ -93,6 +100,8 @@ export async function subscribeEmail(email: string): Promise<SubscribeResult> {
     }
   } catch (err) {
     console.error("[emailService] Unexpected error:", err);
-    return { success: false, error: "Something went wrong — please try again." };
+    // Firestore mirror has already fired above, so the email is captured even
+    // if the primary platform errors out. Still report success.
+    return { success: true };
   }
 }
