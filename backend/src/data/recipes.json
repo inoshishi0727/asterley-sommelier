@@ -1150,5 +1150,114 @@
       "aperitivo"
     ],
     "difficulty": "easy"
+  },
+  {
+    "id": "dispense-nightcap",
+    "name": "Dispense Nightcap",
+    "description": "50ml of Dispense over a single large ice cube. No ceremony, no dilution race. Just the amaro doing its job.",
+    "productIds": ["dispense"],
+    "jarvisSuggests": "The simplest serve in the range. Pour, wait, sip. Let the botanicals open up as the ice slowly melts.",
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "50", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Large ice cube", "amount": "1", "unit": "", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "place a large ice cube in a rocks glass.",
+      "pour Dispense directly over the ice.",
+      "express an orange twist over the surface, run it around the rim, and drop it in."
+    ],
+    "glassware": "Rocks glass",
+    "garnish": "Orange twist",
+    "occasion": ["digestif", "nightcap", "spirit-forward"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "asterley-spritz",
+    "name": "Asterley Spritz",
+    "description": "The house aperitivo spritz. Asterley Original with dry prosecco and a splash of soda, built over ice in a large wine glass.",
+    "productIds": ["asterley-original"],
+    "jarvisSuggests": "The aperitivo hour drink. Light, bitter, built for company. Orange slice, olive, and absolutely no rush.",
+    "ingredients": [
+      { "item": "Asterley Original Aperitivo", "amount": "60", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Dry prosecco", "amount": "90", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Soda water", "amount": "30", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "fill a large wine glass with ice.",
+      "pour in Asterley Original, then the prosecco.",
+      "top with soda water and give it one gentle stir.",
+      "garnish with an orange slice and an olive."
+    ],
+    "glassware": "Large wine glass",
+    "garnish": "Orange slice and olive",
+    "occasion": ["aperitivo", "spritz", "easy", "social"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "south-london-amaro-sour",
+    "name": "South London Amaro Sour",
+    "description": "Dispense shaken with lemon, honey syrup, and optional egg white. A bitter, frothy sour with real South London character.",
+    "productIds": ["dispense"],
+    "jarvisSuggests": "Dispense holds the lemon without getting lost. The honey rounds it out. Add egg white and it becomes something rather special.",
+    "ingredients": [
+      { "item": "Dispense Modern British Amaro", "amount": "45", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Fresh lemon juice", "amount": "20", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Honey syrup (1:1)", "amount": "10", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Egg white (optional)", "amount": "15", "unit": "ml", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "if using egg white, combine all ingredients in a shaker and dry shake (no ice) for 10 seconds to emulsify.",
+      "add ice and shake hard for another 10 seconds.",
+      "double-strain into a chilled coupe.",
+      "garnish with a lemon twist."
+    ],
+    "glassware": "Chilled coupe",
+    "garnish": "Lemon twist",
+    "occasion": ["sour", "shaken", "dinner party", "cocktail hour"],
+    "difficulty": "medium"
+  },
+  {
+    "id": "schofields-gibson",
+    "name": "Schofield's Gibson",
+    "description": "A bone-dry gin Martini with SCHOFIELD'S in place of standard dry vermouth, garnished with a pickled cocktail onion instead of a twist.",
+    "productIds": ["schofields"],
+    "jarvisSuggests": "SCHOFIELD'S is made for this. Drier and more aromatic than most French vermouths. The pickled onion is not optional.",
+    "ingredients": [
+      { "item": "London dry gin", "amount": "60", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "SCHOFIELD'S English Dry Vermouth", "amount": "20", "unit": "ml", "isAsterleyProduct": true }
+    ],
+    "method": [
+      "chill a coupe or Martini glass with ice water.",
+      "combine gin and SCHOFIELD'S in a mixing glass filled with ice.",
+      "stir for 30 seconds until thoroughly chilled.",
+      "discard the ice water and strain into the glass.",
+      "garnish with a pickled cocktail onion on a pick."
+    ],
+    "glassware": "Chilled coupe or Martini glass",
+    "garnish": "Pickled cocktail onion",
+    "occasion": ["stirred", "spirit-forward", "aperitivo", "dinner party"],
+    "difficulty": "easy"
+  },
+  {
+    "id": "estate-manhattan",
+    "name": "Estate Manhattan",
+    "description": "Rye or bourbon lengthened with Estate Sweet Vermouth and two dashes of aromatic bitters. Rich, warming, and deeply satisfying.",
+    "productIds": ["estate"],
+    "jarvisSuggests": "Estate brings the herbal depth a Manhattan needs. Use rye for spice or bourbon for richness. Either way, stir long and strain cold.",
+    "ingredients": [
+      { "item": "Rye or bourbon whiskey", "amount": "50", "unit": "ml", "isAsterleyProduct": false },
+      { "item": "Estate English Sweet Vermouth", "amount": "25", "unit": "ml", "isAsterleyProduct": true },
+      { "item": "Aromatic bitters", "amount": "2", "unit": "dashes", "isAsterleyProduct": false }
+    ],
+    "method": [
+      "combine all ingredients in a mixing glass filled with ice.",
+      "stir slowly for 30 to 40 seconds until very cold and silky.",
+      "strain into a chilled coupe or Nick and Nora glass.",
+      "garnish with a brandied cherry."
+    ],
+    "glassware": "Chilled coupe or Nick & Nora",
+    "garnish": "Brandied cherry",
+    "occasion": ["stirred", "spirit-forward", "digestif", "dinner party"],
+    "difficulty": "easy"
   }
 ]
