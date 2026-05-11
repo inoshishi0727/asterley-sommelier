@@ -57,6 +57,7 @@ export function executeRecipeLookup(args: RecipeLookupArgs): string {
       id: r.id,
       name: r.name,
       description: r.description,
+      jarvisSuggests: r.jarvisSuggests,
       ingredients: r.ingredients,
       method: r.method,
       glassware: r.glassware,
