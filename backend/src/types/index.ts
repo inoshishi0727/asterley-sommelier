@@ -72,6 +72,7 @@ export interface ChatResponse {
   productCards: ProductCard[];
   recipeCards: RecipeCard[];
   suggestedActions: SuggestedAction[];
+  autoAddToCart?: { shopifyVariantId: string; name: string; quantity: number };
 }
 
 export interface ProductCard {
