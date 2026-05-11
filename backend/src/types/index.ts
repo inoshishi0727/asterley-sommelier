@@ -91,6 +91,7 @@ export interface RecipeCard {
   recipeId: string;
   name: string;
   description: string;
+  jarvisSuggests?: string;
   ingredients: Ingredient[];
   method: string[];
   glassware: string;

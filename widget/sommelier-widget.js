@@ -1163,6 +1163,7 @@ class AsterleySommelier extends HTMLElement {
         ${imgUrl ? `<img class="ab-recipe-img" src="${this._esc(imgUrl)}" alt="" loading="lazy">` : `<div class="ab-recipe-img-placeholder" aria-hidden="true">℞</div>`}
       </div>
       <div class="ab-recipe-rule"></div>
+      ${card.jarvisSuggests ? `<div class="ab-recipe-why">${this._esc(card.jarvisSuggests)}</div>` : ''}
       ${ings}
       ${steps ? `<div class="ab-recipe-rule" style="margin:10px 0 8px"></div>${steps}` : ''}
       <div class="ab-recipe-footer">${this._esc(card.glassware||'')} · Garnish: ${this._esc(card.garnish||'none')}</div>
