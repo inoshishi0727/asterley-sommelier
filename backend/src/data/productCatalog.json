@@ -41,7 +41,7 @@
     "currency": "GBP",
     "abv": 16,
     "volume": "500ml",
-    "description": "English Dry Vermouth. Aromatic, fragrant and elegant — a complex blend of botanicals infused in a blend of English white wines. A bouquet of aromatic white flowers on the nose, and a clean, bright citrus finish on the palate.",
+    "description": "English Dry Vermouth. Aromatic, fragrant and elegant, a complex blend of botanicals infused in a blend of English white wines. A bouquet of aromatic white flowers on the nose, and a clean, bright citrus finish on the palate.",
     "tastingNotes": "Aromatic white flowers on the nose. Clean, bright citrus finish on the palate. Fragrant and elegant with delicate complexity.",
     "botanicals": [
       "Rose", "Camomile", "Jasmine", "Gentian", "Cardamom", "Lime Leaves",
@@ -138,7 +138,7 @@
     "currency": "GBP",
     "abv": 40,
     "volume": "500ml",
-    "description": "London Fernet. Rich, dark and intriguing — an intensely complex British Bitter. Produced in South London using premium natural ingredients including roasted hazelnuts, cacao nibs, rosemary, myrrh, chocolate malt, and London Porter.",
+    "description": "London Fernet. Rich, dark and intriguing, an intensely complex British Bitter. Produced in South London using premium natural ingredients including roasted hazelnuts, cacao nibs, rosemary, myrrh, chocolate malt, and London Porter.",
     "tastingNotes": "Intensely complex with dark chocolate, mint, and roasted hazelnut notes. Deep herbal bitterness balanced by warming spices and a long, satisfying finish.",
     "botanicals": [
       "Mint", "Rosemary", "Chocolate Spelt Malt", "Cinchona", "Vanilla",
@@ -206,7 +206,7 @@
     "servingSuggestions": [
       "Keep refrigerated. Place in the freezer 1 hour before serving.",
       "Pour over ice and serve with a strip of orange zest.",
-      "Perfect for dinner parties — serves 8-10 guests"
+      "Perfect for dinner parties, serves 8-10 guests"
     ],
     "allergens": ["Sulphites"],
     "isVegan": true,
@@ -227,7 +227,7 @@
     "abv": null,
     "volume": "3 × 500ml",
     "description": "Designed for the ultimate Martinis & Negronis. Includes Estate (Sweet Vermouth), Schofield's (Dry Vermouth), and one other selected bottle. Save over £16 off the individual prices.",
-    "tastingNotes": "A complete vermouth collection for exploring the full range of Asterley Bros vermouths — from dry Martinis to rich Negronis.",
+    "tastingNotes": "A complete vermouth collection for exploring the full range of Asterley Bros vermouths, from dry Martinis to rich Negronis.",
     "botanicals": [],
     "servingSuggestions": [
       "Make a perfect Negroni with Estate and Asterley Original",
@@ -253,7 +253,7 @@
     "abv": null,
     "volume": "3 × 500ml",
     "description": "Perfect for Spritzes and Digestivo Cocktails. Includes Dispense (Amaro), Asterley Original (Aperitivo), and Britannica (Fernet). Save over £20 off the individual prices.",
-    "tastingNotes": "A journey through the bitter side of Asterley Bros — from light aperitivo through amaro to intense fernet.",
+    "tastingNotes": "A journey through the bitter side of Asterley Bros, from light aperitivo through amaro to intense fernet.",
     "botanicals": [],
     "servingSuggestions": [
       "Start the evening with an Asterley Spritz using the Original",
@@ -277,14 +277,14 @@
     "currency": "GBP",
     "abv": null,
     "volume": "2 Negronis per month",
-    "description": "A monthly subscription club for Negroni lovers. Each month receive 2 seasonal Negronis crafted in collaboration with the world's best bars and bartenders, delivered to your door on the 10th. Your first delivery includes a Negroni Society Membership Card. Sign up for 6 or 12 months and we'll send a free Negroni Box to anyone in the UK as a gift. Cancel anytime — no notice period required. To manage your subscription or change your delivery address, contact info@asterleybros.com.",
-    "tastingNotes": "Each month is different — two seasonal Negroni variations crafted by top bartenders worldwide.",
+    "description": "A monthly subscription club for Negroni lovers. Each month receive 2 seasonal Negronis crafted in collaboration with the world's best bars and bartenders, delivered to your door on the 10th. Your first delivery includes a Negroni Society Membership Card. Sign up for 6 or 12 months and we'll send a free Negroni Box to anyone in the UK as a gift. Cancel anytime, no notice period required. To manage your subscription or change your delivery address, contact info@asterleybros.com.",
+    "tastingNotes": "Each month is different, two seasonal Negroni variations crafted by top bartenders worldwide.",
     "botanicals": [],
     "servingSuggestions": [
       "Monthly: £14.50/month",
-      "6 months: £82.62 (5% discount) — includes a free Negroni Box gift",
-      "12 months: £156.60 (10% discount) — includes a free Negroni Box gift",
-      "Can also be gifted — see the gift membership voucher"
+      "6 months: £82.62 (5% discount), includes a free Negroni Box gift",
+      "12 months: £156.60 (10% discount), includes a free Negroni Box gift",
+      "Can also be gifted, see the gift membership voucher"
     ],
     "allergens": ["Sulphites"],
     "isVegan": true,
@@ -328,12 +328,12 @@
     "currency": "GBP",
     "abv": null,
     "volume": "£10 / £20 / £30 / £50 / £100",
-    "description": "Give the gift of good taste. Asterley Bros Gift Cards are delivered instantly by email and redeemable across our full online shop — spirits, bundles, masterclasses, or a Negroni Society membership. Available in denominations of £10, £20, £30, £50, and £100. You can also send directly to the recipient with a personal message.",
+    "description": "Give the gift of good taste. Asterley Bros Gift Cards are delivered instantly by email and redeemable across our full online shop, spirits, bundles, masterclasses, or a Negroni Society membership. Available in denominations of £10, £20, £30, £50, and £100. You can also send directly to the recipient with a personal message.",
     "tastingNotes": "",
     "botanicals": [],
     "servingSuggestions": [
       "Denominations: £10, £20, £30, £50, £100",
-      "Delivered instantly by email — can be sent directly to the recipient",
+      "Delivered instantly by email, can be sent directly to the recipient",
       "Redeemable on spirits, bundles, masterclasses, or Negroni Society membership"
     ],
     "allergens": [],

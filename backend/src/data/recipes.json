@@ -1071,7 +1071,7 @@
   {
     "id": "schofields-dry-martini",
     "name": "Schofield's Dry Martini",
-    "description": "A bone-dry, spirit-forward martini. Schofield's English Dry Vermouth brings bright citrus and aromatic lift to the gin — clean, precise, and perfectly cold.",
+    "description": "A bone-dry, spirit-forward martini. Schofield's English Dry Vermouth brings bright citrus and aromatic lift to the gin, clean, precise, and perfectly cold.",
     "productIds": [
       "schofields"
     ],
@@ -1109,7 +1109,7 @@
   {
     "id": "estate-perfect-martini",
     "name": "The Perfect Martini",
-    "description": "A 'perfect' martini splits the vermouth between dry and sweet — Schofield's for lift, Estate for depth. Rounder and more complex than a classic dry.",
+    "description": "A 'perfect' martini splits the vermouth between dry and sweet, Schofield's for lift, Estate for depth. Rounder and more complex than a classic dry.",
     "productIds": [
       "schofields",
       "estate"

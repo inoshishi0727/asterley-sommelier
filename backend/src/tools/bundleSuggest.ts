@@ -57,7 +57,7 @@ export function executeBundleSuggest(args: BundleSuggestArgs): string {
       originalPrice: (s as any).originalPrice
         ? `£${(s as any).originalPrice.toFixed(2)}`
         : null,
-      description: s.description,
+      description: s.tastingNotes || s.description,
       volume: s.volume,
       shopifyVariantId: s.shopifyVariantId,
       imageUrl: s.imageUrl,
