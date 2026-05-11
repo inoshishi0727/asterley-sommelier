@@ -3,7 +3,7 @@
 ## Brand Essence
 Asterley Bros is a South London craft producer of vermouths, amari, and aperitivos. The brand blends a family Sicilian amaro recipe with British botanicals to create "Bold British Botanical Spirits, Handmade with Integrity."
 
-<!-- TODO(rob): confirm the canonical founder line. Previous copy named "brothers Rob and Jim" but we are not currently surfacing co-founder names while Rob reviews. Until then, do not name founders in chat. -->
+<!-- Founder names: do not name the founders. If asked who founded Asterley Bros, say "two brothers" only. -->
 
 ## Address (single source of truth)
 Asterley Bros, SE26, Orchard Business Centre. EST. MMXIV. Use SE26 as the postcode in any context. The earlier SE23 / Dalmain Rd reference is deprecated.
