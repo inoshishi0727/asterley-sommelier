@@ -1221,6 +1221,9 @@ class AsterleySommelier extends HTMLElement {
       this._sessionId = data.sessionId;
       localStorage.setItem('ab-session-id', data.sessionId);
       this._addBotMessage(data);
+      if (data.autoAddToCart?.shopifyVariantId) {
+        this._addToCart(data.autoAddToCart, { silent: true });
+      }
     } catch {
       this._hideTyping();
       this._addBotMessage({
@@ -1267,29 +1270,34 @@ class AsterleySommelier extends HTMLElement {
     } catch { return null; }
   }
 
-  async _addToCart(product) {
+  async _addToCart(product, { silent = false } = {}) {
     const numericId = String(product.shopifyVariantId || '').replace(/^gid:\/\/shopify\/ProductVariant\//, '');
+    const qty = product.quantity ?? 1;
     try {
       const res = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: numericId, quantity: 1 }),
+        body: JSON.stringify({ id: numericId, quantity: qty }),
       });
       if (!res.ok) throw new Error();
-      this._addBotMessage({
-        message: `Added ${product.name || 'that'} to your cart. Shall I suggest a pairing?`,
-        productCards: [], recipeCards: [],
-        suggestedActions: [
-          { label: 'View cart',         type: 'link',     value: '/cart' },
-          { label: 'Suggest a pairing', type: 'question', value: 'What pairs well with what I just added?' },
-        ],
-      });
+      if (!silent) {
+        this._addBotMessage({
+          message: `Added ${product.name || 'that'} to your cart. Shall I suggest a pairing?`,
+          productCards: [], recipeCards: [],
+          suggestedActions: [
+            { label: 'View cart',         type: 'link',     value: '/cart' },
+            { label: 'Suggest a pairing', type: 'question', value: 'What pairs well with what I just added?' },
+          ],
+        });
+      }
     } catch {
-      this._addBotMessage({
-        message: `Something went wrong adding to your cart. You can add it directly on the product page.`,
-        productCards: [], recipeCards: [],
-        suggestedActions: [{ label: 'View on site', type: 'link', value: product.url || 'https://asterleybros.com/collections/all' }],
-      });
+      if (!silent) {
+        this._addBotMessage({
+          message: `Something went wrong adding to your cart. You can add it directly on the product page.`,
+          productCards: [], recipeCards: [],
+          suggestedActions: [{ label: 'View on site', type: 'link', value: product.url || 'https://asterleybros.com/collections/all' }],
+        });
+      }
     }
   }
 

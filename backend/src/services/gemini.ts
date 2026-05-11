@@ -9,6 +9,7 @@ import { executeRecipeLookup, recipeLookupDeclaration } from "../tools/recipeLoo
 import { executeBundleSuggest, bundleSuggestDeclaration } from "../tools/bundleSuggest";
 import { executeShippingInfo, shippingInfoDeclaration } from "../tools/shippingInfo";
 import { executeEmailCapture, emailCaptureDeclaration } from "../tools/emailCapture";
+import { executeAddToCart, addToCartDeclaration } from "../tools/addToCart";
 import { logClaudeUsage } from "./usage";
 
 const brandVoice = fs.readFileSync(
@@ -62,8 +63,10 @@ ${brandVoice}
 - Do not say "this is the first message you've sent me" or "I have no record of our earlier conversation". If you genuinely cannot see prior context (rare), ask a fresh clarifying question instead.
 
 ## CART CAPABILITY
-- HARD RULE: whenever a customer asks to add a specific product to cart, ALWAYS call product_lookup for that product first. The product card is what renders the Add to cart button — without the tool call, no card appears and no button shows. Never reply about adding to cart without calling product_lookup in the same turn.
-- Never claim you have added an item to the cart or that it is "in your cart now" — you cannot do that. Only the customer clicking the Add to cart button on the card actually adds the item. Correct framing: "Here's SCHOFIELD'S — tap Add to cart on the card to add it." or "Pull up the card below and tap Add to cart when ready."
+- When a customer asks to add a product to their cart, call add_to_cart with the productId. The widget will add it automatically — you do NOT need to ask the customer to click anything.
+- After calling add_to_cart successfully, confirm in one sentence: e.g. "Estate Vermouth is on its way to your cart." or "Done — SCHOFIELD'S has been added."
+- If add_to_cart returns success: false, explain why briefly and offer an alternative or direct them to the product page.
+- Do NOT call product_lookup separately when add_to_cart is the intent — add_to_cart already fetches the product data and renders the card.
 
 ## BOTTLE SIZES
 - If asked about bottle size, give the exact volume value from the product data (e.g. "50cl", "1L"). Don't deflect to product pages.
@@ -85,6 +88,7 @@ const tools: Anthropic.Tool[] = [
   bundleSuggestDeclaration,
   shippingInfoDeclaration,
   emailCaptureDeclaration,
+  addToCartDeclaration,
 ];
 
 // ── Tool Executor ──
@@ -103,6 +107,7 @@ async function executeTool(name: string, args: Record<string, any>): Promise<Too
     case "bundle_suggest":  resultString = executeBundleSuggest(args); break;
     case "shipping_info":   resultString = executeShippingInfo(args); break;
     case "email_capture":   resultString = await executeEmailCapture(args); break;
+    case "add_to_cart":     resultString = executeAddToCart(args); break;
     default:                resultString = JSON.stringify({ error: `Unknown tool: ${name}` });
   }
   return { name, resultString, parsed: JSON.parse(resultString) };
@@ -149,6 +154,17 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
         });
       }
     }
+    if (result.name === "add_to_cart" && result.parsed.success && result.parsed.product) {
+      const p = result.parsed.product;
+      cards.push({
+        productId: p.id, name: p.name,
+        price: typeof p.price === "string" ? parseFloat(p.price.replace("£", "")) : p.price,
+        abv: p.abv ? parseFloat(String(p.abv).replace("%", "")) : null,
+        volume: p.volume ?? "", description: p.description ?? "",
+        imageUrl: p.imageUrl ?? "", shopifyVariantId: p.shopifyVariantId,
+        url: p.productUrl, allergens: p.allergens ?? [],
+      });
+    }
     if (result.name === "bundle_suggest" && result.parsed.found && !flaggedAllergens?.size) {
       for (const s of result.parsed.suggestions || []) {
         cards.push({
@@ -163,6 +179,19 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
   }
   const seen = new Set<string>();
   return cards.filter(c => { if (seen.has(c.productId)) return false; seen.add(c.productId); return true; }).slice(0, 3);
+}
+
+function buildAutoAddToCart(toolResults: ToolResult[]): ChatResponse["autoAddToCart"] {
+  for (const result of toolResults) {
+    if (result.name === "add_to_cart" && result.parsed.success && result.parsed.autoAdd) {
+      return {
+        shopifyVariantId: result.parsed.product.shopifyVariantId,
+        name: result.parsed.product.name,
+        quantity: result.parsed.quantity ?? 1,
+      };
+    }
+  }
+  return undefined;
 }
 
 function buildRecipeCards(toolResults: ToolResult[]): RecipeCard[] {
@@ -333,6 +362,7 @@ export async function chat(
 
   const productCards = buildProductCards(allToolResults, flaggedAllergens);
   const recipeCards = buildRecipeCards(allToolResults);
+  const autoAddToCart = buildAutoAddToCart(allToolResults);
 
   // Allergen footer only when (a) user asked an allergen question AND (b) at least one
   // recommended product actually contains Sulphites. Otherwise no blanket disclaimer.
@@ -350,5 +380,5 @@ export async function chat(
 
   const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
 
-  return { sessionId: "", message: finalMessage, productCards, recipeCards, suggestedActions };
+  return { sessionId: "", message: finalMessage, productCards, recipeCards, suggestedActions, autoAddToCart };
 }
