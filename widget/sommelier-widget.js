@@ -369,7 +369,7 @@ class AsterleySommelier extends HTMLElement {
     this._fetchMenu();
     // Welcome message lives in the chat view
     this._addBotMessage({
-      message: `${this._greeting}. I'm Jarvis, Asterley's AI sommelier. Drinking or thinking? Either way, I can help.`,
+      message: `${this._greeting}. I'm Ronny, Asterley's AI sommelier. Drinking or thinking? Either way, I can help.`,
       productCards: [], recipeCards: [],
       suggestedActions: [
         { label: 'Suggest a drink',       type: 'question', value: "I'd love a recommendation. Suggest me a drink." },
@@ -424,14 +424,14 @@ class AsterleySommelier extends HTMLElement {
       <link rel="stylesheet" href="${cssUrl}">
 
       <!-- Post-it note launcher -->
-      <button class="ab-note-launcher" id="bubble" aria-label="Open Jarvis">
+      <button class="ab-note-launcher" id="bubble" aria-label="Open Ronny">
         <div class="ab-note-eyebrow">a note from the bar</div>
         <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
         <div class="ab-note-sig">· J.</div>
       </button>
 
       <!-- Panel -->
-      <div class="ab-panel" id="panel" role="dialog" aria-label="Jarvis — Asterley Sommelier">
+      <div class="ab-panel" id="panel" role="dialog" aria-label="Ronny — Asterley Sommelier">
 
         <!-- Masthead (V1 Dispensatory header) -->
         <div class="ab-masthead">
@@ -440,7 +440,7 @@ class AsterleySommelier extends HTMLElement {
 
             <div class="ab-masthead-text">
               <div class="ab-eyebrow">The Asterley Dispensatory</div>
-              <div class="ab-masthead-name">Jarvis, at your service.</div>
+              <div class="ab-masthead-name">Ronny, at your service.</div>
             </div>
             <button class="ab-panel-close" id="panel-close" aria-label="Close">${closeSVG()}</button>
           </div>
@@ -450,7 +450,7 @@ class AsterleySommelier extends HTMLElement {
             <div class="ab-subrule-line"></div>
           </div>
           <nav class="ab-tabs" aria-label="Views">
-            <button class="ab-tab ab-tab-active" data-tab="chat">Ask Jarvis</button>
+            <button class="ab-tab ab-tab-active" data-tab="chat">Ask Ronny</button>
             <button class="ab-tab" data-tab="menu">Recipes</button>
             <button class="ab-tab" data-tab="bar">Make a Drink</button>
           </nav>
@@ -462,12 +462,12 @@ class AsterleySommelier extends HTMLElement {
             <div class="ab-menu-edition">No. XII · Spring MMXXVI</div>
             <div class="ab-menu-heading">The Asterley<br><em>Aperitivo Hour.</em></div>
             <div class="ab-menu-rule-line"></div>
-            <div class="ab-menu-sub">Curated by Jarvis, for the drinker who knows what they like but is open to being surprised.</div>
+            <div class="ab-menu-sub">Curated by Ronny, for the drinker who knows what they like but is open to being surprised.</div>
           </div>
-          <div class="ab-view-intro">Browse cocktails made with our bottles. Tap any to ask Jarvis for the full recipe.</div>
+          <div class="ab-view-intro">Browse cocktails made with our bottles. Tap any to ask Ronny for the full recipe.</div>
           <div id="accordion"></div>
           <div class="ab-whisper">
-            <input class="ab-whisper-input" id="whisper" placeholder="ask Jarvis anything…" autocomplete="off">
+            <input class="ab-whisper-input" id="whisper" placeholder="ask Ronny anything…" autocomplete="off">
             <button class="ab-whisper-btn" id="whisper-send" aria-label="Send">${sendSVG(CLARET)}</button>
           </div>
           <div class="ab-menu-footer">fin.<br>handmade with integrity in south london</div>
@@ -491,7 +491,7 @@ class AsterleySommelier extends HTMLElement {
 
         <!-- Persistent input (Chat tab only) -->
         <div class="ab-input-area ab-input-hidden" id="input-area">
-          <textarea class="ab-input" id="input" placeholder="ask Jarvis anything…" rows="1"></textarea>
+          <textarea class="ab-input" id="input" placeholder="ask Ronny anything…" rows="1"></textarea>
           <button class="ab-send-btn" id="send" aria-label="Send">${sendSVG(CREAM)}</button>
         </div>
 
@@ -597,7 +597,7 @@ class AsterleySommelier extends HTMLElement {
               <div class="ab-item-desc">${this._esc(desc)}</div>
               ${chosen ? `
                 <div class="ab-jarvis-aside a-rise">
-                  <div class="ab-aside-label">Jarvis suggests →</div>
+                  <div class="ab-aside-label">Ronny suggests →</div>
                   <div class="ab-aside-text">&ldquo;${this._esc(suggest)}&rdquo;</div>
                   ${this._inlineRecipeHTML(name, it.recipe)}
                   ${it.product ? `
@@ -612,7 +612,7 @@ class AsterleySommelier extends HTMLElement {
                   </div>` : ''}
                   <div class="ab-aside-actions">
                     ${it.product ? `<button class="ab-aside-btn" data-action="link" data-href="${this._esc(it.product.url)}">View product</button>` : ''}
-                    <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Jarvis</button>
+                    <button class="ab-aside-btn" data-action="chat" data-name="${this._esc(name)}">Ask Ronny</button>
                   </div>
                 </div>` : ''}
             </div>`;
@@ -710,7 +710,7 @@ class AsterleySommelier extends HTMLElement {
 
     const cocktail = cocktailFor(this._barGlass?.id, this._barMood?.id);
     const lines = {
-      intro:   `${this._greeting}. Pull up a stool. I'm Jarvis. What shape of glass feels right ${this._sessionWord}?`,
+      intro:   `${this._greeting}. Pull up a stool. I'm Ronny. What shape of glass feels right ${this._sessionWord}?`,
       inquire: `${this._barGlass?.name || 'That glass'}. An excellent instinct. Tell me your mood.`,
       pouring: `A ${cocktail?.name || 'serve'}, coming up. Watch the ice.`,
       card:    `There. Yours for ${this._sessionWord}.`,
@@ -721,7 +721,7 @@ class AsterleySommelier extends HTMLElement {
       case 'intro':
         content.innerHTML = `
           <div class="ab-view-intro">Pick a glass and tell me your mood. I'll find your serve.</div>
-          <div class="ab-voice-dock" id="voice-dock" role="button" tabindex="0" aria-label="Speak to Jarvis">
+          <div class="ab-voice-dock" id="voice-dock" role="button" tabindex="0" aria-label="Speak to Ronny">
             <div class="ab-voice-bars" id="voice-bars">${[4,10,6,14,8].map(h=>`<div class="ab-vbar" style="height:${h}px"></div>`).join('')}</div>
             <div class="ab-voice-text" id="voice-text">or just tell me what you fancy…</div>
           </div>
@@ -824,7 +824,7 @@ class AsterleySommelier extends HTMLElement {
                 </a>`).join('')}
               </div>` : ''}
               <div class="ab-bcard-actions">
-                <button class="ab-bcard-btn" id="bar-chat">Ask Jarvis →</button>
+                <button class="ab-bcard-btn" id="bar-chat">Ask Ronny →</button>
                 <button class="ab-bcard-btn ab-bcard-again" id="bar-again">← Back</button>
               </div>
             </div>
@@ -1167,7 +1167,7 @@ class AsterleySommelier extends HTMLElement {
       ${ings}
       ${steps ? `<div class="ab-recipe-rule" style="margin:10px 0 8px"></div>${steps}` : ''}
       <div class="ab-recipe-footer">${this._esc(card.glassware||'')} · Garnish: ${this._esc(card.garnish||'none')}</div>
-      <div class="ab-recipe-sig">· Jarvis</div>`;
+      <div class="ab-recipe-sig">· Ronny</div>`;
     return div;
   }
 
