@@ -427,7 +427,7 @@ class AsterleySommelier extends HTMLElement {
       <button class="ab-note-launcher" id="bubble" aria-label="Open Ronny">
         <div class="ab-note-eyebrow">a note from the bar</div>
         <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
-        <div class="ab-note-sig">· J.</div>
+        <div class="ab-note-sig">· R.</div>
       </button>
 
       <!-- Panel -->
