@@ -145,7 +145,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
       for (const p of result.parsed.products || []) {
         if (flaggedAllergens?.size && (p.allergens as string[] | undefined)?.some(a => flaggedAllergens.has(a))) continue;
         cards.push({
-          productId: p.id, name: p.name,
+          productId: p.id, name: p.name, category: p.category,
           price: typeof p.price === "string" ? parseFloat(p.price.replace("£", "")) : p.price,
           abv: p.abv ? parseFloat(String(p.abv).replace("%", "")) : null,
           volume: p.volume, description: p.tastingNotes || p.description,
@@ -157,7 +157,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
     if (result.name === "add_to_cart" && result.parsed.success && result.parsed.product) {
       const p = result.parsed.product;
       cards.push({
-        productId: p.id, name: p.name,
+        productId: p.id, name: p.name, category: p.category,
         price: typeof p.price === "string" ? parseFloat(p.price.replace("£", "")) : p.price,
         abv: p.abv ? parseFloat(String(p.abv).replace("%", "")) : null,
         volume: p.volume ?? "", description: p.description ?? "",
@@ -168,7 +168,7 @@ function buildProductCards(toolResults: ToolResult[], flaggedAllergens?: Set<str
     if (result.name === "bundle_suggest" && result.parsed.found && !flaggedAllergens?.size) {
       for (const s of result.parsed.suggestions || []) {
         cards.push({
-          productId: s.id, name: s.name,
+          productId: s.id, name: s.name, category: s.category,
           price: typeof s.price === "string" ? parseFloat(s.price.replace("£", "")) : s.price,
           abv: null, volume: s.volume, description: s.description,
           imageUrl: s.imageUrl, shopifyVariantId: s.shopifyVariantId,

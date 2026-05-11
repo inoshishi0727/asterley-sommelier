@@ -53,6 +53,7 @@ export function executeBundleSuggest(args: BundleSuggestArgs): string {
     suggestions: suggestions.map((s) => ({
       id: s.id,
       name: s.name,
+      category: s.category,
       price: `£${s.price.toFixed(2)}`,
       originalPrice: (s as any).originalPrice
         ? `£${(s as any).originalPrice.toFixed(2)}`

@@ -78,6 +78,7 @@ export interface ChatResponse {
 export interface ProductCard {
   productId: string;
   name: string;
+  category?: string;
   price: number;
   abv: number | null;
   volume: string;
