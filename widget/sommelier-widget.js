@@ -660,7 +660,7 @@ class AsterleySommelier extends HTMLElement {
         e.stopPropagation();
         const { action, name, href } = btn.dataset;
         if (action === 'link' && href) {
-          window.open(href, '_blank', 'noopener');
+          window.location.href = href;
         } else if (action === 'chat') {
           this._switchTab('chat');
           this._sendMessage(`Tell me about ${name}`);
@@ -962,7 +962,7 @@ class AsterleySommelier extends HTMLElement {
       const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const div = document.createElement('div');
       div.className = 'ab-msg-j a-rise';
-      div.innerHTML = `<div class="ab-msg-meta ab-meta-j">← JARVIS · ${now}</div>
+      div.innerHTML = `<div class="ab-msg-meta ab-meta-j">← RONNY · ${now}</div>
         <div class="ab-msg-text ab-msg-text-j"></div>`;
       container.appendChild(div);
       this._typewrite(div.querySelector('.ab-msg-text-j'), data.message, 16, () => {
@@ -1092,7 +1092,7 @@ class AsterleySommelier extends HTMLElement {
     let html = '', pos = 0;
     for (const s of deduped) {
       if (s.start > pos) html += this._esc(text.slice(pos, s.start));
-      html += `<a href="${s.url}" target="_blank" class="ab-text-link">${this._esc(s.matched)}</a>`;
+      html += `<a href="${s.url}" class="ab-text-link">${this._esc(s.matched)}</a>`;
       pos = s.end;
     }
     if (pos < text.length) html += this._esc(text.slice(pos));
@@ -1109,7 +1109,11 @@ class AsterleySommelier extends HTMLElement {
       ? `<img class="ab-pcard-img" src="${this._esc(card.imageUrl)}" alt="${this._esc(card.name)}">`
       : `<div class="ab-pcard-img ab-pcard-placeholder">${(card.name||'A')[0]}</div>`;
     const learnMore = card.url
-      ? `<a class="ab-btn-learn" href="${this._esc(card.url)}" target="_blank">Learn more</a>`
+      ? `<a class="ab-btn-learn" href="${this._esc(card.url)}">Learn more</a>`
+      : '';
+    const isLiquid = !card.category || ['vermouth','bitters','aperitif'].includes(card.category);
+    const allergenHtml = isLiquid && card.allergens && card.allergens.length
+      ? `<div class="ab-pcard-allergen">Contains: ${card.allergens.join(', ').toLowerCase()}. Always check the label before purchase.</div>`
       : '';
     div.innerHTML = `
       ${imgHtml}
@@ -1121,11 +1125,7 @@ class AsterleySommelier extends HTMLElement {
           <button class="ab-btn-add">Add to Cart</button>
           ${learnMore}
         </div>
-        <div class="ab-pcard-allergen">${
-          (card.allergens && card.allergens.length)
-            ? `Contains: ${card.allergens.join(', ').toLowerCase()}. Always check the label before purchase.`
-            : 'Always check the label before purchase.'
-        }</div>
+        ${allergenHtml}
         <button class="ab-pcard-recipes-link" data-product="${this._esc(card.name)}">See cocktail recipes →</button>
       </div>`;
     div.querySelector('.ab-btn-add').onclick = () => this._addToCart(card);
@@ -1178,7 +1178,7 @@ class AsterleySommelier extends HTMLElement {
         this._sendMessage(action.value);
         break;
       case 'link':
-        window.open(action.value, '_blank');
+        window.location.href = action.value;
         break;
       case 'add_to_cart':
         this._addToCart({ shopifyVariantId: action.value });
