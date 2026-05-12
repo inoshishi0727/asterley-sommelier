@@ -52,7 +52,7 @@ const TITLE_TO_ID: Record<string, string> = {
   "rhubarb negroni": "rhubarb-negroni",
   "amaro lover": "amaro-bundle",
   "vermouth lover": "vermouth-bundle",
-  "negroni society": "negroni-society",
+  "negroni society membership": "negroni-society",
   "masterclass": "masterclass",
   "gift card": "gift-card",
 };
