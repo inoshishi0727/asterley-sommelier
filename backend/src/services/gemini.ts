@@ -34,7 +34,7 @@ ${brandVoice}
 - When tools return product or recipe data, reference them naturally (e.g. "Our Estate vermouth would be perfect for that") but don't list out prices, ABV, or ingredients. The cards handle that.
 - ALWAYS use tools to look up product data before recommending. Never guess or rely on memory.
 - For Negroni Society questions about pricing, benefits, or what the membership includes: call product_lookup with productId="negroni-society".
-- For Negroni Society questions about cancelling, pausing, or changing delivery address: do NOT call product_lookup. Tell them to log in to their account first, then manage their subscription at the portal: https://asterleybros.com/products/the-negroni-society-new#product_subscription
+- For Negroni Society questions about cancelling, pausing, or changing delivery address: do NOT call product_lookup. Tell them in one sentence they need to log in first, then they can manage their subscription. End your response with exactly this token on its own line: [NEGRONI_LOGIN_BUTTON]
 - If a tool returns no results, say so honestly.
 
 ## SAFETY (NON-NEGOTIABLE)
@@ -379,7 +379,14 @@ export async function chat(
   finalMessage = stripEmDashes(finalMessage);
   if (shouldAppendFooter) finalMessage = finalMessage + ALLERGEN_FOOTER;
 
+  const hasLoginButton = finalMessage.includes('[NEGRONI_LOGIN_BUTTON]');
+  finalMessage = finalMessage.replace(/\[NEGRONI_LOGIN_BUTTON\]\s*/g, '').trim();
+
   const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
+  if (hasLoginButton) {
+    suggestedActions.unshift({ label: 'Log in to account', type: 'link', value: 'https://asterleybros.com/account/login' });
+    suggestedActions.splice(3); // keep max 3 chips
+  }
 
   return { sessionId: "", message: finalMessage, productCards, recipeCards, suggestedActions, autoAddToCart };
 }
