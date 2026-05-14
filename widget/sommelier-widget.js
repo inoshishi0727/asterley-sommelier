@@ -425,9 +425,15 @@ class AsterleySommelier extends HTMLElement {
 
       <!-- Post-it note launcher -->
       <button class="ab-note-launcher" id="bubble" aria-label="Open Ronny">
-        <div class="ab-note-eyebrow">a note from the bar</div>
-        <div class="ab-note-text" id="note-text">I've a Negroni spec with your name on it when you're ready.</div>
-        <div class="ab-note-sig">· R.</div>
+        <div class="ab-note-avatar">
+          <span class="ab-note-initial">R</span>
+          <span class="ab-note-dot"></span>
+        </div>
+        <div class="ab-note-info">
+          <div class="ab-note-title">Ask Ronny</div>
+          <div class="ab-note-sub">The Dispensatory · open</div>
+          <div class="ab-note-cta">click me →</div>
+        </div>
       </button>
 
       <!-- Panel -->
