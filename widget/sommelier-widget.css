@@ -56,42 +56,62 @@
 .ab-note-launcher {
   position: fixed;
   bottom: 24px; right: 24px;
-  width: 224px;
-  padding: 14px 18px 16px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 18px 12px 14px;
   background: var(--parchment);
-  border: none;
-  border-left: 4px solid var(--claret);
-  box-shadow: 3px 5px 22px rgba(0,0,0,0.28);
+  border: 1.5px solid rgba(30,26,20,0.18);
+  border-radius: 6px;
+  box-shadow: 2px 4px 18px rgba(0,0,0,0.18);
   cursor: pointer;
   text-align: left;
-  transform: rotate(-1.5deg);
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
   z-index: 99999;
 }
 .ab-note-launcher:hover {
-  transform: rotate(-0.5deg) translateY(-3px);
-  box-shadow: 4px 8px 28px rgba(0,0,0,0.34);
+  transform: translateY(-2px);
+  box-shadow: 3px 6px 24px rgba(0,0,0,0.24);
 }
 .ab-note-launcher.ab-open { opacity: 0; pointer-events: none; }
 
-.ab-note-eyebrow {
+.ab-note-avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: #8B3A1E;
+  display: flex; align-items: center; justify-content: center;
+}
+.ab-note-initial {
+  font-family: var(--serif);
+  font-size: 20px; font-weight: 500;
+  color: #fff; line-height: 1;
+}
+.ab-note-dot {
+  position: absolute;
+  top: 2px; right: 2px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #4CAF50;
+  border: 2px solid var(--parchment);
+}
+.ab-note-info {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.ab-note-title {
   font-family: var(--mono);
-  font-size: 8.5px; color: var(--claret);
-  letter-spacing: 0.6px; text-transform: uppercase;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--ink);
 }
-.ab-note-text {
+.ab-note-sub {
   font-family: var(--serif);
-  font-size: 15px; color: var(--ink);
-  line-height: 1.4; font-style: italic;
-  margin-top: 5px;
-  transition: opacity 0.3s;
+  font-size: 15px; font-style: italic;
+  color: var(--ink-soft); line-height: 1.2;
 }
-.ab-note-text.ab-note-fade { opacity: 0; }
-.ab-note-sig {
-  font-family: var(--serif);
-  font-style: italic; font-size: 13px;
-  color: var(--claret); margin-top: 8px;
-  text-align: right;
+.ab-note-cta {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 0.5px;
+  color: var(--claret); margin-top: 3px;
 }
 
 /* ── Panel ──────────────────────────────────────────────────────────────── */
@@ -890,5 +910,5 @@
     height: 100dvh; max-height: 100dvh;
     border-radius: 0; border: none;
   }
-  .ab-note-launcher { bottom: 16px; right: 16px; width: 190px; }
+  .ab-note-launcher { bottom: 16px; right: 16px; }
 }
