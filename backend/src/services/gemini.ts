@@ -10,6 +10,7 @@ import { executeBundleSuggest, bundleSuggestDeclaration } from "../tools/bundleS
 import { executeShippingInfo, shippingInfoDeclaration } from "../tools/shippingInfo";
 import { executeEmailCapture, emailCaptureDeclaration } from "../tools/emailCapture";
 import { executeAddToCart, addToCartDeclaration } from "../tools/addToCart";
+import { executeRecordCancellationReason, recordCancellationReasonDeclaration } from "../tools/cancelSurvey";
 import { logClaudeUsage } from "./usage";
 
 const brandVoice = fs.readFileSync(
@@ -34,7 +35,9 @@ ${brandVoice}
 - When tools return product or recipe data, reference them naturally (e.g. "Our Estate vermouth would be perfect for that") but don't list out prices, ABV, or ingredients. The cards handle that.
 - ALWAYS use tools to look up product data before recommending. Never guess or rely on memory.
 - For Negroni Society questions about pricing, benefits, or what the membership includes: call product_lookup with productId="negroni-society".
-- For Negroni Society questions about cancelling, pausing, or changing delivery address: do NOT call product_lookup. Tell them in one sentence they need to log in first, then they can manage their subscription. End your response with exactly this token on its own line: [NEGRONI_LOGIN_BUTTON]
+- NEGRONI CANCELLATION FLOW — two steps:
+  Step 1: If the customer first mentions cancelling, pausing, or changing their delivery address, and they have NOT yet given a reason in this conversation: do NOT call product_lookup. Ask in one sentence what is prompting the change. End your response with exactly this token on its own line: [NEGRONI_CANCEL_SURVEY]
+  Step 2: Once the customer provides a cancellation reason (they reply to the survey): call record_cancellation_reason with their reason. Then tell them in one sentence to log in first and they can manage from the portal. End your response with exactly this token on its own line: [NEGRONI_LOGIN_BUTTON]
 - If a tool returns no results, say so honestly.
 
 ## SAFETY (NON-NEGOTIABLE)
@@ -90,6 +93,7 @@ const tools: Anthropic.Tool[] = [
   shippingInfoDeclaration,
   emailCaptureDeclaration,
   addToCartDeclaration,
+  recordCancellationReasonDeclaration,
 ];
 
 // ── Tool Executor ──
@@ -108,8 +112,9 @@ async function executeTool(name: string, args: Record<string, any>): Promise<Too
     case "bundle_suggest":  resultString = executeBundleSuggest(args); break;
     case "shipping_info":   resultString = executeShippingInfo(args); break;
     case "email_capture":   resultString = await executeEmailCapture(args); break;
-    case "add_to_cart":     resultString = executeAddToCart(args); break;
-    default:                resultString = JSON.stringify({ error: `Unknown tool: ${name}` });
+    case "add_to_cart":                  resultString = executeAddToCart(args); break;
+    case "record_cancellation_reason":   resultString = await executeRecordCancellationReason(args); break;
+    default:                             resultString = JSON.stringify({ error: `Unknown tool: ${name}` });
   }
   return { name, resultString, parsed: JSON.parse(resultString) };
 }
@@ -380,12 +385,24 @@ export async function chat(
   if (shouldAppendFooter) finalMessage = finalMessage + ALLERGEN_FOOTER;
 
   const hasLoginButton = finalMessage.includes('[NEGRONI_LOGIN_BUTTON]');
-  finalMessage = finalMessage.replace(/\[NEGRONI_LOGIN_BUTTON\]\s*/g, '').trim();
+  const hasCancelSurvey = finalMessage.includes('[NEGRONI_CANCEL_SURVEY]');
+  finalMessage = finalMessage.replace(/\[NEGRONI_LOGIN_BUTTON\]\s*/g, '').replace(/\[NEGRONI_CANCEL_SURVEY\]\s*/g, '').trim();
 
   const suggestedActions = buildSuggestedActions(allToolResults, productCards, finalMessage);
+
+  if (hasCancelSurvey) {
+    const surveyChips: SuggestedAction[] = [
+      { label: 'Too expensive', type: 'question', value: 'Too expensive' },
+      { label: 'Not using it enough', type: 'question', value: 'Not using it enough' },
+      { label: 'Received as a gift', type: 'question', value: 'Received as a gift' },
+      { label: 'Pausing for now', type: 'question', value: 'Pausing for now' },
+      { label: 'Other reason', type: 'question', value: 'Other reason' },
+    ];
+    suggestedActions.splice(0, suggestedActions.length, ...surveyChips);
+  }
+
   if (hasLoginButton) {
-    suggestedActions.unshift({ label: 'Log in to account', type: 'link', value: 'https://asterleybros.com/account/login' });
-    suggestedActions.splice(3); // keep max 3 chips
+    suggestedActions.splice(0, suggestedActions.length, { label: 'Log in to account', type: 'link', value: 'https://asterleybros.com/account/login' });
   }
 
   return { sessionId: "", message: finalMessage, productCards, recipeCards, suggestedActions, autoAddToCart };
