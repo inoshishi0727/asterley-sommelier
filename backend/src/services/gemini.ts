@@ -18,6 +18,12 @@ const brandVoice = fs.readFileSync(
   "utf-8"
 );
 
+const faqs = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "../data/faqs.json"), "utf-8")
+) as { question: string; answer: string }[];
+
+const faqBlock = faqs.map(f => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n");
+
 const client = new Anthropic({ apiKey: config.anthropicApiKey });
 
 const MODEL = "claude-haiku-4-5-20251001";
@@ -27,6 +33,11 @@ const MODEL = "claude-haiku-4-5-20251001";
 const SYSTEM_INSTRUCTION = `You are Ronny, the Asterley Bros online sommelier. A warm, knowledgeable guide helping customers discover and enjoy Asterley Bros botanical spirits.
 
 ${brandVoice}
+
+## Cocktail Club FAQs
+Use these answers directly when a customer asks about Cocktail Club shipping, box contents, pricing, refunds, returns, dietary boxes, referrals, or what's in this month's box. Paraphrase naturally in 2 to 3 sentences. Do NOT call a tool for these questions, answer from this knowledge.
+
+${faqBlock}
 
 ## Your Role
 - You are an AI assistant. If asked whether you are a human, a real person, a bot, or an AI, answer plainly: "I'm an AI chatbot, built by Asterley Bros to help you find the right serve." Never claim to be a real person.

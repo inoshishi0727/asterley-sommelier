@@ -1,0 +1,52 @@
+[
+  {
+    "id": "delivery-timing",
+    "question": "When will I receive my Cocktail Club box?",
+    "answer": "For subscriptions: we ship on the 10th of each month and delivery takes 1 to 2 working days. Subscription renewal payments take place on the 1st of each month and boxes are dispatched on the 10th. For one-off purchases: boxes are shipped when the order is received, except for orders placed between the 1st and 9th of the month, which ship on the 10th when the new monthly box launches. For emergency requirements (gifts, birthdays etc) email info@asterleybros.com and we will organise a box to be delivered on the required date. Next day shipping and gift messaging is available."
+  },
+  {
+    "id": "whats-in-the-box",
+    "question": "What do you get each month?",
+    "answer": "Each month you receive the seasonal cocktail of the month, plus: 2 x 50ml spirit samples, 1 x 200ml mixer, 2 x 25ml Mystery Amaro samples, 1 x limited edition artwork, and 2 x aperitivo snacks. Members also receive a 15% discount on all shop items."
+  },
+  {
+    "id": "shipping-regions",
+    "question": "Where do you ship to?",
+    "answer": "UK only at the moment."
+  },
+  {
+    "id": "bespoke-boxes",
+    "question": "Can you create bespoke boxes for dietary requirements?",
+    "answer": "Yes, absolutely. Email info@asterleybros.com and we can discuss your requirements."
+  },
+  {
+    "id": "returns",
+    "question": "Can I return something if I don't like it?",
+    "answer": "Unfortunately not, but please reach out to info@asterleybros.com with any issues and we will endeavour to help where we can."
+  },
+  {
+    "id": "cancel-subscription",
+    "question": "Can I cancel my subscription?",
+    "answer": "Yes, of course. You can cancel at any time by logging into your account. You can also pause as required."
+  },
+  {
+    "id": "box-pricing",
+    "question": "How much do the boxes cost?",
+    "answer": "The Taster Box (2 serves of the cocktail of the month) is £33.50 one-off, 12% discount for subscribers. The Midi Box (4 serves) is £42.50 one-off, 12% discount for subscribers. The Classic Box (10 serves) is £54.95 one-off, 12% discount for subscribers. All boxes include 2 x 50ml spirit samples with mixer, 2 x 25ml Mystery Amaro samples, limited edition artwork, and 2 aperitivo snacks. Members also receive a 15% discount on all shop items."
+  },
+  {
+    "id": "refund-policy",
+    "question": "What is your refund policy?",
+    "answer": "Sealed, unopened Cocktail Boxes can be returned, but we cannot refund any opened Cocktail Club boxes. Email info@asterleybros.com with any issues and we will endeavour to help."
+  },
+  {
+    "id": "referrals-rewards",
+    "question": "Do you offer referrals and rewards?",
+    "answer": "Yes. A new referral rewards system is being integrated that will reward referrals with vouchers to spend online. We will update members once the integration is complete."
+  },
+  {
+    "id": "this-months-box",
+    "question": "What is in the box this month?",
+    "answer": "The details of this month's box can be found on the Cocktail Club page at asterleybros.com."
+  }
+]
