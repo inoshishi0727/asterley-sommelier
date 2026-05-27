@@ -4,7 +4,11 @@
       "Bash(lsof -ti:8003)",
       "Bash(xargs kill *)",
       "Bash(rtk grep *)",
-      "mcp__plugin_context-mode_context-mode__ctx_batch_execute"
+      "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+      "Bash(rtk ls *)",
+      "WebFetch(domain:asterleybros.com)",
+      "Bash(rtk curl *)",
+      "Bash(grep -oE '\"\\(question|answer|title\\)\":\"[^\"]{3,300}\"')"
     ]
   }
 }
