@@ -901,6 +901,66 @@
 .ab-recipe-top-text { flex:1; }
 .ab-recipe-img { width:56px; height:56px; object-fit:cover; flex-shrink:0; border:0.5px solid var(--claret-dim); }
 
+/* ── Proactive launcher variant ─────────────────────────────────────────── */
+
+.ab-note-launcher--proactive {
+  cursor: default;
+  max-width: 320px;
+  animation: ab-slide-up 0.35s cubic-bezier(0.2,0.7,0.2,1);
+}
+.ab-note-launcher--proactive:hover {
+  transform: none;
+  box-shadow: 2px 4px 18px rgba(0,0,0,0.18);
+}
+.ab-note-launcher--proactive[hidden] { display: none; }
+
+.ab-proactive-q {
+  font-family: var(--serif);
+  font-size: 15px; font-style: italic;
+  color: var(--ink); line-height: 1.25;
+  margin-bottom: 8px;
+  padding-right: 14px;
+}
+
+.ab-proactive-actions {
+  display: flex; gap: 6px;
+  flex-wrap: wrap;
+}
+.ab-proactive-yes,
+.ab-proactive-no {
+  font-family: var(--mono);
+  font-size: 9.5px; letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  border: 1px solid var(--claret);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.ab-proactive-yes {
+  background: var(--claret);
+  color: var(--cream);
+}
+.ab-proactive-yes:hover { background: var(--ink); border-color: var(--ink); }
+.ab-proactive-no {
+  background: transparent;
+  color: var(--claret);
+}
+.ab-proactive-no:hover { background: var(--claret); color: var(--cream); }
+
+.ab-proactive-dismiss {
+  position: absolute;
+  top: 4px; right: 6px;
+  width: 22px; height: 22px;
+  background: transparent; border: none;
+  font-family: var(--serif);
+  font-size: 18px; line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  opacity: 0.55;
+}
+.ab-proactive-dismiss:hover { opacity: 1; }
+
 /* ── Mobile ──────────────────────────────────────────────────────────────── */
 
 @media (max-width: 480px) {
@@ -911,4 +971,5 @@
     border-radius: 0; border: none;
   }
   .ab-note-launcher { bottom: 16px; right: 16px; }
+  .ab-note-launcher--proactive { max-width: calc(100vw - 32px); }
 }

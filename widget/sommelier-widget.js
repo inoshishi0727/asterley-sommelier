@@ -337,6 +337,23 @@ function glassSVG(shape) {
   }
 }
 
+// ─── Proactive suggestion matcher ─────────────────────────────────────────
+
+function matchSuggestions(suggestions, ctx) {
+  if (!Array.isArray(suggestions) || !ctx) return [];
+  return suggestions.filter((s) => {
+    const m = s?.match;
+    if (!m || typeof m !== 'object') return false;
+    switch (m.type) {
+      case 'product':       return !!ctx.productHandle    && ctx.productHandle    === m.handle;
+      case 'collection':    return !!ctx.collectionHandle && ctx.collectionHandle === m.handle;
+      case 'url-equals':    return typeof m.value === 'string' && ctx.pathname === m.value;
+      case 'url-contains':  return typeof m.value === 'string' && ctx.pathname.includes(m.value);
+      default:              return false;
+    }
+  });
+}
+
 // ─── Web Component ────────────────────────────────────────────────────────
 
 class AsterleySommelier extends HTMLElement {
@@ -356,6 +373,13 @@ class AsterleySommelier extends HTMLElement {
     this._menuChosenId     = null;
     this._menuData         = null;
     this._noteIdx          = 0;
+
+    // Proactive suggestion state
+    this._proactiveMatch       = null;
+    this._proactiveShown       = false;
+    this._proactiveEngagement  = { timeReached: false, scrollReached: false };
+    this._proactiveTimer       = null;
+    this._proactiveAbort       = new AbortController();
   }
 
   static get observedAttributes() { return ['api-url']; }
@@ -378,6 +402,11 @@ class AsterleySommelier extends HTMLElement {
       ],
     });
     this._startNoteRotation();
+    this._initProactive();
+  }
+
+  disconnectedCallback() {
+    this._clearProactiveListeners();
   }
 
   // ── Note rotation ───────────────────────────────────────────────────────
@@ -419,11 +448,11 @@ class AsterleySommelier extends HTMLElement {
   // ── Render shell ────────────────────────────────────────────────────────
 
   _render() {
-    const cssUrl = new URL('sommelier-widget.css?v=10', import.meta.url).href;
+    const cssUrl = new URL('sommelier-widget.css?v=13', import.meta.url).href;
     this.shadowRoot.innerHTML = `
       <link rel="stylesheet" href="${cssUrl}">
 
-      <!-- Post-it note launcher -->
+      <!-- Default launcher -->
       <button class="ab-note-launcher" id="bubble" aria-label="Open Ronny">
         <div class="ab-note-avatar">
           <span class="ab-note-initial">R</span>
@@ -435,6 +464,22 @@ class AsterleySommelier extends HTMLElement {
           <div class="ab-note-cta">click me →</div>
         </div>
       </button>
+
+      <!-- Proactive launcher (replaces default when a suggestion is queued) -->
+      <div class="ab-note-launcher ab-note-launcher--proactive" id="proactive" hidden role="dialog" aria-live="polite">
+        <div class="ab-note-avatar">
+          <span class="ab-note-initial">R</span>
+          <span class="ab-note-dot"></span>
+        </div>
+        <div class="ab-note-info">
+          <div class="ab-proactive-q" id="proactive-q"></div>
+          <div class="ab-proactive-actions">
+            <button class="ab-proactive-yes" id="proactive-yes">Yes</button>
+            <button class="ab-proactive-no"  id="proactive-no">No thanks</button>
+          </div>
+        </div>
+        <button class="ab-proactive-dismiss" id="proactive-x" aria-label="Dismiss">×</button>
+      </div>
 
       <!-- Panel -->
       <div class="ab-panel" id="panel" role="dialog" aria-label="Ronny — Asterley Sommelier">
@@ -513,6 +558,10 @@ class AsterleySommelier extends HTMLElement {
     sr.getElementById('bubble').onclick = () => this._toggle();
     sr.getElementById('panel-close').onclick = () => this._toggle();
 
+    sr.getElementById('proactive-yes').onclick = () => this._handleProactiveYes();
+    sr.getElementById('proactive-no').onclick  = () => this._handleProactiveNo();
+    sr.getElementById('proactive-x').onclick   = () => this._handleProactiveDismiss();
+
     sr.querySelectorAll('.ab-tab').forEach(btn => {
       btn.onclick = () => this._switchTab(btn.dataset.tab);
     });
@@ -546,6 +595,7 @@ class AsterleySommelier extends HTMLElement {
     this.shadowRoot.getElementById('bubble').classList.toggle('ab-open', this._isOpen);
     this.shadowRoot.getElementById('panel').classList.toggle('ab-visible', this._isOpen);
     if (this._isOpen) {
+      this._hideProactive('chat-opened');
       // Lock host page scroll so the underlying site doesn't scroll past the widget.
       this._prevBodyOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
@@ -1257,6 +1307,168 @@ class AsterleySommelier extends HTMLElement {
 
       return ctx;
     } catch { return {}; }
+  }
+
+  // ── Proactive suggestions ───────────────────────────────────────────────
+
+  _getProactiveContext() {
+    const url = new URL(window.location.href);
+    const productMatch    = url.pathname.match(/\/products\/([^/?#]+)/);
+    const collectionMatch = url.pathname.match(/\/collections\/([^/?#]+)/);
+    const shopifyHandle   = window.ShopifyAnalytics?.meta?.product?.handle
+      || window.meta?.product?.handle
+      || null;
+    return {
+      url,
+      pathname:         url.pathname,
+      productHandle:    productMatch?.[1]    || shopifyHandle,
+      collectionHandle: collectionMatch?.[1] || null,
+    };
+  }
+
+  async _initProactive() {
+    if (typeof window === 'undefined' || window.__AB_PROACTIVE_RONNY__ !== true) return;
+    if (!this.apiUrl) return;
+
+    let suggestions;
+    try {
+      const res = await fetch(`${this.apiUrl}/widget/proactive-suggestions.json`, {
+        signal: this._proactiveAbort.signal,
+      });
+      if (!res.ok) return;
+      suggestions = await res.json();
+    } catch { return; }
+
+    const matches = matchSuggestions(suggestions, this._getProactiveContext());
+    if (!matches.length) return;
+
+    // Rotation pick: drop recently-dismissed, prefer never-shown then oldest-shown.
+    const DISMISS_WINDOW_MS = 10 * 60 * 1000;
+    const now = Date.now();
+    let dismissed = {};
+    let seen = {};
+    try { dismissed = JSON.parse(localStorage.getItem('ab_ronny_dismissed')      || '{}'); } catch {}
+    try { seen      = JSON.parse(localStorage.getItem('ab_ronny_proactive_seen') || '{}'); } catch {}
+
+    const eligible = matches.filter(s => !(dismissed[s.id] && (now - dismissed[s.id]) < DISMISS_WINDOW_MS));
+    if (!eligible.length) return;
+    eligible.sort((a, b) => (seen[a.id] || 0) - (seen[b.id] || 0));
+    const match = eligible[0];
+
+    if (sessionStorage.getItem('ab_ronny_proactive_shown_session') === '1') return;
+
+    // Engagement gate: 8s on page + ≥25% scroll, then show (unless chat is open).
+    const tryFire = () => {
+      const eng = this._proactiveEngagement;
+      if (!eng.timeReached || !eng.scrollReached) return;
+      if (this._isOpen) return;
+      this._showProactive(match);
+    };
+
+    this._proactiveTimer = setTimeout(() => {
+      this._proactiveEngagement.timeReached = true;
+      tryFire();
+    }, 8000);
+
+    const onScroll = () => {
+      const doc = document.documentElement;
+      const ratio = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
+      if (ratio >= 0.25) {
+        this._proactiveEngagement.scrollReached = true;
+        tryFire();
+      }
+    };
+    window.addEventListener('scroll', onScroll, { signal: this._proactiveAbort.signal, passive: true });
+    onScroll(); // short pages may already be past the threshold
+  }
+
+  _clearProactiveListeners() {
+    if (this._proactiveTimer) { clearTimeout(this._proactiveTimer); this._proactiveTimer = null; }
+    try { this._proactiveAbort.abort(); } catch {}
+    this._proactiveAbort = new AbortController();
+  }
+
+  _showProactive(match) {
+    if (this._proactiveShown) return;
+    this._proactiveShown = true;
+    this._proactiveMatch = match;
+    sessionStorage.setItem('ab_ronny_proactive_shown_session', '1');
+    try {
+      const seen = JSON.parse(localStorage.getItem('ab_ronny_proactive_seen') || '{}');
+      seen[match.id] = Date.now();
+      localStorage.setItem('ab_ronny_proactive_seen', JSON.stringify(seen));
+    } catch {}
+
+    const sr = this.shadowRoot;
+    const bubble = sr.getElementById('bubble');
+    const prox   = sr.getElementById('proactive');
+    sr.getElementById('proactive-q').textContent = match.question;
+    bubble.hidden = true;
+    prox.hidden = false;
+    prox.classList.add('a-rise');
+
+    this._clearProactiveListeners();
+    this._trackProactive('suggestion_shown');
+  }
+
+  _hideProactive(_reason) {
+    const sr = this.shadowRoot;
+    const bubble = sr.getElementById('bubble');
+    const prox   = sr.getElementById('proactive');
+    if (prox && !prox.hidden) {
+      prox.hidden = true;
+      prox.classList.remove('a-rise');
+    }
+    if (bubble) bubble.hidden = false;
+    this._clearProactiveListeners();
+  }
+
+  _handleProactiveYes() {
+    const match = this._proactiveMatch;
+    if (!match) { this._hideProactive('no-match'); return; }
+    this._trackProactive('suggestion_yes');
+    if (match.redirect) {
+      window.location.href = match.redirect;
+      return;
+    }
+    this._hideProactive('yes');
+    if (!this._isOpen) this._toggle();
+    this._sendMessage(match.yesPrompt);
+  }
+
+  _handleProactiveNo() {
+    const match = this._proactiveMatch;
+    if (match) {
+      try {
+        const map = JSON.parse(localStorage.getItem('ab_ronny_dismissed') || '{}');
+        map[match.id] = Date.now();
+        localStorage.setItem('ab_ronny_dismissed', JSON.stringify(map));
+      } catch {}
+    }
+    this._trackProactive('suggestion_no');
+    this._hideProactive('no');
+  }
+
+  _handleProactiveDismiss() {
+    this._trackProactive('suggestion_no');
+    this._hideProactive('dismiss');
+  }
+
+  _trackProactive(eventName) {
+    if (!this.apiUrl || !this._proactiveMatch) return;
+    try {
+      fetch(`${this.apiUrl}/api/track`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: eventName,
+          suggestionId: this._proactiveMatch.id,
+          pageUrl: window.location.href,
+          sessionId: this._sessionId,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {}
   }
 
   async _getCartContext() {
