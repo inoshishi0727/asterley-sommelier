@@ -1,0 +1,317 @@
+[
+  {
+    "id": "estate-negroni",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Our house Negroni — want to make it?",
+    "yesPrompt": "Show me the Estate Negroni recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-negroni"
+  },
+  {
+    "id": "estate-negroni-sbagliato",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Estate in a Sbagliato — gin out, prosecco in?",
+    "yesPrompt": "Show me the Estate Negroni Sbagliato recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-negroni-sbagliato"
+  },
+  {
+    "id": "estate-old-fashioned",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "A low-ABV Old Fashioned built on Estate?",
+    "yesPrompt": "Show me the Estate Old Fashioned recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-old-fashioned"
+  },
+  {
+    "id": "estate-white-negroni",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Fancy a White Negroni twist?",
+    "yesPrompt": "Show me the White Negroni recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-white-negroni"
+  },
+  {
+    "id": "estate-manhattan",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Estate Manhattan — want the spec?",
+    "yesPrompt": "Show me the Estate Manhattan recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-manhattan"
+  },
+  {
+    "id": "estate-strawberry-cobbler",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Strawberries + Estate. Interested?",
+    "yesPrompt": "Show me the Estate Strawberry Cobbler recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-strawberry-cobbler"
+  },
+  {
+    "id": "estate-rhubarb-spritz",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Rhubarb spritz on Estate tonight?",
+    "yesPrompt": "Show me the Estate Rhubarb Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-rhubarb-spritz"
+  },
+  {
+    "id": "estate-soda",
+    "match": { "type": "product", "handle": "estate-english-sweet-vermouth" },
+    "question": "Just Estate and soda — the cheat's pour?",
+    "yesPrompt": "Show me the Estate & Soda recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/estate-soda"
+  },
+
+  {
+    "id": "dispense-negroni-scuro",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "A bolder Negroni with Dispense?",
+    "yesPrompt": "Show me the Dispense Negroni Scuro recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-negroni-scuro"
+  },
+  {
+    "id": "dispense-boulevardier",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Want a Boulevardier built on Dispense?",
+    "yesPrompt": "Show me the Dispense Boulevardier recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-boulevardier"
+  },
+  {
+    "id": "dispense-coffee-soda",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Dispense + cold brew + soda — try it?",
+    "yesPrompt": "Show me the Dispense Coffee Soda recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-coffee-soda"
+  },
+  {
+    "id": "dispense-espresso-highball",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Espresso highball — Dispense version?",
+    "yesPrompt": "Show me the Dispense Espresso Highball recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-espresso-highball"
+  },
+  {
+    "id": "dispense-blood-orange-aperitivo",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Blood orange + Dispense + prosecco?",
+    "yesPrompt": "Show me the Dispense Blood Orange Aperitivo recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-blood-orange-aperitivo"
+  },
+  {
+    "id": "dispense-nightcap",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Need a Dispense nightcap?",
+    "yesPrompt": "Show me the Dispense Nightcap recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-nightcap"
+  },
+  {
+    "id": "dispense-bitter-highball",
+    "match": { "type": "product", "handle": "dispense-modern-british-amaro" },
+    "question": "Bitter highball, Dispense style?",
+    "yesPrompt": "Show me the Dispense Bitter Highball recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/dispense-bitter-highball"
+  },
+
+  {
+    "id": "asterley-spritz",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Our house spritz with Asterley?",
+    "yesPrompt": "Show me the Asterley Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-spritz"
+  },
+  {
+    "id": "asterley-cucumber-cooler",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Cucumber cooler with Asterley Original?",
+    "yesPrompt": "Show me the Asterley Cucumber Cooler recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-cucumber-cooler"
+  },
+  {
+    "id": "asterley-bitter-lemon",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Asterley + bitter lemon — drier than a spritz?",
+    "yesPrompt": "Show me the Asterley Bitter Lemon recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-bitter-lemon"
+  },
+  {
+    "id": "asterley-mule",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Want a spicy Asterley Mule?",
+    "yesPrompt": "Show me the Asterley Mule recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-mule"
+  },
+  {
+    "id": "asterley-paloma-highball",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Paloma highball with Asterley?",
+    "yesPrompt": "Show me the Asterley Paloma Highball recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-paloma-highball"
+  },
+  {
+    "id": "asterley-peach-punch",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Peach punch — Asterley spec?",
+    "yesPrompt": "Show me the Asterley Peach Punch recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-peach-punch"
+  },
+  {
+    "id": "asterley-grapefruit-spritz",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Grapefruit spritz, Asterley way?",
+    "yesPrompt": "Show me the Asterley Grapefruit Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-grapefruit-spritz"
+  },
+  {
+    "id": "asterley-highball",
+    "match": { "type": "product", "handle": "asterley-original-british-aperitivo" },
+    "question": "Asterley highball — easiest pour going?",
+    "yesPrompt": "Show me the Asterley Highball recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/asterley-highball"
+  },
+
+  {
+    "id": "cunard-martini",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Cunard Martini — want the spec?",
+    "yesPrompt": "Show me the Cunard Martini recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-martini"
+  },
+  {
+    "id": "cunard-martini-royale",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Want a Martini Royale with Cunard?",
+    "yesPrompt": "Show me the Cunard Martini Royale recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-martini-royale"
+  },
+  {
+    "id": "cunard-passion-fruit-fizz",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Tropical fizz on Cunard?",
+    "yesPrompt": "Show me the Cunard Passion Fruit Fizz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-passion-fruit-fizz"
+  },
+  {
+    "id": "cunard-elderflower-spritz",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Elderflower spritz, Cunard build?",
+    "yesPrompt": "Show me the Cunard Elderflower Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-elderflower-spritz"
+  },
+  {
+    "id": "cunard-chamomile-cooler",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Cunard + chamomile honey + soda?",
+    "yesPrompt": "Show me the Cunard Chamomile Cooler recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-chamomile-cooler"
+  },
+  {
+    "id": "cunard-soda",
+    "match": { "type": "product", "handle": "limited-edition-cunard-dry-vermouth" },
+    "question": "Cunard & soda — the dry serve?",
+    "yesPrompt": "Show me the Cunard & Soda recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/cunard-soda"
+  },
+
+  {
+    "id": "schofields-dry-martini",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Dry Martini — Schofield's spec?",
+    "yesPrompt": "Show me the Schofield's Dry Martini recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-dry-martini"
+  },
+  {
+    "id": "schofields-gibson",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Gibson Martini on Schofield's?",
+    "yesPrompt": "Show me the Schofield's Gibson recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-gibson"
+  },
+  {
+    "id": "schofields-verdant-spritz",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Green spritz with Schofield's and basil?",
+    "yesPrompt": "Show me the Schofield's Verdant Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-verdant-spritz"
+  },
+  {
+    "id": "schofields-cucumber-collins",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Cucumber Collins, Schofield's style?",
+    "yesPrompt": "Show me the Schofield's Cucumber Collins recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-cucumber-collins"
+  },
+  {
+    "id": "schofields-garden-cup",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Schofield's garden cup — want the recipe?",
+    "yesPrompt": "Show me the Schofield's Garden Cup recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-garden-cup"
+  },
+  {
+    "id": "schofields-tonic",
+    "match": { "type": "product", "handle": "schofields-english-dry-vermouth" },
+    "question": "Schofield's & tonic — the daily pour?",
+    "yesPrompt": "Show me the Schofield's & Tonic recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/schofields-tonic"
+  },
+
+  {
+    "id": "britannica-negroni-amaro",
+    "match": { "type": "product", "handle": "britannica-london-fernet" },
+    "question": "Negroni with fernet — eucalyptus + menthol?",
+    "yesPrompt": "Show me the Britannica Negroni Amaro recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/britannica-negroni-amaro"
+  },
+  {
+    "id": "britannica-negroni-sbagliato",
+    "match": { "type": "product", "handle": "britannica-london-fernet" },
+    "question": "Sbagliato with Britannica — sparkling fernet?",
+    "yesPrompt": "Show me the Britannica Negroni Sbagliato recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/britannica-negroni-sbagliato"
+  },
+  {
+    "id": "britannica-toronto",
+    "match": { "type": "product", "handle": "britannica-london-fernet" },
+    "question": "Want a Toronto — rye + Britannica?",
+    "yesPrompt": "Show me the Britannica Toronto recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/britannica-toronto"
+  },
+  {
+    "id": "britannica-mint-spritz",
+    "match": { "type": "product", "handle": "britannica-london-fernet" },
+    "question": "Mint spritz on Britannica?",
+    "yesPrompt": "Show me the Britannica Mint Spritz recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/britannica-mint-spritz"
+  },
+  {
+    "id": "britannica-fernet-ginger",
+    "match": { "type": "product", "handle": "britannica-london-fernet" },
+    "question": "Britannica + ginger beer — the shift drink?",
+    "yesPrompt": "Show me the Britannica & Ginger recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/britannica-fernet-ginger"
+  },
+
+  {
+    "id": "blog-south-london-sunset",
+    "match": { "type": "url-contains", "value": "/blogs/cocktail-recipes" },
+    "question": "Try the South London Sunset?",
+    "yesPrompt": "Show me the South London Sunset recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/south-london-sunset"
+  },
+  {
+    "id": "blog-south-london-amaro-sour",
+    "match": { "type": "url-contains", "value": "/blogs/cocktail-recipes" },
+    "question": "Fancy a South London Amaro Sour?",
+    "yesPrompt": "Show me the South London Amaro Sour recipe",
+    "redirect": "https://asterleybros.com/blogs/cocktail-recipes/south-london-amaro-sour"
+  },
+  {
+    "id": "blog-cocktail-club-cta",
+    "match": { "type": "url-contains", "value": "/blogs/" },
+    "question": "Get a new cocktail kit each month?",
+    "yesPrompt": "Tell me about the Cocktail Club",
+    "redirect": null
+  },
+
+  {
+    "id": "default-on-home",
+    "match": { "type": "url-equals", "value": "/" },
+    "question": "Need a drink suggestion for tonight?",
+    "yesPrompt": "Suggest a drink for tonight",
+    "redirect": null
+  }
+]

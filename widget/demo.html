@@ -107,7 +107,16 @@
   </div>
 </section>
 
-<script type="module" src="sommelier-widget.js"></script>
+<script>
+  // Smoke-test helpers for Proactive Ronny.
+  // - ?proactive=1 turns on the feature flag (default on in this demo).
+  // - ?path=/products/dispense-modern-british-amaro spoofs the pathname so the matcher can fire.
+  const _params = new URLSearchParams(window.location.search);
+  if (_params.get('proactive') !== '0') window.__AB_PROACTIVE_RONNY__ = true;
+  const _path = _params.get('path');
+  if (_path) history.replaceState({}, '', _path + window.location.search + window.location.hash);
+</script>
+<script type="module" src="/widget/sommelier-widget.js"></script>
 <asterley-sommelier id="sommelier"></asterley-sommelier>
 <script>
   const host = window.location.hostname;
