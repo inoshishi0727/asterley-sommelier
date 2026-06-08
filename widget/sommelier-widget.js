@@ -1367,7 +1367,10 @@ class AsterleySommelier extends HTMLElement {
     eligible.sort((a, b) => (seen[a.id] || 0) - (seen[b.id] || 0));
     const match = eligible[0];
 
-    if (sessionStorage.getItem('ab_ronny_proactive_shown_session') === '1') return;
+    // Once-per-page-per-session lock (keyed by pathname so a different page resets it).
+    let pageLocks = {};
+    try { pageLocks = JSON.parse(sessionStorage.getItem('ab_ronny_proactive_shown_pages') || '{}'); } catch {}
+    if (pageLocks[location.pathname]) return;
 
     // Engagement gate: 3s on page + ≥10% scroll, then show (unless chat is open).
     const tryFire = () => {
@@ -1404,7 +1407,11 @@ class AsterleySommelier extends HTMLElement {
     if (this._proactiveShown) return;
     this._proactiveShown = true;
     this._proactiveMatch = match;
-    sessionStorage.setItem('ab_ronny_proactive_shown_session', '1');
+    try {
+      const locks = JSON.parse(sessionStorage.getItem('ab_ronny_proactive_shown_pages') || '{}');
+      locks[location.pathname] = Date.now();
+      sessionStorage.setItem('ab_ronny_proactive_shown_pages', JSON.stringify(locks));
+    } catch {}
     try {
       const seen = JSON.parse(localStorage.getItem('ab_ronny_proactive_seen') || '{}');
       seen[match.id] = Date.now();
