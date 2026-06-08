@@ -24,6 +24,57 @@ const faqs = JSON.parse(
 
 const faqBlock = faqs.map(f => `Q: ${f.question}\nA: ${f.answer}`).join("\n\n");
 
+// ── Bartender behaviour rules ──
+
+type BartenderCategory =
+  | "pacing"
+  | "reading-the-customer"
+  | "upsell-tact"
+  | "recovery"
+  | "tone-calibration";
+
+interface BartenderRule {
+  id: string;
+  category: BartenderCategory;
+  trigger: string;
+  behaviour: string;
+  priority?: 1 | 2 | 3;
+}
+
+const bartenderRules = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, "../data/bartender-rules.json"), "utf-8")
+) as BartenderRule[];
+
+const BARTENDER_CATS: BartenderCategory[] = [
+  "pacing",
+  "reading-the-customer",
+  "upsell-tact",
+  "recovery",
+  "tone-calibration",
+];
+
+// Boot-time validation. Fail fast on malformed rules rather than degrade silently in prod.
+for (const r of bartenderRules) {
+  if (!r.id || !r.trigger || !r.behaviour || !BARTENDER_CATS.includes(r.category) || r.behaviour.length > 200) {
+    throw new Error(`Malformed bartender rule: ${JSON.stringify(r)}`);
+  }
+}
+
+const BARTENDER_HEADERS: Record<BartenderCategory, string> = {
+  "pacing":               "### Pacing & restraint",
+  "reading-the-customer": "### Reading the customer",
+  "upsell-tact":          "### Up-sell tact",
+  "recovery":             "### Recovery",
+  "tone-calibration":     "### Tone calibration",
+};
+
+const bartenderBlock = BARTENDER_CATS.map((cat) => {
+  const rules = bartenderRules.filter((r) => r.category === cat);
+  if (!rules.length) return "";
+  const lines = rules.map((r, i) => `${i + 1}. [${cat}/${r.id}] ${r.behaviour}`);
+  return `${BARTENDER_HEADERS[cat]}\n${lines.join("\n")}`;
+}).filter(Boolean).join("\n\n");
+
 const client = new Anthropic({ apiKey: config.anthropicApiKey });
 
 const MODEL = "claude-haiku-4-5-20251001";
@@ -76,6 +127,11 @@ ${faqBlock}
 - You receive the full conversation history with each turn. If the customer mentioned a flavour preference, occasion, dietary restriction, or budget earlier in this session, carry it forward without asking again. Refer back naturally when relevant.
 - HARD RULE: if the customer already stated a flavour preference (e.g. "I like bitter"), never ask for it again. Use it immediately. A follow-up like "What should I try?" is a buying signal — act on the known preference, call product_lookup, and recommend directly.
 - Do not say "this is the first message you've sent me" or "I have no record of our earlier conversation". If you genuinely cannot see prior context (rare), ask a fresh clarifying question instead.
+
+## BARTENDER BEHAVIOUR
+These are observable rules for how to read the room. Each rule has a signal (something visible in cart, page, conversation, or tool history) and a behaviour. When a signal fires, follow the behaviour. When two behaviours conflict, the lower-numbered category wins (Pacing > Reading > Up-sell > Recovery > Tone).
+
+${bartenderBlock}
 
 ## CART CAPABILITY
 - When a customer asks to add a product to their cart, call add_to_cart with the productId. The widget will add it automatically — you do NOT need to ask the customer to click anything.
@@ -294,7 +350,10 @@ export async function chat(
     ? `\n\n## ALLERGEN SAFETY — active for this query\nState allergen facts directly — no opener, no filler. 2 sentences max. If the product contains the allergen: confirm it, then say "If you need something without [allergen], [Product] is a great alternative — [one-line reason]." Then call product_lookup for that alternative. Do NOT include any label or email disclaimer — it is appended automatically.`
     : '';
 
-  const systemPrompt = SYSTEM_INSTRUCTION + allergenInstruction;
+  const ukTime = new Date().toLocaleString("en-GB", { timeZone: "Europe/London", hour: "2-digit", minute: "2-digit", hour12: false });
+  const timeContext = `\n\n## CURRENT CONTEXT\nUK time right now: ${ukTime}.`;
+
+  const systemPrompt = SYSTEM_INSTRUCTION + timeContext + allergenInstruction;
 
   const messages: MessageParam[] = [
     ...buildHistory(history),
