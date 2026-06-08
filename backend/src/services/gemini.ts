@@ -71,7 +71,7 @@ const BARTENDER_HEADERS: Record<BartenderCategory, string> = {
 const bartenderBlock = BARTENDER_CATS.map((cat) => {
   const rules = bartenderRules.filter((r) => r.category === cat);
   if (!rules.length) return "";
-  const lines = rules.map((r, i) => `${i + 1}. [${cat}/${r.id}] ${r.behaviour}`);
+  const lines = rules.map((r, i) => `${i + 1}. [${cat}/${r.id}] When ${r.trigger}: ${r.behaviour}`);
   return `${BARTENDER_HEADERS[cat]}\n${lines.join("\n")}`;
 }).filter(Boolean).join("\n\n");
 
