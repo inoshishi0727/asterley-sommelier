@@ -380,6 +380,7 @@ class AsterleySommelier extends HTMLElement {
     this._proactiveEngagement  = { timeReached: false, scrollReached: false };
     this._proactiveTimer       = null;
     this._proactiveAbort       = new AbortController();
+    this._pendingLearnMore     = null;
   }
 
   static get observedAttributes() { return ['api-url']; }
@@ -1014,6 +1015,17 @@ class AsterleySommelier extends HTMLElement {
     const container = this.shadowRoot.getElementById('messages');
     if (!container) return;
 
+    // If a proactive Yes queued a "Learn more" chip, prepend it to this reply's actions.
+    if (this._pendingLearnMore) {
+      data.suggestedActions = data.suggestedActions || [];
+      data.suggestedActions.unshift({
+        label: this._pendingLearnMore.label,
+        type: 'link',
+        value: this._pendingLearnMore.url,
+      });
+      this._pendingLearnMore = null;
+    }
+
     if (data.message) {
       const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const div = document.createElement('div');
@@ -1357,7 +1369,7 @@ class AsterleySommelier extends HTMLElement {
 
     if (sessionStorage.getItem('ab_ronny_proactive_shown_session') === '1') return;
 
-    // Engagement gate: 8s on page + ≥25% scroll, then show (unless chat is open).
+    // Engagement gate: 3s on page + ≥10% scroll, then show (unless chat is open).
     const tryFire = () => {
       const eng = this._proactiveEngagement;
       if (!eng.timeReached || !eng.scrollReached) return;
@@ -1368,12 +1380,12 @@ class AsterleySommelier extends HTMLElement {
     this._proactiveTimer = setTimeout(() => {
       this._proactiveEngagement.timeReached = true;
       tryFire();
-    }, 8000);
+    }, 3000);
 
     const onScroll = () => {
       const doc = document.documentElement;
       const ratio = (window.scrollY + window.innerHeight) / Math.max(doc.scrollHeight, 1);
-      if (ratio >= 0.25) {
+      if (ratio >= 0.10) {
         this._proactiveEngagement.scrollReached = true;
         tryFire();
       }
@@ -1427,9 +1439,9 @@ class AsterleySommelier extends HTMLElement {
     const match = this._proactiveMatch;
     if (!match) { this._hideProactive('no-match'); return; }
     this._trackProactive('suggestion_yes');
+    // Stash the recipe URL so the next bot reply gets a "Learn more" chip.
     if (match.redirect) {
-      window.location.href = match.redirect;
-      return;
+      this._pendingLearnMore = { label: 'Learn more', url: match.redirect };
     }
     this._hideProactive('yes');
     if (!this._isOpen) this._toggle();
